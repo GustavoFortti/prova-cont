@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulado Completo — Contabilidade</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0f0f11;--surface:#17171a;--surface2:#1e1e22;--border:#2a2a30;
+  --accent:#c8f060;--accent2:#60d4f0;--accent3:#f060a0;
+  --text:#e8e8ec;--muted:#76767e;
+  --correct:#60f0a0;--wrong:#f06060;
+  --correct-bg:rgba(96,240,160,.09);--wrong-bg:rgba(240,96,96,.09);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-size:15px;line-height:1.6;min-height:100vh}
+
+header{border-bottom:1px solid var(--border);padding:24px 40px 20px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;position:sticky;top:0;background:var(--bg);z-index:100}
+.logo{font-family:'DM Serif Display',serif;font-size:22px;letter-spacing:-.3px}
+.logo span{color:var(--accent)}
+.scoreboard{display:flex;gap:24px;align-items:center}
+.score-item{text-align:right}
+.score-label{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.score-val{font-family:'DM Mono',monospace;font-size:20px;font-weight:500}
+.score-val.green{color:var(--correct)}
+.score-val.red{color:var(--wrong)}
+.score-val.blue{color:var(--accent2)}
+.progress-bar{height:3px;background:var(--border);overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease;width:0%}
+
+/* NAV TABS */
+.nav-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:73px;z-index:99;overflow-x:auto;padding:0 40px}
+.nav-tab{padding:12px 20px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s;font-weight:500}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+main{max-width:860px;margin:0 auto;padding:36px 24px 80px}
+
+.section-block{display:none}
+.section-block.active{display:block}
+
+.section-header{display:flex;align-items:center;gap:16px;margin:0 0 24px}
+.section-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);background:rgba(200,240,96,.1);border:1px solid rgba(200,240,96,.25);border-radius:4px;padding:3px 8px;white-space:nowrap}
+.section-title{font-family:'DM Serif Display',serif;font-size:20px;color:var(--text)}
+.section-header::after{content:'';flex:1;height:1px;background:var(--border)}
+.section-desc{font-size:13px;color:var(--muted);margin:-16px 0 20px;font-style:italic}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:14px;transition:border-color .2s}
+.q-card:hover{border-color:#3a3a42}
+.q-card.answered-correct{border-color:var(--correct);background:var(--correct-bg)}
+.q-card.answered-wrong{border-color:var(--wrong);background:var(--wrong-bg)}
+.q-text{font-size:14px;color:var(--muted);margin-bottom:14px;line-height:1.55;font-style:italic}
+.q-label{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em}
+
+.options{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;align-items:center;gap:12px;padding:11px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface2);transition:all .15s;font-size:14px;color:var(--text);user-select:none;text-align:left;width:100%}
+.opt:hover:not(.disabled){border-color:#4a4a55;background:#222228}
+.opt.correct{border-color:var(--correct);background:rgba(96,240,160,.1);color:var(--correct)}
+.opt.wrong{border-color:var(--wrong);background:rgba(240,96,96,.1);color:var(--wrong)}
+.opt.disabled{cursor:default}
+.opt-letter{width:22px;height:22px;min-width:22px;border-radius:4px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);background:var(--bg);flex-shrink:0}
+.opt.correct .opt-letter{border-color:var(--correct);color:var(--correct);background:rgba(96,240,160,.15)}
+.opt.wrong .opt-letter{border-color:var(--wrong);color:var(--wrong);background:rgba(240,96,96,.15)}
+
+.explanation{display:none;margin-top:12px;padding:12px 14px;border-radius:8px;background:rgba(96,212,240,.07);border:1px solid rgba(96,212,240,.18);font-size:13px;color:var(--accent2);line-height:1.6}
+.explanation.show{display:block}
+
+/* lançamentos */
+.lancamento-form{display:flex;flex-direction:column;gap:10px}
+.lanc-row{display:grid;grid-template-columns:80px 1fr 120px;gap:10px;align-items:center}
+.lanc-label{font-family:'DM Mono',monospace;font-size:12px;padding:6px 10px;border-radius:6px;text-align:center}
+.lanc-label.deb{background:rgba(96,212,240,.12);color:var(--accent2);border:1px solid rgba(96,212,240,.25)}
+.lanc-label.cred{background:rgba(240,96,160,.12);color:var(--accent3);border:1px solid rgba(240,96,160,.25)}
+.lanc-input{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:13px;font-family:'Outfit',sans-serif;outline:none;transition:border-color .2s;width:100%}
+.lanc-input:focus{border-color:var(--accent)}
+.lanc-input.correct-input{border-color:var(--correct);color:var(--correct)}
+.lanc-input.wrong-input{border-color:var(--wrong);color:var(--wrong)}
+.lanc-val{font-family:'DM Mono',monospace;font-size:13px;color:var(--muted);text-align:right}
+.btn-check{margin-top:14px;padding:10px 20px;background:var(--accent);color:#0f0f11;border:none;border-radius:8px;font-family:'Outfit',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:opacity .15s;align-self:flex-start}
+.btn-check:hover{opacity:.85}
+.btn-check:disabled{opacity:.4;cursor:default}
+
+/* nav buttons */
+.nav-btns{display:flex;gap:12px;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)}
+.btn-nav{padding:10px 22px;border-radius:8px;font-family:'Outfit',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:all .15s}
+.btn-nav.prev{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.btn-nav.prev:hover{color:var(--text);border-color:#4a4a55}
+.btn-nav.next{background:var(--accent);color:#0f0f11;border:none}
+.btn-nav.next:hover{opacity:.85}
+.btn-nav:disabled{opacity:.3;cursor:default}
+
+/* mini progress per section */
+.section-progress{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-left:auto;padding-right:4px}
+
+/* final */
+.final-card{display:none;margin-top:40px;border:1px solid var(--border);border-radius:16px;padding:40px;text-align:center;background:var(--surface)}
+.final-card.show{display:block}
+.final-emoji{font-size:48px;margin-bottom:16px}
+.final-score{font-family:'DM Serif Display',serif;font-size:56px;color:var(--accent);line-height:1;margin-bottom:8px}
+.final-sub{color:var(--muted);font-size:15px;margin-bottom:28px}
+.final-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0 28px}
+.breakdown-item{background:var(--surface2);border-radius:10px;padding:14px;border:1px solid var(--border)}
+.breakdown-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.breakdown-val{font-family:'DM Mono',monospace;font-size:22px;font-weight:500}
+.btn-reset{padding:12px 28px;background:transparent;color:var(--accent);border:1px solid var(--accent);border-radius:8px;font-family:'Outfit',sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:all .15s}
+.btn-reset:hover{background:rgba(200,240,96,.1)}
+
+@media(max-width:600px){
+  header{padding:14px 16px;flex-direction:column;align-items:flex-start}
+  .nav-tabs{padding:0 16px;top:110px}
+  main{padding:24px 14px 60px}
+  .lanc-row{grid-template-columns:70px 1fr 80px;gap:6px}
+  .final-breakdown{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">Simulado <span>Completo</span> — Contabilidade</div>
+    <div style="font-size:12px;color:var(--muted);margin-top:2px">Simulado Prova + Lista de Exercícios — UNISO</div>
+  </div>
+  <div class="scoreboard">
+    <div class="score-item"><div class="score-label">Corretas</div><div class="score-val green" id="sc-correct">0</div></div>
+    <div class="score-item"><div class="score-label">Erradas</div><div class="score-val red" id="sc-wrong">0</div></div>
+    <div class="score-item"><div class="score-label">Respondidas</div><div class="score-val blue" id="sc-total">0/62</div></div>
+  </div>
+</header>
+<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+<nav class="nav-tabs">
+  <div class="nav-tab active" onclick="goTab(0)">Simulado Prova</div>
+  <div class="nav-tab" onclick="goTab(1)">Princípios</div>
+  <div class="nav-tab" onclick="goTab(2)">Classificar Contas</div>
+  <div class="nav-tab" onclick="goTab(3)">Bens/Direitos/etc</div>
+  <div class="nav-tab" onclick="goTab(4)">Lançamentos</div>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════
+     BLOCO 0 — SIMULADO PROVA (8 questões da prova)
+════════════════════════════════ -->
+<div class="section-block active" id="block-0">
+  <div class="section-header">
+    <span class="section-num">Bloco 1</span>
+    <span class="section-title">Simulado Prova — Múltipla Escolha</span>
+    <span class="section-progress" id="prog-0"></span>
+  </div>
+  <p class="section-desc">8 questões do simulado de prova. Clique na alternativa correta.</p>
+
+  <!-- P1 -->
+  <div class="q-card" id="qcard-p1">
+    <div class="q-label">Questão 1</div>
+    <div class="q-text">O que representa o Ativo na contabilidade?</div>
+    <div class="options" id="q-p1">
+      <div class="opt" data-correct="false" onclick="answerMCQ('p1',this,false,'Obrigações são o Passivo — o que a empresa deve a terceiros.')"><span class="opt-letter">A</span>As obrigações da empresa</div>
+      <div class="opt" data-correct="true"  onclick="answerMCQ('p1',this,true,'Correto! Ativo = bens (coisas que a empresa possui) + direitos (valores a receber). Ex: caixa, estoque, clientes, imóveis.')"><span class="opt-letter">B</span>Os bens e direitos da empresa</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('p1',this,false,'O capital dos sócios compõe o Patrimônio Líquido, não o Ativo.')"><span class="opt-letter">C</span>O capital dos sócios</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('p1',this,false,'Despesas aparecem na DRE e reduzem o PL — não são classificadas no Ativo.')"><span class="opt-letter">D</span>As despesas da empresa</div>
+    </div>
+    <div class="explanation" id="exp-p1"></div>
+  </div>
+
+  <!-- P2 -->
+  <div class="q-card" id="qcard-p2">
+    <div class="q-label">Questão 2</div>
+    <div class="q-text">Qual das contas abaixo é considerada passivo?</div>
+    <div class="options" id="q-p2">
+      <div class="opt" data-correct="false" onclick="answerMCQ('p2',this,false,'Caixa é dinheiro disponível = Ativo Circulante.')"><span class="opt-letter">A</span>Caixa</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('p2',this,false,'Estoques são bens disponíveis para venda = Ativo.')"><span class="opt-letter">B</span>Estoques</div>
+      <div class="opt" data-correct="true"  onclick="answerMCQ('p2',this,true,'Correto! Fornecedores = valor que a empresa deve a quem forneceu mercadorias a prazo = Passivo.')"><span class="opt-letter">C</span>Fornecedores</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('p2',this,false,'Veículos são bens do imobilizado = Ativo Não Circulante.')"><span class="opt-letter">D</span>Veículos</div>
+    </div>
+    <div class="explanation" id="exp-p2"></div>
+  </div>
+
+  <!-- P3 -->
+  <div class="q-card" id="qcard-p3">
+    <div class="q-label">Questão 3</div>
+    <div class="q-text">O Patrimônio Líquido é composto por:</div>
+    <div class="options" id="q-p3">
+      <div class="opt" data-correct="false" onclick="answerMCQ('p3',this,false,'Bens e direitos formam o Ativo, não o PL.')"><span class="opt-letter">A</span>Bens e direitos</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('p3',this,false,'Obrigações formam o Passivo.')"><span class="opt-letter">B</span>Obrigações apenas</div>
+      <div class="opt" data-correct="true"  onclick="answerMCQ('p3',this,true,'Correto! PL = Capital Social (investido pelos sócios) + Lucros/Prejuízos acumulados. Fórmula: Ativo = Passivo + PL.')"><span class="opt-letter">C</span>Capital próprio dos sócios + resultados acumulados</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('p3',this,false,'Receitas e despesas aparecem na DRE — o resultado líquido é que vai para o PL, não elas diretamente.')"><span class="opt-letter">D</span>Receitas e despesas</div>
+    </div>
+    <div class="explanation" id="exp-p3"></div>
+  </div>
+
+  <!-- P4 -->
+  <div class="q-card" id="qcard-p4">
+    <div class="q-label">Questão 4</div>
+    <div class="q-text">O Princípio da Competência determina que:</div>
+    <div class="options" id="q-p4">
+      <div class="opt" data-correct="false" onclick="answerMCQ('p4',this,false,'Reconhecer receita só quando recebida é o Regime de Caixa, não o Regime de Competência.')"><span class="opt-letter">A</span>As receitas só são contabilizadas quando recebidas</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('p4',this,false,'Reconhecer despesa só quando paga também é Regime de Caixa.')"><span class="opt-letter">B</span>As despesas só são contabilizadas quando pagas</div>
+      <div class="opt" data-correct="true"  onclick="answerMCQ('p4',this,true,'Correto! Pelo Princípio da Competência, a receita é reconhecida quando gerada e a despesa quando incorrida — independente do pagamento/recebimento.')"><span class="opt-letter">C</span>Receitas e despesas devem ser reconhecidas no período em que ocorrem</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('p4',this,false,'Considerar apenas o caixa é o Regime de Caixa — não é o que a contabilidade oficial adota.')"><span class="opt-letter">D</span>Apenas o caixa deve ser considerado</div>
+    </div>
+    <div class="explanation" id="exp-p4"></div>
+  </div>
+
+  <!-- P5 -->
+  <div class="q-card" id="qcard-p5">
+    <div class="q-label">Questão 5</div>
+    <div class="q-text">Ao comprar mercadoria à vista, ocorre:</div>
+    <div class="options" id="q-p5">
+      <div class="opt" data-correct="false" onclick="answerMCQ('p5',this,false,'Compra à vista não aumenta o passivo — não há dívida criada.')"><span class="opt-letter">A</span>Aumento do passivo e diminuição do ativo</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('p5',this,false,'Isso descreveria um recebimento de cliente, não uma compra.')"><span class="opt-letter">B</span>Aumento do ativo e diminuição do passivo</div>
+      <div class="opt" data-correct="true"  onclick="answerMCQ('p5',this,true,'Correto! Compra à vista = Caixa ↓ + Estoque ↑. É uma permuta dentro do próprio Ativo — o total do balanço não muda.')"><span class="opt-letter">C</span>Troca dentro do ativo (diminui caixa, aumenta estoque)</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('p5',this,false,'O PL só diminui com despesas — comprar estoque não é despesa, é um ativo.')"><span class="opt-letter">D</span>Diminuição do patrimônio líquido</div>
+    </div>
+    <div class="explanation" id="exp-p5"></div>
+  </div>
+
+  <!-- P6 -->
+  <div class="q-card" id="qcard-p6">
+    <div class="q-label">Questão 6</div>
+    <div class="q-text">Uma despesa sempre provoca:</div>
+    <div class="options" id="q-p6">
+      <div class="opt" data-correct="false" onclick="answerMCQ('p6',this,false,'Despesa reduz, não aumenta, o PL.')"><span class="opt-letter">A</span>Aumento do patrimônio líquido</div>
+      <div class="opt" data-correct="true"  onclick="answerMCQ('p6',this,true,'Correto! Despesa sempre reduz o lucro → reduz o PL. Paga à vista: ↓Caixa + ↓PL. A prazo: ↑Passivo + ↓PL.')"><span class="opt-letter">B</span>Redução do patrimônio líquido</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('p6',this,false,'Despesa paga à vista reduz o Caixa (ativo), não aumenta.')"><span class="opt-letter">C</span>Aumento do ativo</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('p6',this,false,'Somente despesa a prazo (ainda não paga) aumenta o passivo — mas nem sempre é o caso.')"><span class="opt-letter">D</span>Aumento do passivo</div>
+    </div>
+    <div class="explanation" id="exp-p6"></div>
+  </div>
+
+  <!-- P7 -->
+  <div class="q-card" id="qcard-p7">
+    <div class="q-label">Questão 7</div>
+    <div class="q-text">Qual dessas contas pertence ao resultado (DRE)?</div>
+    <div class="options" id="q-p7">
+      <div class="opt" data-correct="false" onclick="answerMCQ('p7',this,false,'Caixa é conta patrimonial — aparece no Balanço, não na DRE.')"><span class="opt-letter">A</span>Caixa</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('p7',this,false,'Salários a pagar é uma obrigação — aparece no Passivo do Balanço.')"><span class="opt-letter">B</span>Salários a pagar</div>
+      <div class="opt" data-correct="true"  onclick="answerMCQ('p7',this,true,'Correto! Receita de Vendas é conta de resultado — aparece na DRE e afeta o lucro/prejuízo do período.')"><span class="opt-letter">C</span>Receita de vendas</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('p7',this,false,'Capital Social compõe o Patrimônio Líquido no Balanço.')"><span class="opt-letter">D</span>Capital social</div>
+    </div>
+    <div class="explanation" id="exp-p7"></div>
+  </div>
+
+  <!-- P8 -->
+  <div class="q-card" id="qcard-p8">
+    <div class="q-label">Questão 8</div>
+    <div class="q-text">A equação fundamental do patrimônio é:</div>
+    <div class="options" id="q-p8">
+      <div class="opt" data-correct="false" onclick="answerMCQ('p8',this,false,'Errado — isso daria Ativo = Passivo − PL, o que invertiria o sinal do PL.')"><span class="opt-letter">A</span>Ativo = Passivo – Patrimônio Líquido</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('p8',this,false,'Errado — somar Ativo + Passivo não faz sentido contábil.')"><span class="opt-letter">B</span>Ativo + Passivo = Patrimônio Líquido</div>
+      <div class="opt" data-correct="true"  onclick="answerMCQ('p8',this,true,'Correto! A equação fundamental é Ativo = Passivo + PL. Os bens/direitos (Ativo) são financiados por dívidas (Passivo) ou pelos sócios (PL). O Balanço sempre fecha.')"><span class="opt-letter">C</span>Ativo = Passivo + Patrimônio Líquido</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('p8',this,false,'Isso isolaria o PL corretamente (PL = Ativo − Passivo) mas a forma canônica da equação fundamental é Ativo = Passivo + PL.')"><span class="opt-letter">D</span>Patrimônio Líquido = Ativo + Passivo</div>
+    </div>
+    <div class="explanation" id="exp-p8"></div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-nav prev" disabled>← Anterior</button>
+    <button class="btn-nav next" onclick="goTab(1)">Próximo bloco →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     BLOCO 1 — PRINCÍPIOS
+════════════════════════════════ -->
+<div class="section-block" id="block-1">
+  <div class="section-header">
+    <span class="section-num">Bloco 2</span>
+    <span class="section-title">Princípios de Contabilidade</span>
+    <span class="section-progress" id="prog-1"></span>
+  </div>
+  <p class="section-desc">5 questões — identifique o princípio descrito.</p>
+
+  <div class="q-card" id="qcard-pr1">
+    <div class="q-label">1 de 5</div>
+    <div class="q-text">Garante que os registros contábeis reflitam apenas os elementos ligados à entidade, evitando confusão entre finanças pessoais e empresariais.</div>
+    <div class="options" id="q-pr1">
+      <div class="opt" data-correct="false" onclick="answerMCQ('pr1',this,false,'Competência trata de quando reconhecer receita/despesa — não da separação de patrimônios.')"><span class="opt-letter">A</span>Princípio da Competência</div>
+      <div class="opt" data-correct="true"  onclick="answerMCQ('pr1',this,true,'Correto! O Princípio da Entidade determina que o patrimônio da empresa deve ser separado do patrimônio pessoal dos sócios.')"><span class="opt-letter">B</span>Princípio da Entidade</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('pr1',this,false,'Continuidade trata da presunção de que a empresa seguirá operando por tempo indeterminado.')"><span class="opt-letter">C</span>Princípio da Continuidade</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('pr1',this,false,'Prudência adota postura conservadora na avaliação do patrimônio.')"><span class="opt-letter">D</span>Princípio da Prudência</div>
+    </div>
+    <div class="explanation" id="exp-pr1"></div>
+  </div>
+
+  <div class="q-card" id="qcard-pr2">
+    <div class="q-label">2 de 5</div>
+    <div class="q-text">Existem evidências de descontinuidade, como falência iminente ou encerramento de atividades. Qual princípio é posto em xeque?</div>
+    <div class="options" id="q-pr2">
+      <div class="opt" data-correct="false" onclick="answerMCQ('pr2',this,false,'Oportunidade trata de registrar os fatos no tempo correto, sem atrasos.')"><span class="opt-letter">A</span>Princípio da Oportunidade</div>
+      <div class="opt" data-correct="true"  onclick="answerMCQ('pr2',this,true,'Correto! O Princípio da Continuidade presume que a empresa continuará funcionando. Quando há risco de falência ou encerramento, esse princípio é questionado e os ativos devem ser reavaliados.')"><span class="opt-letter">B</span>Princípio da Continuidade</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('pr2',this,false,'Entidade trata da separação entre patrimônio pessoal e empresarial.')"><span class="opt-letter">C</span>Princípio da Entidade</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('pr2',this,false,'Competência trata do reconhecimento por período, não da sobrevivência da empresa.')"><span class="opt-letter">D</span>Princípio da Competência</div>
+    </div>
+    <div class="explanation" id="exp-pr2"></div>
+  </div>
+
+  <div class="q-card" id="qcard-pr3">
+    <div class="q-label">3 de 5</div>
+    <div class="q-text">A ausência de registros no tempo correto pode comprometer a relevância e a confiabilidade das demonstrações. Que princípio exige essa tempestividade?</div>
+    <div class="options" id="q-pr3">
+      <div class="opt" data-correct="false" onclick="answerMCQ('pr3',this,false,'Competência define o período de reconhecimento, não a urgência do registro.')"><span class="opt-letter">A</span>Princípio da Competência</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('pr3',this,false,'Prudência adota postura conservadora na mensuração — não trata de prazo de registro.')"><span class="opt-letter">B</span>Princípio da Prudência</div>
+      <div class="opt" data-correct="true"  onclick="answerMCQ('pr3',this,true,'Correto! O Princípio da Oportunidade exige que os fatos contábeis sejam registrados imediatamente quando ocorrem. Atrasos comprometem a utilidade da informação.')"><span class="opt-letter">C</span>Princípio da Oportunidade</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('pr3',this,false,'Continuidade trata da presunção de permanência da empresa, não de tempestividade.')"><span class="opt-letter">D</span>Princípio da Continuidade</div>
+    </div>
+    <div class="explanation" id="exp-pr3"></div>
+  </div>
+
+  <div class="q-card" id="qcard-pr4">
+    <div class="q-label">4 de 5</div>
+    <div class="q-text">Uma receita deve ser registrada quando realizada, e uma despesa quando incorrida — não necessariamente com movimentação de caixa.</div>
+    <div class="options" id="q-pr4">
+      <div class="opt" data-correct="true"  onclick="answerMCQ('pr4',this,true,'Correto! O Princípio da Competência independe do caixa. Ex: venda a prazo → receita reconhecida na venda, não no recebimento.')"><span class="opt-letter">A</span>Princípio da Competência</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('pr4',this,false,'Oportunidade trata de registrar no tempo certo, não do regime de reconhecimento.')"><span class="opt-letter">B</span>Princípio da Oportunidade</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('pr4',this,false,'Prudência adota critério conservador de avaliação — não define quando reconhecer receita.')"><span class="opt-letter">C</span>Princípio da Prudência</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('pr4',this,false,'Entidade separa patrimônio pessoal do empresarial — não define regime de reconhecimento.')"><span class="opt-letter">D</span>Princípio da Entidade</div>
+    </div>
+    <div class="explanation" id="exp-pr4"></div>
+  </div>
+
+  <div class="q-card" id="qcard-pr5">
+    <div class="q-label">5 de 5</div>
+    <div class="q-text">Evita que o patrimônio líquido seja superavaliado ou que os riscos da entidade sejam subestimados.</div>
+    <div class="options" id="q-pr5">
+      <div class="opt" data-correct="false" onclick="answerMCQ('pr5',this,false,'Competência define quando reconhecer receitas/despesas — não trata de avaliação conservadora.')"><span class="opt-letter">A</span>Princípio da Competência</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('pr5',this,false,'Continuidade trata da presunção de que a empresa seguirá operando.')"><span class="opt-letter">B</span>Princípio da Continuidade</div>
+      <div class="opt" data-correct="false" onclick="answerMCQ('pr5',this,false,'Oportunidade trata de registrar no momento certo.')"><span class="opt-letter">C</span>Princípio da Oportunidade</div>
+      <div class="opt" data-correct="true"  onclick="answerMCQ('pr5',this,true,'Correto! O Princípio da Prudência (ou Conservadorismo) adota o menor valor para ativos e o maior para passivos em caso de dúvida — evitando ilusão de riqueza.')"><span class="opt-letter">D</span>Princípio da Prudência</div>
+    </div>
+    <div class="explanation" id="exp-pr5"></div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-nav prev" onclick="goTab(0)">← Anterior</button>
+    <button class="btn-nav next" onclick="goTab(2)">Próximo bloco →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     BLOCO 2 — CLASSIFICAR CONTAS
+════════════════════════════════ -->
+<div class="section-block" id="block-2">
+  <div class="section-header">
+    <span class="section-num">Bloco 3</span>
+    <span class="section-title">Classifique: Ativo, Passivo ou Patrimônio Líquido</span>
+    <span class="section-progress" id="prog-2"></span>
+  </div>
+  <p class="section-desc">20 contas — clique na classificação correta.</p>
+  <div id="q2-container"></div>
+  <div class="nav-btns">
+    <button class="btn-nav prev" onclick="goTab(1)">← Anterior</button>
+    <button class="btn-nav next" onclick="goTab(3)">Próximo bloco →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     BLOCO 3 — BENS/DIREITOS/etc
+════════════════════════════════ -->
+<div class="section-block" id="block-3">
+  <div class="section-header">
+    <span class="section-num">Bloco 4</span>
+    <span class="section-title">Classifique: Receita, Despesa, Bem, Direito ou Obrigação</span>
+    <span class="section-progress" id="prog-3"></span>
+  </div>
+  <p class="section-desc">20 itens — escolha a categoria correta.</p>
+  <div id="q3-container"></div>
+  <div class="nav-btns">
+    <button class="btn-nav prev" onclick="goTab(2)">← Anterior</button>
+    <button class="btn-nav next" onclick="goTab(4)">Próximo bloco →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     BLOCO 4 — LANÇAMENTOS
+════════════════════════════════ -->
+<div class="section-block" id="block-4">
+  <div class="section-header">
+    <span class="section-num">Bloco 5</span>
+    <span class="section-title">Lançamentos Contábeis</span>
+    <span class="section-progress" id="prog-4"></span>
+  </div>
+  <p class="section-desc">9 eventos — escreva a conta debitada e creditada em cada lançamento.</p>
+  <div id="q4-container"></div>
+
+  <div class="final-card" id="final-card">
+    <div class="final-emoji" id="final-emoji">🎓</div>
+    <div class="final-score" id="final-score">0/62</div>
+    <div class="final-sub" id="final-sub"></div>
+    <div class="final-breakdown">
+      <div class="breakdown-item">
+        <div class="breakdown-label">Simulado Prova</div>
+        <div class="breakdown-val green" id="bd-0">—</div>
+      </div>
+      <div class="breakdown-item">
+        <div class="breakdown-label">Princípios</div>
+        <div class="breakdown-val green" id="bd-1">—</div>
+      </div>
+      <div class="breakdown-item">
+        <div class="breakdown-label">Classificar Contas</div>
+        <div class="breakdown-val green" id="bd-2">—</div>
+      </div>
+      <div class="breakdown-item">
+        <div class="breakdown-label">Bens/Direitos/etc</div>
+        <div class="breakdown-val green" id="bd-3">—</div>
+      </div>
+      <div class="breakdown-item">
+        <div class="breakdown-label">Lançamentos</div>
+        <div class="breakdown-val green" id="bd-4">—</div>
+      </div>
+    </div>
+    <button class="btn-reset" onclick="resetAll()">Refazer simulado</button>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-nav prev" onclick="goTab(3)">← Anterior</button>
+    <button class="btn-nav next" disabled>Fim ✓</button>
+  </div>
+</div>
+
+</main>
+
+<script>
+/* ── STATE ── */
+let correct=0, wrong=0, total=0;
+const TOTAL=62; // 8+5+20+20+9
+const blockSizes=[8,5,20,20,9];
+const blockCorrect=[0,0,0,0,0];
+const blockWrong=[0,0,0,0,0];
+const blockTotal=[0,0,0,0,0];
+let currentTab=0;
+
+function currentBlock(qid){
+  if(qid.startsWith('p')&&!qid.startsWith('pr')) return 0;
+  if(qid.startsWith('pr')) return 1;
+  if(qid.startsWith('q2')) return 2;
+  if(qid.startsWith('q3')) return 3;
+  return 4;
+}
+
+function updateScore(){
+  document.getElementById('sc-correct').textContent=correct;
+  document.getElementById('sc-wrong').textContent=wrong;
+  document.getElementById('sc-total').textContent=total+'/'+TOTAL;
+  document.getElementById('progress').style.width=(total/TOTAL*100)+'%';
+  updateSectionProgress();
+  if(total===TOTAL) showFinal();
+}
+
+function updateSectionProgress(){
+  for(let i=0;i<5;i++){
+    const el=document.getElementById('prog-'+i);
+    if(el) el.textContent=blockTotal[i]+'/'+blockSizes[i]+' respondidas';
+  }
+}
+
+function goTab(i){
+  document.querySelectorAll('.section-block').forEach((b,idx)=>{b.classList.toggle('active',idx===i)});
+  document.querySelectorAll('.nav-tab').forEach((t,idx)=>{t.classList.toggle('active',idx===i)});
+  currentTab=i;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ── MCQ answer ── */
+function answerMCQ(qid,el,isCorrect,explanation){
+  const container=el.closest('.options');
+  if(container.querySelector('.disabled')) return;
+  const card=el.closest('.q-card');
+  container.querySelectorAll('.opt').forEach(o=>{o.classList.add('disabled');o.onclick=null});
+  const block=currentBlock(qid);
+  if(isCorrect){
+    el.classList.add('correct');
+    card.classList.add('answered-correct');
+    correct++; blockCorrect[block]++;
+  } else {
+    el.classList.add('wrong');
+    card.classList.add('answered-wrong');
+    container.querySelectorAll('.opt[data-correct="true"]').forEach(o=>o.classList.add('correct'));
+    wrong++; blockWrong[block]++;
+  }
+  total++; blockTotal[block]++;
+  const exp=document.getElementById('exp-'+qid);
+  if(exp){exp.textContent=explanation;exp.classList.add('show')}
+  updateScore();
+}
+
+/* ── Q2 data ── */
+const q2items=[
+  {id:'q2-1', text:'Prejuízo / Lucro Acumulado',ans:'Patrimônio Líquido',exp:'Lucros ou prejuízos retidos na empresa fazem parte do PL.'},
+  {id:'q2-2', text:'Máquinas e Equipamentos',ans:'Ativo',exp:'Bens físicos usados na operação = Ativo Imobilizado.'},
+  {id:'q2-3', text:'Fornecedores a pagar',ans:'Passivo',exp:'Valor devido a fornecedores = obrigação = Passivo.'},
+  {id:'q2-4', text:'Contratação de Seguros',ans:'Ativo',exp:'Seguro pago antecipadamente = direito futuro = Ativo (Despesa Antecipada).'},
+  {id:'q2-5', text:'Estoque de produtos',ans:'Ativo',exp:'Mercadorias disponíveis para venda = Ativo Circulante.'},
+  {id:'q2-6', text:'Adiantamento a fornecedores',ans:'Ativo',exp:'A empresa pagou antes e tem direito de receber → Ativo.'},
+  {id:'q2-7', text:'Contas a receber',ans:'Ativo',exp:'Direito de receber de clientes = Ativo.'},
+  {id:'q2-8', text:'Salários a pagar',ans:'Passivo',exp:'Obrigação trabalhista ainda não paga = Passivo Circulante.'},
+  {id:'q2-9', text:'Impostos a compensar',ans:'Ativo',exp:'Crédito fiscal = direito de uso = Ativo.'},
+  {id:'q2-10',text:'Adiantamento de clientes',ans:'Passivo',exp:'O cliente pagou antes — a empresa deve entregar o produto = Passivo.'},
+  {id:'q2-11',text:'Financiamento de dívidas',ans:'Passivo',exp:'Dívida de financiamento = obrigação = Passivo.'},
+  {id:'q2-12',text:'Caixa e Equivalentes',ans:'Ativo',exp:'Dinheiro disponível é o Ativo mais líquido.'},
+  {id:'q2-13',text:'Aplicação Financeira curto prazo',ans:'Ativo',exp:'Investimento de curto prazo = Ativo Circulante.'},
+  {id:'q2-14',text:'Impostos a compensar em 36 meses',ans:'Ativo',exp:'Crédito fiscal de longo prazo = Ativo Não Circulante.'},
+  {id:'q2-15',text:'Empréstimos a pagar em 12 meses',ans:'Passivo',exp:'Dívida de curto prazo = Passivo Circulante.'},
+  {id:'q2-16',text:'Financiamento de veículos 24 meses',ans:'Passivo',exp:'Financiamento a pagar de longo prazo = Passivo Não Circulante.'},
+  {id:'q2-17',text:'Equipamentos de Informática',ans:'Ativo',exp:'Bem físico de uso da empresa = Ativo Imobilizado.'},
+  {id:'q2-18',text:'Edifícios',ans:'Ativo',exp:'Imóvel próprio = Ativo Imobilizado.'},
+  {id:'q2-19',text:'Benefícios a funcionários a pagar',ans:'Passivo',exp:'Obrigação trabalhista = Passivo.'},
+  {id:'q2-20',text:'Capital Social',ans:'Patrimônio Líquido',exp:'Valor investido pelos sócios = PL.'},
+];
+const q2opts=['Ativo','Passivo','Patrimônio Líquido'];
+const letters=['A','B','C','D','E'];
+document.getElementById('q2-container').innerHTML=q2items.map((item,i)=>{
+  const optsH=q2opts.map((o,oi)=>`<div class="opt" data-correct="${o===item.ans}" onclick="answerMCQ('${item.id}',this,${o===item.ans},'${item.exp}')"><span class="opt-letter">${letters[oi]}</span>${o}</div>`).join('');
+  return `<div class="q-card" id="qcard-${item.id}"><div class="q-label">${i+1} de 20</div><div class="q-text">${item.text}</div><div class="options" id="${item.id}">${optsH}</div><div class="explanation" id="exp-${item.id}"></div></div>`;
+}).join('');
+
+/* ── Q3 data ── */
+const q3items=[
+  {id:'q3-1', text:'Aquisição de serviço de manutenção predial',ans:'Despesa',exp:'Serviço consumido sem gerar ativo = Despesa operacional.'},
+  {id:'q3-2', text:'Compras de ferramentas de baixo valor',ans:'Despesa',exp:'Itens de baixo valor são lançados diretamente como Despesa.'},
+  {id:'q3-3', text:'Aquisição de veículo para área comercial',ans:'Bem',exp:'Veículo = ativo imobilizado = Bem.'},
+  {id:'q3-4', text:'Aquisição de máquina para produção',ans:'Bem',exp:'Máquina = ativo imobilizado = Bem.'},
+  {id:'q3-5', text:'Gasto com mão de obra temporária para administrativo',ans:'Despesa',exp:'Mão de obra sem geração de ativo = Despesa.'},
+  {id:'q3-6', text:'Aluguel de empilhadeiras',ans:'Despesa',exp:'Aluguel de bem de terceiros = consumo do período = Despesa.'},
+  {id:'q3-7', text:'Aluguel predial',ans:'Despesa',exp:'Aluguel pago pelo uso de imóvel de terceiros = Despesa.'},
+  {id:'q3-8', text:'Compra de terreno',ans:'Bem',exp:'Terreno = ativo imobilizado não depreciável = Bem.'},
+  {id:'q3-9', text:'Contratação de fretes para transporte de material fabril',ans:'Despesa',exp:'Frete operacional = Despesa.'},
+  {id:'q3-10',text:'Venda de serviços',ans:'Receita',exp:'Venda de serviços gera receita para a empresa.'},
+  {id:'q3-11',text:'Aquisição de computadores',ans:'Bem',exp:'Computadores = ativo imobilizado = Bem.'},
+  {id:'q3-12',text:'Gastos com viagens e alimentação',ans:'Despesa',exp:'Despesas de representação = Despesa operacional.'},
+  {id:'q3-13',text:'Aquisição de mercadoria para estoque',ans:'Bem',exp:'Estoque = bem disponível para venda = Ativo.'},
+  {id:'q3-14',text:'Contratação de seguros',ans:'Direito',exp:'Seguro pago antecipado = direito de cobertura futura = Direito (Ativo).'},
+  {id:'q3-15',text:'Aquisição de empréstimos para compra de máquinas',ans:'Obrigação',exp:'Empréstimo tomado = dívida = Obrigação (Passivo).'},
+  {id:'q3-16',text:'Gastos com salários',ans:'Despesa',exp:'Folha de pagamento = Despesa com pessoal.'},
+  {id:'q3-17',text:'Gastos com manutenção do prédio',ans:'Despesa',exp:'Manutenção que não aumenta vida útil = Despesa.'},
+  {id:'q3-18',text:'Venda de mercadorias',ans:'Receita',exp:'Venda é a principal fonte de Receita da empresa.'},
+  {id:'q3-19',text:'Recebimento de adiantamento de clientes',ans:'Obrigação',exp:'Adiantamento recebido = devo entregar = Obrigação (Passivo).'},
+  {id:'q3-20',text:'Antecipação a fornecedores',ans:'Direito',exp:'Paguei antes e tenho direito de receber = Direito (Ativo).'},
+];
+const q3opts=['Receita','Despesa','Bem','Direito','Obrigação'];
+document.getElementById('q3-container').innerHTML=q3items.map((item,i)=>{
+  const optsH=q3opts.map((o,oi)=>`<div class="opt" data-correct="${o===item.ans}" onclick="answerMCQ('${item.id}',this,${o===item.ans},'${item.exp}')"><span class="opt-letter">${letters[oi]}</span>${o}</div>`).join('');
+  return `<div class="q-card" id="qcard-${item.id}"><div class="q-label">${i+1} de 20</div><div class="q-text">${item.text}</div><div class="options" id="${item.id}">${optsH}</div><div class="explanation" id="exp-${item.id}"></div></div>`;
+}).join('');
+
+/* ── Q4 data ── */
+const q4items=[
+  {num:1,desc:'Compra de mercadoria a prazo para estoque — R$ 40.000',deb:'Estoques',cred:'Fornecedores a pagar',val:'R$ 40.000',exp:'Estoque entra (ativo ↑) e nasce uma dívida com o fornecedor (passivo ↑).'},
+  {num:2,desc:'Despesas com aluguéis — R$ 5.500',deb:'Despesas com Aluguéis',cred:'Contas a pagar',val:'R$ 5.500',exp:'Despesa incorrida (↓PL) ainda não paga → Contas a Pagar (passivo ↑).'},
+  {num:3,desc:'Despesas com marketing — R$ 8.000',deb:'Despesas com Marketing',cred:'Contas a pagar',val:'R$ 8.000',exp:'Despesa reconhecida e registrada como obrigação.'},
+  {num:4,desc:'Venda de mercadorias a prazo — R$ 55.000',deb:'Contas a receber',cred:'Receita de Vendas',val:'R$ 55.000',exp:'Venda a prazo gera direito (Contas a Receber) e Receita de Vendas.'},
+  {num:5,desc:'Custo da mercadoria vendida — R$ 38.000',deb:'CMV',cred:'Estoque',val:'R$ 38.000',exp:'O estoque vendido sai do Ativo e vai para o CMV (despesa na DRE).'},
+  {num:6,desc:'Financiamento de um veículo — R$ 50.000',deb:'Veículo',cred:'Financiamento a pagar',val:'R$ 50.000',exp:'Bem entra no imobilizado (ativo ↑) e nasce a dívida de financiamento (passivo ↑).'},
+  {num:7,desc:'Recebimento de clientes — R$ 35.000',deb:'Banco',cred:'Contas a receber',val:'R$ 35.000',exp:'Cliente pagou: Banco ↑ e Contas a Receber ↓ (baixa do direito).'},
+  {num:8,desc:'Integralização de Capital — R$ 100.000',deb:'Banco',cred:'Capital Social',val:'R$ 100.000',exp:'Sócios colocam dinheiro: Banco ↑ (ativo) e Capital Social ↑ (PL).'},
+  {num:9,desc:'Aplicação Financeira — R$ 58.000',deb:'Aplicação Financeira',cred:'Banco',val:'R$ 58.000',exp:'Dinheiro saiu do Banco e virou Aplicação — troca dentro do Ativo.'},
+];
+
+function norm(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,' ').trim()}
+function similar(a,b){
+  const na=norm(a),nb=norm(b);
+  if(na===nb) return true;
+  const aw=na.split(' '),bw=nb.split(' ');
+  let hits=0;
+  aw.forEach(w=>{if(bw.includes(w)&&w.length>2) hits++});
+  return hits>=Math.min(2,bw.filter(w=>w.length>2).length);
+}
+
+document.getElementById('q4-container').innerHTML=q4items.map(item=>`
+  <div class="q-card" id="qcard-q4-${item.num}">
+    <div class="q-label">Lançamento ${item.num} de 9</div>
+    <div class="q-text">${item.desc}</div>
+    <div class="lancamento-form">
+      <div class="lanc-row">
+        <span class="lanc-label deb">Débito</span>
+        <input class="lanc-input" id="q4-${item.num}-deb" placeholder="Conta debitada..." />
+        <span class="lanc-val">${item.val}</span>
+      </div>
+      <div class="lanc-row">
+        <span class="lanc-label cred">Crédito</span>
+        <input class="lanc-input" id="q4-${item.num}-cred" placeholder="Conta creditada..." />
+        <span class="lanc-val">${item.val}</span>
+      </div>
+      <button class="btn-check" id="q4-${item.num}-btn" onclick="checkLanc(${item.num},'${item.deb}','${item.cred}','${item.exp}')">Verificar ↵</button>
+    </div>
+    <div class="explanation" id="exp-q4-${item.num}"></div>
+  </div>`).join('');
+
+// enter key triggers verify
+document.querySelectorAll('.lanc-input').forEach(inp=>{
+  inp.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){
+      const num=inp.id.split('-')[1];
+      document.getElementById('q4-'+num+'-btn').click();
+    }
+  });
+});
+
+function checkLanc(num,ansDeb,ansCred,explanation){
+  const debI=document.getElementById('q4-'+num+'-deb');
+  const credI=document.getElementById('q4-'+num+'-cred');
+  const btn=document.getElementById('q4-'+num+'-btn');
+  const card=document.getElementById('qcard-q4-'+num);
+  const exp=document.getElementById('exp-q4-'+num);
+  if(btn.disabled) return;
+  const debOk=similar(debI.value,ansDeb);
+  const credOk=similar(credI.value,ansCred);
+  const allOk=debOk&&credOk;
+  debI.classList.add(debOk?'correct-input':'wrong-input');
+  credI.classList.add(credOk?'correct-input':'wrong-input');
+  debI.disabled=true; credI.disabled=true; btn.disabled=true;
+  card.classList.add(allOk?'answered-correct':'answered-wrong');
+  let msg=explanation;
+  if(!debOk) msg+=' | Débito correto: '+ansDeb;
+  if(!credOk) msg+=' | Crédito correto: '+ansCred;
+  exp.textContent=msg; exp.classList.add('show');
+  const block=4;
+  if(allOk){correct++;blockCorrect[block]++;}else{wrong++;blockWrong[block]++;}
+  total++; blockTotal[block]++;
+  updateScore();
+}
+
+/* ── FINAL ── */
+function showFinal(){
+  const card=document.getElementById('final-card');
+  card.classList.add('show');
+  const pct=Math.round(correct/TOTAL*100);
+  document.getElementById('final-score').textContent=correct+'/'+TOTAL;
+  const emoji=pct>=80?'🏆':pct>=60?'📚':'💪';
+  const msg=pct>=80?'Excelente! Você está preparado para a prova.':pct>=60?'Bom resultado! Revise os pontos errados.':'Continue estudando — você chega lá!';
+  document.getElementById('final-emoji').textContent=emoji;
+  document.getElementById('final-sub').textContent=pct+'% de aproveitamento — '+msg;
+  const names=['Simulado Prova','Princípios','Classif. Contas','Bens/Direitos','Lançamentos'];
+  for(let i=0;i<5;i++){
+    const el=document.getElementById('bd-'+i);
+    el.textContent=blockCorrect[i]+'/'+blockSizes[i];
+    const pctB=blockSizes[i]>0?blockCorrect[i]/blockSizes[i]:0;
+    el.style.color=pctB>=0.8?'var(--correct)':pctB>=0.6?'var(--accent)':'var(--wrong)';
+  }
+  card.scrollIntoView({behavior:'smooth'});
+}
+
+function resetAll(){location.reload()}
+updateSectionProgress();
+</script>
+</body>
+</html>
