@@ -3,798 +3,383 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulado — Contabilidade</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<title>Quiz · Microeconomia</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#faf9f6;--surf:#fff;--surf2:#f3f2ee;--bdr:#e0ddd6;
-  --ink:#1a1917;--mid:#7a7670;--faint:#b8b4ad;
-  --G:#2d7a4f;--Gbg:#edf6f1;--Gbdr:#b6ddc8;
-  --R:#c0392b;--Rbg:#fdf0ee;--Rbdr:#f0b8b2;
-  --B:#1a4f8a;--Bbg:#eef3fb;--Bbdr:#b8cef0;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:'Lato',sans-serif;font-size:15px;line-height:1.65;min-height:100vh}
-
-/* HEADER */
-.hdr{background:var(--ink);color:#fff;padding:0 36px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:200}
-.hdr-logo{font-family:'Syne',sans-serif;font-size:16px;font-weight:700}
-.hdr-logo em{color:#c8f060;font-style:normal}
-.hdr-score{display:flex;gap:24px}
-.hs{text-align:right}
-.hs-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:#888;display:block}
-.hs-val{font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:500}
-.hs-val.g{color:#c8f060}.hs-val.r{color:#ff7070}.hs-val.b{color:#70ccff}
-.pbar-track{height:3px;background:rgba(255,255,255,.1)}
-.pbar-fill{height:3px;background:#c8f060;width:0%;transition:width .5s}
-
-/* TABS */
-.tabs{background:var(--surf);border-bottom:1.5px solid var(--bdr);display:flex;overflow-x:auto;padding:0 36px;position:sticky;top:60px;z-index:100}
-.tabs::-webkit-scrollbar{display:none}
-.tab{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--mid);padding:13px 18px;border-bottom:3px solid transparent;white-space:nowrap;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:7px}
-.tab:hover{color:var(--ink)}
-.tab.on{color:var(--ink);border-bottom-color:var(--ink)}
-.tab .bdg{font-family:'JetBrains Mono',monospace;font-size:10px;background:var(--surf2);border-radius:10px;padding:1px 7px;color:var(--mid)}
-.tab.on .bdg{background:var(--ink);color:#fff}
-
-/* MAIN */
-main{max-width:760px;margin:0 auto;padding:40px 20px 100px}
-.blk{display:none}.blk.on{display:block}
-
-/* SECTION HEADER */
-.sec-tag{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--mid);margin-bottom:7px}
-.sec-title{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;line-height:1.15;margin-bottom:8px}
-.sec-desc{font-size:13px;color:var(--mid);margin-bottom:28px}
-.rule{height:1.5px;background:var(--bdr);margin-bottom:24px}
-
-/* QUESTION CARD */
-.qcard{background:var(--surf);border:1.5px solid var(--bdr);border-radius:14px;padding:22px 24px;margin-bottom:14px;transition:border-color .2s}
-.qcard.ok{border-color:var(--Gbdr);background:var(--Gbg)}
-.qcard.fail{border-color:var(--Rbdr);background:var(--Rbg)}
-.qmeta{display:flex;align-items:center;gap:9px;margin-bottom:11px}
-.qnum{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;background:var(--surf2);border:1px solid var(--bdr);border-radius:6px;padding:2px 8px;color:var(--mid)}
-.qtopic{font-size:11px;color:var(--faint);font-family:'JetBrains Mono',monospace}
-.qstem{font-size:14px;color:var(--ink);margin-bottom:16px;line-height:1.6}
-
-/* OPTIONS */
-.opts{display:flex;flex-direction:column;gap:8px}
-.opt{display:flex;align-items:flex-start;gap:12px;padding:11px 14px;border:1.5px solid var(--bdr);border-radius:10px;cursor:pointer;background:var(--surf);font-size:13px;color:var(--ink);text-align:left;width:100%;transition:all .15s}
-.opt:hover:not(.lk){border-color:#aaa;background:var(--surf2)}
-.opt.lk{cursor:default}
-.opt.oc{border-color:var(--Gbdr);background:var(--Gbg);color:var(--G)}
-.opt.ow{border-color:var(--Rbdr);background:var(--Rbg);color:var(--R)}
-.okey{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;width:22px;height:22px;min-width:22px;border-radius:5px;border:1.5px solid var(--bdr);display:flex;align-items:center;justify-content:center;background:var(--bg);color:var(--mid);margin-top:1px;flex-shrink:0}
-.opt.oc .okey{background:var(--G);border-color:var(--G);color:#fff}
-.opt.ow .okey{background:var(--R);border-color:var(--R);color:#fff}
-
-/* EXPLANATION */
-.exp{display:none;margin-top:12px;padding:12px 14px;border-radius:9px;font-size:12px;line-height:1.65;background:var(--Bbg);border:1.5px solid var(--Bbdr);color:var(--B)}
-.exp.on{display:block}
-
-/* NAV BUTTONS */
-.navrow{display:flex;justify-content:space-between;margin-top:36px;padding-top:24px;border-top:1.5px solid var(--bdr)}
-.btn-ghost{padding:10px 20px;border:1.5px solid var(--bdr);border-radius:9px;background:transparent;color:var(--mid);cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;transition:all .15s}
-.btn-ghost:hover:not(:disabled){border-color:var(--ink);color:var(--ink)}
-.btn-ghost:disabled{opacity:.3;cursor:default}
-.btn-solid{padding:10px 20px;border:none;border-radius:9px;background:var(--ink);color:#fff;cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;transition:opacity .15s}
-.btn-solid:hover{opacity:.8}
-.btn-solid:disabled{opacity:.3;cursor:default}
-
-/* ── QUESTÕES 9 E 10 ── */
-.enunciado{background:var(--surf2);border:1px solid var(--bdr);border-radius:10px;padding:14px 18px;margin-bottom:18px;font-size:13px;line-height:2}
-.enunciado strong{font-weight:700}
-.enunciado em{color:var(--mid);font-style:italic}
-
-/* reveal block */
-.reveal-block{border:1.5px solid var(--bdr);border-radius:10px;overflow:hidden;margin-bottom:0}
-.btn-reveal{width:100%;padding:13px 18px;background:var(--surf2);border:none;cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;color:var(--ink);text-align:left;display:flex;align-items:center;justify-content:space-between;transition:background .15s}
-.btn-reveal:hover{background:#eae9e3}
-.btn-reveal::after{content:'▾';font-size:14px;color:var(--mid);transition:transform .2s}
-.btn-reveal.open::after{transform:rotate(180deg)}
-.reveal-body{display:none;padding:16px 18px;border-top:1.5px solid var(--bdr);background:var(--surf)}
-.reveal-body.on{display:block}
-
-/* razonetes */
-.raz-grid{display:flex;flex-wrap:wrap;gap:10px}
-.raz-t{border:1.5px solid var(--bdr);border-radius:9px;overflow:hidden;min-width:148px;flex:1}
-.raz-head{background:var(--surf2);font-family:'Syne',sans-serif;font-weight:700;font-size:11px;text-align:center;padding:5px 8px;border-bottom:1px solid var(--bdr);color:var(--ink)}
-.raz-cols{display:grid;grid-template-columns:1fr 1fr}
-.raz-d{border-right:1px solid var(--bdr);padding:6px 8px}
-.raz-c{padding:6px 8px}
-.rc-label{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);margin-bottom:4px}
-.rc-row{font-family:'JetBrains Mono',monospace;font-size:12px;padding:2px 0;color:var(--ink)}
-.rc-row.si{color:var(--mid);font-style:italic}
-.raz-d .rc-row{color:var(--B)}
-.raz-c .rc-row{color:var(--R)}
-.raz-saldo{font-size:11px;text-align:center;padding:5px 8px;border-top:1px solid var(--bdr);background:var(--surf2);color:var(--mid)}
-.raz-saldo strong{color:var(--ink)}
-
-/* DRE / BP tables */
-.demo-table{width:100%;border-collapse:collapse;font-size:13px;max-width:360px}
-.demo-table td{padding:5px 8px;border-bottom:1px solid var(--bdr)}
-.demo-table .val{text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px}
-.demo-table .pos{color:var(--G)}
-.demo-table .neg{color:var(--R)}
-.demo-table .result{color:var(--B);font-weight:700}
-.demo-table .indent{padding-left:20px;color:var(--mid)}
-.demo-table tr.subtotal td{background:var(--surf2);font-weight:700}
-.demo-table tr.total-row td{background:var(--Bbg);color:var(--B)}
-.bp-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.bp-section{font-family:'Syne',sans-serif;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mid);margin-bottom:6px;margin-top:2px}
-.bp-check{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--G);margin-top:8px;text-align:right}
-
-/* FINAL */
-.final-wrap{display:none;margin-top:48px;padding:40px 36px;background:var(--surf);border:1.5px solid var(--bdr);border-radius:18px;text-align:center}
-.final-wrap.on{display:block}
-.final-icon{font-size:48px;margin-bottom:14px}
-.final-big{font-family:'Syne',sans-serif;font-size:52px;font-weight:800;line-height:1;margin-bottom:6px}
-.final-sub{color:var(--mid);font-size:14px;margin-bottom:28px}
-.final-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin:0 0 28px}
-.fc{background:var(--surf2);border-radius:10px;padding:14px 10px;border:1px solid var(--bdr)}
-.fc-lbl{font-size:10px;color:var(--mid);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
-.fc-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:800}
-.btn-reset{padding:12px 26px;border:2px solid var(--ink);border-radius:9px;background:transparent;color:var(--ink);cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;transition:all .15s}
-.btn-reset:hover{background:var(--ink);color:#fff}
-
-@media(max-width:560px){
-  .hdr{padding:0 14px;height:54px}
-  .tabs{padding:0 14px;top:54px}
-  main{padding:26px 12px 80px}
-  .bp-grid{grid-template-columns:1fr}
-  .final-wrap{padding:28px 16px}
-  .final-big{font-size:38px}
-}
+  :root {
+    --bg:#0e0f11;--surface:#16181c;--border:#2a2d34;
+    --accent:#c8f03a;--accent-dim:rgba(200,240,58,.12);--accent-dim2:rgba(200,240,58,.06);
+    --red:#ff5b5b;--red-dim:rgba(255,91,91,.12);
+    --text:#e8eaf0;--muted:#6b7280;--card-r:12px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;padding:40px 20px 80px;position:relative;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:48px 48px;opacity:.3;pointer-events:none}
+  .container{max-width:760px;margin:0 auto;position:relative}
+  header{margin-bottom:48px;animation:fadeUp .6s ease both}
+  .eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+  h1{font-family:'DM Serif Display',serif;font-size:clamp(28px,5vw,44px);line-height:1.1}
+  h1 em{font-style:italic;color:var(--accent)}
+  .subtitle{margin-top:10px;color:var(--muted);font-size:14px}
+  .progress-wrap{margin-bottom:36px;animation:fadeUp .6s .1s ease both}
+  .progress-label{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:8px}
+  .progress-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+  .progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1);width:0%}
+  .score-badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent-dim2);border:1px solid var(--border);border-radius:99px;padding:4px 14px;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:32px;animation:fadeUp .6s .15s ease both}
+  .score-badge .score-val{color:var(--accent);font-weight:500}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--card-r);padding:28px 28px 24px;margin-bottom:16px;animation:fadeUp .5s ease both;position:relative;overflow:hidden}
+  .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:transparent;transition:background .3s}
+  .card.answered-correct::before{background:var(--accent)}
+  .card.answered-wrong::before{background:var(--red)}
+  .q-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+  .q-num{flex-shrink:0;width:32px;height:32px;background:var(--accent-dim2);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);transition:all .3s}
+  .card.answered-correct .q-num{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
+  .card.answered-wrong .q-num{background:var(--red-dim);border-color:var(--red);color:var(--red)}
+  .q-text{font-size:15px;line-height:1.6;color:var(--text)}
+  .q-caption{font-size:15px;line-height:1.6;color:var(--text);margin-bottom:14px;font-weight:500}
+  .ponder-list{margin:12px 0 18px;display:flex;flex-direction:column;gap:6px}
+  .ponder-item{background:var(--accent-dim2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13.5px;line-height:1.55;color:#b0b6c2}
+  .ponder-item strong{color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;display:inline-block;margin-right:6px}
+  .data-box{background:var(--accent-dim2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin:12px 0 18px;font-family:'DM Mono',monospace;font-size:12.5px;line-height:1.8;color:#a0aab8}
+  .data-box span{color:var(--accent)}
+  .section-tag{display:inline-block;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-dim2);border:1px solid rgba(200,240,58,.2);border-radius:4px;padding:2px 8px;margin-bottom:14px}
+  .options{display:flex;flex-direction:column;gap:8px}
+  .opt{display:flex;align-items:center;gap:12px;padding:12px 16px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .18s;background:transparent;text-align:left;font-family:'DM Sans',sans-serif;font-size:13.5px;color:#9ba3b2;width:100%}
+  .opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-dim2);color:var(--text)}
+  .opt-bullet{flex-shrink:0;width:22px;height:22px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);transition:all .18s}
+  .opt:hover:not(:disabled) .opt-bullet{border-color:var(--accent);color:var(--accent)}
+  .opt.is-correct{border-color:var(--accent)!important;background:var(--accent-dim)!important;color:var(--accent)!important}
+  .opt.is-correct .opt-bullet{background:var(--accent);border-color:var(--accent);color:#0e0f11}
+  .opt.is-wrong{border-color:var(--red)!important;background:var(--red-dim)!important;color:var(--red)!important}
+  .opt.is-wrong .opt-bullet{background:var(--red);border-color:var(--red);color:#fff}
+  .opt.dim{opacity:.38}
+  .opt:disabled{cursor:default}
+  .btn-check{padding:10px 22px;background:var(--accent);color:#0e0f11;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:opacity .2s,transform .15s;margin-top:4px}
+  .btn-check:hover{opacity:.88;transform:translateY(-1px)}
+  .btn-check:active{transform:translateY(0)}
+  .btn-check:disabled{opacity:.4;cursor:not-allowed;transform:none}
+  .feedback{margin-top:12px;padding:12px 16px;border-radius:8px;font-size:13.5px;line-height:1.6;display:none;animation:pop .25s ease}
+  .feedback.correct{display:block;background:var(--accent-dim);border:1px solid rgba(200,240,58,.3);color:#d4f56e}
+  .feedback.wrong{display:block;background:var(--red-dim);border:1px solid rgba(255,91,91,.3);color:#ff8e8e}
+  .feedback.info{display:block;background:rgba(100,120,200,.1);border:1px solid rgba(100,120,200,.25);color:#a0b0e0}
+  .fb-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px;opacity:.7}
+  .fb-list{margin:6px 0 0 18px;line-height:2}
+  #results{display:none;margin-top:48px;animation:fadeUp .6s ease}
+  .result-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--card-r);padding:40px 32px;text-align:center;position:relative;overflow:hidden}
+  .result-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),#7fe87f)}
+  .result-score{font-family:'DM Serif Display',serif;font-size:72px;color:var(--accent);line-height:1;margin-bottom:8px}
+  .result-label{color:var(--muted);font-size:14px;margin-bottom:28px}
+  .result-msg{font-size:15px;color:var(--text);margin-bottom:28px;line-height:1.6}
+  .btn-restart{padding:12px 32px;background:var(--accent);color:#0e0f11;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:opacity .2s}
+  .btn-restart:hover{opacity:.85}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pop{0%{transform:scale(.96);opacity:0}60%{transform:scale(1.015)}100%{transform:scale(1);opacity:1}}
+  .card:nth-child(1){animation-delay:.03s}.card:nth-child(2){animation-delay:.06s}.card:nth-child(3){animation-delay:.09s}
+  .card:nth-child(4){animation-delay:.12s}.card:nth-child(5){animation-delay:.15s}.card:nth-child(6){animation-delay:.18s}
+  .card:nth-child(7){animation-delay:.21s}.card:nth-child(8){animation-delay:.24s}.card:nth-child(9){animation-delay:.27s}
+  .card:nth-child(10){animation-delay:.30s}.card:nth-child(11){animation-delay:.33s}.card:nth-child(12){animation-delay:.36s}
+  .card:nth-child(13){animation-delay:.39s}.card:nth-child(14){animation-delay:.42s}.card:nth-child(15){animation-delay:.45s}
 </style>
 </head>
 <body>
-
-<header class="hdr">
-  <div class="hdr-logo">Simulado <em>Contabilidade</em></div>
-  <div class="hdr-score">
-    <div class="hs"><span class="hs-lbl">Corretas</span><span class="hs-val g" id="sc-c">0</span></div>
-    <div class="hs"><span class="hs-lbl">Erradas</span><span class="hs-val r" id="sc-e">0</span></div>
-    <div class="hs"><span class="hs-lbl">Total</span><span class="hs-val b" id="sc-t">0/45</span></div>
+<div class="container">
+  <header>
+    <div class="eyebrow">Microeconomia · Simulado Completo</div>
+    <h1>Quiz de <em>Economia</em></h1>
+    <p class="subtitle">15 questões · Estruturas de mercado, elasticidade, custos e produção</p>
+  </header>
+  <div class="progress-wrap">
+    <div class="progress-label"><span id="prog-text">0 / 15 respondidas</span><span id="prog-pct">0%</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
   </div>
-</header>
-<div class="pbar-track"><div class="pbar-fill" id="pbar"></div></div>
-
-<nav class="tabs">
-  <div class="tab on"  onclick="goTab(0)">Simulado Prova   <span class="bdg" id="tb0">8</span></div>
-  <div class="tab"     onclick="goTab(1)">Princípios       <span class="bdg" id="tb1">5</span></div>
-  <div class="tab"     onclick="goTab(2)">Classif. Contas  <span class="bdg" id="tb2">20</span></div>
-  <div class="tab"     onclick="goTab(3)">Bens / Direitos  <span class="bdg" id="tb3">12</span></div>
-  <div class="tab"     onclick="goTab(4)">Questões 9 e 10  <span class="bdg" id="tb4">Gabarito</span></div>
-</nav>
-
-<main>
-
-<!-- ══════════════════════════
-  BLOCO 0 — SIMULADO PROVA
-══════════════════════════ -->
-<div class="blk on" id="blk-0">
-  <div class="sec-tag">Bloco 1 de 5</div>
-  <div class="sec-title">Simulado Prova</div>
-  <div class="sec-desc">8 questões de múltipla escolha — as mesmas da sua prova (Imagem 2). Clique na alternativa correta.</div>
-  <div class="rule"></div>
-
-  <div class="qcard" id="qc-p1">
-    <div class="qmeta"><span class="qnum">01</span><span class="qtopic">Ativo</span></div>
-    <div class="qstem">O que representa o <strong>Ativo</strong> na contabilidade?</div>
-    <div class="opts">
-      <button class="opt" data-ok="0" onclick="mcq('p1',this,0,'Obrigações com terceiros formam o Passivo — não o Ativo.')"><span class="okey">A</span>As obrigações da empresa</button>
-      <button class="opt" data-ok="1" onclick="mcq('p1',this,1,'Correto! Ativo = tudo que a empresa TEM (bens) ou tem direito de receber (direitos). Ex: caixa, estoque, clientes, imóveis.')"><span class="okey">B</span>Os bens e direitos da empresa</button>
-      <button class="opt" data-ok="0" onclick="mcq('p1',this,0,'O capital investido pelos sócios faz parte do Patrimônio Líquido, não do Ativo.')"><span class="okey">C</span>O capital dos sócios</button>
-      <button class="opt" data-ok="0" onclick="mcq('p1',this,0,'Despesas aparecem na DRE e reduzem o PL — não são classificadas no Ativo.')"><span class="okey">D</span>As despesas da empresa</button>
+  <div class="score-badge">Pontuação: <span class="score-val" id="score-display">0 / 15</span></div>
+  <div id="quiz"></div>
+  <div id="results">
+    <div class="result-card">
+      <div class="result-score" id="res-score">0</div>
+      <div class="result-label">de 15 pontos</div>
+      <div class="result-msg" id="res-msg"></div>
+      <button class="btn-restart" onclick="restart()">Tentar novamente</button>
     </div>
-    <div class="exp" id="ep1"></div>
-  </div>
-
-  <div class="qcard" id="qc-p2">
-    <div class="qmeta"><span class="qnum">02</span><span class="qtopic">Passivo</span></div>
-    <div class="qstem">Qual das contas abaixo é considerada <strong>passivo</strong>?</div>
-    <div class="opts">
-      <button class="opt" data-ok="0" onclick="mcq('p2',this,0,'Caixa = dinheiro disponível = Ativo Circulante.')"><span class="okey">A</span>Caixa</button>
-      <button class="opt" data-ok="0" onclick="mcq('p2',this,0,'Estoques são bens disponíveis para venda = Ativo Circulante.')"><span class="okey">B</span>Estoques</button>
-      <button class="opt" data-ok="1" onclick="mcq('p2',this,1,'Correto! Fornecedores = o que a empresa deve a quem forneceu mercadorias a prazo = obrigação = Passivo.')"><span class="okey">C</span>Fornecedores</button>
-      <button class="opt" data-ok="0" onclick="mcq('p2',this,0,'Veículos são bens do imobilizado = Ativo Não Circulante.')"><span class="okey">D</span>Veículos</button>
-    </div>
-    <div class="exp" id="ep2"></div>
-  </div>
-
-  <div class="qcard" id="qc-p3">
-    <div class="qmeta"><span class="qnum">03</span><span class="qtopic">Patrimônio Líquido</span></div>
-    <div class="qstem">O <strong>Patrimônio Líquido</strong> é composto por:</div>
-    <div class="opts">
-      <button class="opt" data-ok="0" onclick="mcq('p3',this,0,'Bens e direitos formam o Ativo.')"><span class="okey">A</span>Bens e direitos</button>
-      <button class="opt" data-ok="0" onclick="mcq('p3',this,0,'Obrigações formam o Passivo.')"><span class="okey">B</span>Obrigações apenas</button>
-      <button class="opt" data-ok="1" onclick="mcq('p3',this,1,'Correto! PL = Capital Social + Lucros/Prejuízos acumulados. Equação fundamental: Ativo = Passivo + PL.')"><span class="okey">C</span>Capital próprio dos sócios + resultados acumulados</button>
-      <button class="opt" data-ok="0" onclick="mcq('p3',this,0,'Receitas e despesas ficam na DRE — só o resultado líquido final migra para o PL.')"><span class="okey">D</span>Receitas e despesas</button>
-    </div>
-    <div class="exp" id="ep3"></div>
-  </div>
-
-  <div class="qcard" id="qc-p4">
-    <div class="qmeta"><span class="qnum">04</span><span class="qtopic">Princípio da Competência</span></div>
-    <div class="qstem">O <strong>Princípio da Competência</strong> determina que:</div>
-    <div class="opts">
-      <button class="opt" data-ok="0" onclick="mcq('p4',this,0,'Reconhecer receita só ao receber é Regime de Caixa — não de Competência.')"><span class="okey">A</span>As receitas só são contabilizadas quando recebidas</button>
-      <button class="opt" data-ok="0" onclick="mcq('p4',this,0,'Reconhecer despesa só ao pagar também é Regime de Caixa.')"><span class="okey">B</span>As despesas só são contabilizadas quando pagas</button>
-      <button class="opt" data-ok="1" onclick="mcq('p4',this,1,'Correto! Pelo Princípio da Competência, receita é reconhecida quando gerada e despesa quando incorrida — independente do caixa.')"><span class="okey">C</span>Receitas e despesas devem ser reconhecidas no período em que ocorrem</button>
-      <button class="opt" data-ok="0" onclick="mcq('p4',this,0,'Considerar apenas o caixa é o Regime de Caixa — não o que a contabilidade oficial adota.')"><span class="okey">D</span>Apenas o caixa deve ser considerado</button>
-    </div>
-    <div class="exp" id="ep4"></div>
-  </div>
-
-  <div class="qcard" id="qc-p5">
-    <div class="qmeta"><span class="qnum">05</span><span class="qtopic">Variação Patrimonial</span></div>
-    <div class="qstem">Ao comprar mercadoria <strong>à vista</strong>, ocorre:</div>
-    <div class="opts">
-      <button class="opt" data-ok="0" onclick="mcq('p5',this,0,'Compra à vista não cria dívida — não aumenta o Passivo.')"><span class="okey">A</span>Aumento do passivo e diminuição do ativo</button>
-      <button class="opt" data-ok="0" onclick="mcq('p5',this,0,'Isso descreveria recebimento de cliente ou pagamento de dívida.')"><span class="okey">B</span>Aumento do ativo e diminuição do passivo</button>
-      <button class="opt" data-ok="1" onclick="mcq('p5',this,1,'Correto! Compra à vista = Caixa ↓ + Estoque ↑. Permuta dentro do Ativo — total do balanço não muda e PL não é afetado.')"><span class="okey">C</span>Troca dentro do ativo (diminui caixa, aumenta estoque)</button>
-      <button class="opt" data-ok="0" onclick="mcq('p5',this,0,'PL só diminui com despesas. Estoque não é despesa — é ativo.')"><span class="okey">D</span>Diminuição do patrimônio líquido</button>
-    </div>
-    <div class="exp" id="ep5"></div>
-  </div>
-
-  <div class="qcard" id="qc-p6">
-    <div class="qmeta"><span class="qnum">06</span><span class="qtopic">Despesa</span></div>
-    <div class="qstem">Uma <strong>despesa</strong> sempre provoca:</div>
-    <div class="opts">
-      <button class="opt" data-ok="0" onclick="mcq('p6',this,0,'Despesa reduz o PL — nunca aumenta.')"><span class="okey">A</span>Aumento do patrimônio líquido</button>
-      <button class="opt" data-ok="1" onclick="mcq('p6',this,1,'Correto! Despesa sempre reduz lucro → reduz PL. Paga à vista: ↓Caixa + ↓PL. A prazo: ↑Passivo + ↓PL. Em qualquer caso o PL diminui.')"><span class="okey">B</span>Redução do patrimônio líquido</button>
-      <button class="opt" data-ok="0" onclick="mcq('p6',this,0,'Despesa paga à vista reduz o Caixa (ativo) — não o aumenta.')"><span class="okey">C</span>Aumento do ativo</button>
-      <button class="opt" data-ok="0" onclick="mcq('p6',this,0,'Somente a despesa a prazo ainda não paga aumenta o passivo — mas isso não ocorre sempre.')"><span class="okey">D</span>Aumento do passivo</button>
-    </div>
-    <div class="exp" id="ep6"></div>
-  </div>
-
-  <div class="qcard" id="qc-p7">
-    <div class="qmeta"><span class="qnum">07</span><span class="qtopic">DRE</span></div>
-    <div class="qstem">Qual dessas contas pertence ao <strong>resultado (DRE)</strong>?</div>
-    <div class="opts">
-      <button class="opt" data-ok="0" onclick="mcq('p7',this,0,'Caixa é conta patrimonial — fica no Balanço Patrimonial, não na DRE.')"><span class="okey">A</span>Caixa</button>
-      <button class="opt" data-ok="0" onclick="mcq('p7',this,0,'Salários a pagar é uma obrigação — fica no Passivo do Balanço.')"><span class="okey">B</span>Salários a pagar</button>
-      <button class="opt" data-ok="1" onclick="mcq('p7',this,1,'Correto! Receita de Vendas é conta de resultado — entra na DRE e afeta o lucro do período. Caixa e Salários a pagar ficam no Balanço Patrimonial.')"><span class="okey">C</span>Receita de vendas</button>
-      <button class="opt" data-ok="0" onclick="mcq('p7',this,0,'Capital Social compõe o Patrimônio Líquido no Balanço Patrimonial.')"><span class="okey">D</span>Capital social</button>
-    </div>
-    <div class="exp" id="ep7"></div>
-  </div>
-
-  <div class="qcard" id="qc-p8">
-    <div class="qmeta"><span class="qnum">08</span><span class="qtopic">Equação Fundamental</span></div>
-    <div class="qstem">A <strong>equação fundamental do patrimônio</strong> é:</div>
-    <div class="opts">
-      <button class="opt" data-ok="0" onclick="mcq('p8',this,0,'Errado — isso daria Ativo = Passivo − PL, colocando o PL com sinal invertido.')"><span class="okey">A</span>Ativo = Passivo – Patrimônio Líquido</button>
-      <button class="opt" data-ok="0" onclick="mcq('p8',this,0,'Não existe sentido em somar Ativo + Passivo — são categorias distintas.')"><span class="okey">B</span>Ativo + Passivo = Patrimônio Líquido</button>
-      <button class="opt" data-ok="1" onclick="mcq('p8',this,1,'Correto! Ativo = Passivo + PL. Os bens e direitos são financiados por dívidas (Passivo) ou pelos sócios (PL). O Balanço sempre fecha.')"><span class="okey">C</span>Ativo = Passivo + Patrimônio Líquido</button>
-      <button class="opt" data-ok="0" onclick="mcq('p8',this,0,'PL = Ativo − Passivo seria correto matematicamente, mas a forma canônica da equação é Ativo = Passivo + PL.')"><span class="okey">D</span>Patrimônio Líquido = Ativo + Passivo</button>
-    </div>
-    <div class="exp" id="ep8"></div>
-  </div>
-
-  <div class="navrow">
-    <button class="btn-ghost" disabled>← Anterior</button>
-    <button class="btn-solid" onclick="goTab(1)">Próximo →</button>
   </div>
 </div>
-
-
-<!-- ══════════════════════════
-  BLOCO 1 — PRINCÍPIOS
-══════════════════════════ -->
-<div class="blk" id="blk-1">
-  <div class="sec-tag">Bloco 2 de 5</div>
-  <div class="sec-title">Princípios de Contabilidade</div>
-  <div class="sec-desc">5 questões — identifique o princípio contábil descrito em cada situação (Imagem 1, Q8).</div>
-  <div class="rule"></div>
-
-  <div class="qcard" id="qc-pr1">
-    <div class="qmeta"><span class="qnum">01</span><span class="qtopic">Entidade</span></div>
-    <div class="qstem">Garante que os registros contábeis reflitam apenas os elementos ligados à entidade, evitando confusão entre finanças pessoais e empresariais.</div>
-    <div class="opts">
-      <button class="opt" data-ok="0" onclick="mcq('pr1',this,0,'Competência trata de quando reconhecer receita/despesa — não da separação de patrimônios.')"><span class="okey">A</span>Princípio da Competência</button>
-      <button class="opt" data-ok="1" onclick="mcq('pr1',this,1,'Correto! O Princípio da Entidade determina que o patrimônio da empresa é separado do patrimônio pessoal dos sócios. Dívidas pessoais do sócio não entram na contabilidade da empresa.')"><span class="okey">B</span>Princípio da Entidade</button>
-      <button class="opt" data-ok="0" onclick="mcq('pr1',this,0,'Continuidade trata da presunção de que a empresa seguirá operando indefinidamente.')"><span class="okey">C</span>Princípio da Continuidade</button>
-      <button class="opt" data-ok="0" onclick="mcq('pr1',this,0,'Prudência adota postura conservadora na avaliação do patrimônio.')"><span class="okey">D</span>Princípio da Prudência</button>
-    </div>
-    <div class="exp" id="epr1"></div>
-  </div>
-
-  <div class="qcard" id="qc-pr2">
-    <div class="qmeta"><span class="qnum">02</span><span class="qtopic">Continuidade</span></div>
-    <div class="qstem">Existem evidências de descontinuidade, como falência iminente ou encerramento de atividades. Qual princípio é posto em xeque?</div>
-    <div class="opts">
-      <button class="opt" data-ok="0" onclick="mcq('pr2',this,0,'Oportunidade trata de registrar fatos no tempo correto, sem atraso.')"><span class="okey">A</span>Princípio da Oportunidade</button>
-      <button class="opt" data-ok="1" onclick="mcq('pr2',this,1,'Correto! O Princípio da Continuidade presume que a empresa funcionará indefinidamente. Quando há risco de falência, os ativos precisam ser reavaliados pelo valor de liquidação, não de uso.')"><span class="okey">B</span>Princípio da Continuidade</button>
-      <button class="opt" data-ok="0" onclick="mcq('pr2',this,0,'Entidade trata da separação entre patrimônio pessoal e empresarial.')"><span class="okey">C</span>Princípio da Entidade</button>
-      <button class="opt" data-ok="0" onclick="mcq('pr2',this,0,'Competência define quando reconhecer receitas e despesas — não da sobrevivência da empresa.')"><span class="okey">D</span>Princípio da Competência</button>
-    </div>
-    <div class="exp" id="epr2"></div>
-  </div>
-
-  <div class="qcard" id="qc-pr3">
-    <div class="qmeta"><span class="qnum">03</span><span class="qtopic">Oportunidade</span></div>
-    <div class="qstem">A ausência de registros no tempo correto pode comprometer a relevância e a confiabilidade das demonstrações contábeis.</div>
-    <div class="opts">
-      <button class="opt" data-ok="0" onclick="mcq('pr3',this,0,'Competência define o período de reconhecimento — não a urgência do registro.')"><span class="okey">A</span>Princípio da Competência</button>
-      <button class="opt" data-ok="0" onclick="mcq('pr3',this,0,'Prudência adota critério conservador de avaliação — não trata de prazo de registro.')"><span class="okey">B</span>Princípio da Prudência</button>
-      <button class="opt" data-ok="1" onclick="mcq('pr3',this,1,'Correto! O Princípio da Oportunidade exige que os fatos sejam registrados imediatamente quando ocorrem. Um registro atrasado perde relevância e pode induzir decisões erradas.')"><span class="okey">C</span>Princípio da Oportunidade</button>
-      <button class="opt" data-ok="0" onclick="mcq('pr3',this,0,'Continuidade trata da presunção de permanência operacional da empresa.')"><span class="okey">D</span>Princípio da Continuidade</button>
-    </div>
-    <div class="exp" id="epr3"></div>
-  </div>
-
-  <div class="qcard" id="qc-pr4">
-    <div class="qmeta"><span class="qnum">04</span><span class="qtopic">Competência</span></div>
-    <div class="qstem">Uma receita deve ser registrada quando realizada, e uma despesa quando incorrida — não necessariamente quando há entrada ou saída de caixa.</div>
-    <div class="opts">
-      <button class="opt" data-ok="1" onclick="mcq('pr4',this,1,'Correto! Princípio da Competência = regime de competência. Ex: vendi a prazo em dezembro → receita de dezembro, mesmo recebendo em janeiro.')"><span class="okey">A</span>Princípio da Competência</button>
-      <button class="opt" data-ok="0" onclick="mcq('pr4',this,0,'Oportunidade trata de quando registrar — não do regime de reconhecimento.')"><span class="okey">B</span>Princípio da Oportunidade</button>
-      <button class="opt" data-ok="0" onclick="mcq('pr4',this,0,'Prudência adota critério conservador de mensuração.')"><span class="okey">C</span>Princípio da Prudência</button>
-      <button class="opt" data-ok="0" onclick="mcq('pr4',this,0,'Entidade separa patrimônio pessoal do empresarial.')"><span class="okey">D</span>Princípio da Entidade</button>
-    </div>
-    <div class="exp" id="epr4"></div>
-  </div>
-
-  <div class="qcard" id="qc-pr5">
-    <div class="qmeta"><span class="qnum">05</span><span class="qtopic">Prudência</span></div>
-    <div class="qstem">Evita que o patrimônio líquido seja superavaliado ou que os riscos da entidade sejam subestimados, o que traria insegurança aos usuários das informações contábeis.</div>
-    <div class="opts">
-      <button class="opt" data-ok="0" onclick="mcq('pr5',this,0,'Competência define quando reconhecer — não trata de avaliação conservadora.')"><span class="okey">A</span>Princípio da Competência</button>
-      <button class="opt" data-ok="0" onclick="mcq('pr5',this,0,'Continuidade trata da presunção de permanência operacional.')"><span class="okey">B</span>Princípio da Continuidade</button>
-      <button class="opt" data-ok="0" onclick="mcq('pr5',this,0,'Oportunidade trata de tempestividade do registro.')"><span class="okey">C</span>Princípio da Oportunidade</button>
-      <button class="opt" data-ok="1" onclick="mcq('pr5',this,1,'Correto! Princípio da Prudência = conservadorismo. Na dúvida: menor valor para ativos, maior para passivos. Reconhece perdas prováveis mas não antecipa ganhos.')"><span class="okey">D</span>Princípio da Prudência</button>
-    </div>
-    <div class="exp" id="epr5"></div>
-  </div>
-
-  <div class="navrow">
-    <button class="btn-ghost" onclick="goTab(0)">← Anterior</button>
-    <button class="btn-solid" onclick="goTab(2)">Próximo →</button>
-  </div>
-</div>
-
-
-<!-- ══════════════════════════
-  BLOCO 2 — CLASSIF. CONTAS
-══════════════════════════ -->
-<div class="blk" id="blk-2">
-  <div class="sec-tag">Bloco 3 de 5</div>
-  <div class="sec-title">Classifique as Contas</div>
-  <div class="sec-desc">20 contas — classifique cada uma como <strong>Ativo</strong>, <strong>Passivo</strong> ou <strong>Patrimônio Líquido</strong>.</div>
-  <div class="rule"></div>
-  <div id="q2r"></div>
-  <div class="navrow">
-    <button class="btn-ghost" onclick="goTab(1)">← Anterior</button>
-    <button class="btn-solid" onclick="goTab(3)">Próximo →</button>
-  </div>
-</div>
-
-
-<!-- ══════════════════════════
-  BLOCO 3 — BENS/DIREITOS
-══════════════════════════ -->
-<div class="blk" id="blk-3">
-  <div class="sec-tag">Bloco 4 de 5</div>
-  <div class="sec-title">Bens, Direitos e Obrigações</div>
-  <div class="sec-desc">12 itens — classifique cada um como <strong>Receita</strong>, <strong>Despesa</strong>, <strong>Bem</strong>, <strong>Direito</strong> ou <strong>Obrigação</strong>.</div>
-  <div class="rule"></div>
-  <div id="q3r"></div>
-  <div class="navrow">
-    <button class="btn-ghost" onclick="goTab(2)">← Anterior</button>
-    <button class="btn-solid" onclick="goTab(4)">Próximo →</button>
-  </div>
-</div>
-
-
-<!-- ══════════════════════════
-  BLOCO 4 — Q9 E Q10
-══════════════════════════ -->
-<div class="blk" id="blk-4">
-  <div class="sec-tag">Bloco 5 de 5</div>
-  <div class="sec-title">Questões 9 e 10</div>
-  <div class="sec-desc">Questões práticas da Imagem 1. Resolva no papel e depois revele cada parte do gabarito.</div>
-  <div class="rule"></div>
-
-  <!-- Q9 -->
-  <div class="qcard">
-    <div class="qmeta"><span class="qnum">Q9</span><span class="qtopic">Razonetes · DRE · Balanço Patrimonial</span></div>
-    <div class="qstem">Conforme a relação de eventos contábeis abaixo, pede-se:<br>1. Montar os razonetes &nbsp; 2. Apurar o resultado &nbsp; 3. Elaborar a DRE &nbsp; 4. Elaborar o Balanço Patrimonial</div>
-    <div class="enunciado">
-      <strong>A empresa iniciou suas atividades com os seguintes fatos:</strong><br>
-      1. Integralização de capital em dinheiro: <strong>R$ 50.000</strong><br>
-      2. Compra de móveis à vista: <strong>R$ 10.000</strong><br>
-      3. Compra de mercadorias a prazo: <strong>R$ 15.000</strong><br>
-      4. Venda de mercadorias por R$ 20.000 <em>(recebido à vista)</em><br>
-      5. Custo das mercadorias vendidas: <strong>R$ 8.000</strong><br>
-      6. Pagamento de despesas administrativas: <strong>R$ 3.000</strong>
-    </div>
-
-    <div style="display:flex;flex-direction:column;gap:8px">
-
-      <div class="reveal-block">
-        <button class="btn-reveal" onclick="tog(this)">Revelar — Razonetes</button>
-        <div class="reveal-body">
-          <div class="raz-grid">
-            <div class="raz-t">
-              <div class="raz-head">Caixa</div>
-              <div class="raz-cols">
-                <div class="raz-d"><div class="rc-label">D (+)</div><div class="rc-row">① 50.000</div><div class="rc-row">④ 20.000</div></div>
-                <div class="raz-c"><div class="rc-label">C (−)</div><div class="rc-row">② 10.000</div><div class="rc-row">⑥  3.000</div></div>
-              </div>
-              <div class="raz-saldo">Saldo devedor: <strong>R$ 57.000</strong></div>
-            </div>
-            <div class="raz-t">
-              <div class="raz-head">Móveis e Utensílios</div>
-              <div class="raz-cols">
-                <div class="raz-d"><div class="rc-label">D (+)</div><div class="rc-row">② 10.000</div></div>
-                <div class="raz-c"><div class="rc-label">C (−)</div></div>
-              </div>
-              <div class="raz-saldo">Saldo devedor: <strong>R$ 10.000</strong></div>
-            </div>
-            <div class="raz-t">
-              <div class="raz-head">Estoque</div>
-              <div class="raz-cols">
-                <div class="raz-d"><div class="rc-label">D (+)</div><div class="rc-row">③ 15.000</div></div>
-                <div class="raz-c"><div class="rc-label">C (−)</div><div class="rc-row">⑤  8.000</div></div>
-              </div>
-              <div class="raz-saldo">Saldo devedor: <strong>R$ 7.000</strong></div>
-            </div>
-            <div class="raz-t">
-              <div class="raz-head">Fornecedores</div>
-              <div class="raz-cols">
-                <div class="raz-d"><div class="rc-label">D (−)</div></div>
-                <div class="raz-c"><div class="rc-label">C (+)</div><div class="rc-row">③ 15.000</div></div>
-              </div>
-              <div class="raz-saldo">Saldo credor: <strong>R$ 15.000</strong></div>
-            </div>
-            <div class="raz-t">
-              <div class="raz-head">Capital Social</div>
-              <div class="raz-cols">
-                <div class="raz-d"><div class="rc-label">D (−)</div></div>
-                <div class="raz-c"><div class="rc-label">C (+)</div><div class="rc-row">① 50.000</div></div>
-              </div>
-              <div class="raz-saldo">Saldo credor: <strong>R$ 50.000</strong></div>
-            </div>
-            <div class="raz-t">
-              <div class="raz-head">Receita de Vendas</div>
-              <div class="raz-cols">
-                <div class="raz-d"><div class="rc-label">D (−)</div></div>
-                <div class="raz-c"><div class="rc-label">C (+)</div><div class="rc-row">④ 20.000</div></div>
-              </div>
-              <div class="raz-saldo">Saldo credor: <strong>R$ 20.000</strong></div>
-            </div>
-            <div class="raz-t">
-              <div class="raz-head">CMV</div>
-              <div class="raz-cols">
-                <div class="raz-d"><div class="rc-label">D (+)</div><div class="rc-row">⑤  8.000</div></div>
-                <div class="raz-c"><div class="rc-label">C (−)</div></div>
-              </div>
-              <div class="raz-saldo">Saldo devedor: <strong>R$ 8.000</strong></div>
-            </div>
-            <div class="raz-t">
-              <div class="raz-head">Desp. Administrativas</div>
-              <div class="raz-cols">
-                <div class="raz-d"><div class="rc-label">D (+)</div><div class="rc-row">⑥  3.000</div></div>
-                <div class="raz-c"><div class="rc-label">C (−)</div></div>
-              </div>
-              <div class="raz-saldo">Saldo devedor: <strong>R$ 3.000</strong></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="reveal-block">
-        <button class="btn-reveal" onclick="tog(this)">Revelar — DRE</button>
-        <div class="reveal-body">
-          <table class="demo-table">
-            <tr><td>Receita de Vendas</td><td class="val pos">20.000</td></tr>
-            <tr><td class="indent">(−) CMV</td><td class="val neg">(8.000)</td></tr>
-            <tr class="subtotal"><td>= Lucro Bruto</td><td class="val">12.000</td></tr>
-            <tr><td class="indent">(−) Despesas Administrativas</td><td class="val neg">(3.000)</td></tr>
-            <tr class="total-row"><td>= <strong>Lucro Líquido</strong></td><td class="val result">9.000</td></tr>
-          </table>
-        </div>
-      </div>
-
-      <div class="reveal-block">
-        <button class="btn-reveal" onclick="tog(this)">Revelar — Balanço Patrimonial</button>
-        <div class="reveal-body">
-          <div class="bp-grid">
-            <div>
-              <div class="bp-section">Ativo</div>
-              <table class="demo-table">
-                <tr><td>Caixa</td><td class="val">57.000</td></tr>
-                <tr><td>Estoque</td><td class="val">7.000</td></tr>
-                <tr><td>Móveis e Utensílios</td><td class="val">10.000</td></tr>
-                <tr class="total-row"><td><strong>Total Ativo</strong></td><td class="val"><strong>74.000</strong></td></tr>
-              </table>
-            </div>
-            <div>
-              <div class="bp-section">Passivo</div>
-              <table class="demo-table">
-                <tr><td>Fornecedores</td><td class="val">15.000</td></tr>
-                <tr class="subtotal"><td><strong>Total Passivo</strong></td><td class="val"><strong>15.000</strong></td></tr>
-              </table>
-              <div class="bp-section" style="margin-top:14px">Patrimônio Líquido</div>
-              <table class="demo-table">
-                <tr><td>Capital Social</td><td class="val">50.000</td></tr>
-                <tr><td>Lucro do Período</td><td class="val">9.000</td></tr>
-                <tr class="subtotal"><td><strong>Total PL</strong></td><td class="val"><strong>59.000</strong></td></tr>
-              </table>
-              <div class="bp-check">Passivo + PL = 74.000 ✓</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div><!-- /Q9 -->
-
-  <!-- Q10 -->
-  <div class="qcard" style="margin-top:8px">
-    <div class="qmeta"><span class="qnum">Q10</span><span class="qtopic">Balancete — saldos iniciais</span></div>
-    <div class="qstem">Considere as operações abaixo para montar um balancete. Os saldos iniciais estão indicados em cada item.</div>
-    <div class="enunciado">
-      <strong>Operações:</strong><br>
-      7. Compra de mercadorias à vista — R$ 8.000 <em>(SI Estoque: R$ 20.000)</em><br>
-      8. Compra de mercadorias a prazo — R$ 12.000<br>
-      9. Venda de mercadorias à vista — R$ 15.000<br>
-      10. Venda de mercadorias a prazo — R$ 10.000<br>
-      11. Custo das mercadorias vendidas (CMV) — R$ 9.000<br>
-      12. Pagamento de fornecedores — R$ 6.000 <em>(SI Fornecedores: R$ 30.000)</em><br>
-      13. Recebimento de clientes — R$ 5.000 <em>(SI Clientes: R$ 20.000)</em><br>
-      14. Pagamento de despesas administrativas — R$ 4.000<br>
-      15. Compra de equipamentos à vista — R$ 10.000 <em>(SI Equipamentos: R$ 50.000)</em><br>
-      16. Reconhecimento de despesas com salários a pagar — R$ 3.500
-    </div>
-
-    <div style="display:flex;flex-direction:column;gap:8px">
-
-      <div class="reveal-block">
-        <button class="btn-reveal" onclick="tog(this)">Revelar — Razonetes</button>
-        <div class="reveal-body">
-          <div class="raz-grid">
-            <div class="raz-t">
-              <div class="raz-head">Estoque</div>
-              <div class="raz-cols">
-                <div class="raz-d"><div class="rc-label">D (+)</div><div class="rc-row si">SI 20.000</div><div class="rc-row">⑦  8.000</div><div class="rc-row">⑧ 12.000</div></div>
-                <div class="raz-c"><div class="rc-label">C (−)</div><div class="rc-row">⑪  9.000</div></div>
-              </div>
-              <div class="raz-saldo">Saldo devedor: <strong>R$ 31.000</strong></div>
-            </div>
-            <div class="raz-t">
-              <div class="raz-head">Clientes</div>
-              <div class="raz-cols">
-                <div class="raz-d"><div class="rc-label">D (+)</div><div class="rc-row si">SI 20.000</div><div class="rc-row">⑩ 10.000</div></div>
-                <div class="raz-c"><div class="rc-label">C (−)</div><div class="rc-row">⑬  5.000</div></div>
-              </div>
-              <div class="raz-saldo">Saldo devedor: <strong>R$ 25.000</strong></div>
-            </div>
-            <div class="raz-t">
-              <div class="raz-head">Fornecedores</div>
-              <div class="raz-cols">
-                <div class="raz-d"><div class="rc-label">D (−)</div><div class="rc-row">⑫  6.000</div></div>
-                <div class="raz-c"><div class="rc-label">C (+)</div><div class="rc-row si">SI 30.000</div><div class="rc-row">⑧ 12.000</div></div>
-              </div>
-              <div class="raz-saldo">Saldo credor: <strong>R$ 36.000</strong></div>
-            </div>
-            <div class="raz-t">
-              <div class="raz-head">Equipamentos</div>
-              <div class="raz-cols">
-                <div class="raz-d"><div class="rc-label">D (+)</div><div class="rc-row si">SI 50.000</div><div class="rc-row">⑮ 10.000</div></div>
-                <div class="raz-c"><div class="rc-label">C (−)</div></div>
-              </div>
-              <div class="raz-saldo">Saldo devedor: <strong>R$ 60.000</strong></div>
-            </div>
-            <div class="raz-t">
-              <div class="raz-head">Receita de Vendas</div>
-              <div class="raz-cols">
-                <div class="raz-d"><div class="rc-label">D (−)</div></div>
-                <div class="raz-c"><div class="rc-label">C (+)</div><div class="rc-row">⑨ 15.000</div><div class="rc-row">⑩ 10.000</div></div>
-              </div>
-              <div class="raz-saldo">Saldo credor: <strong>R$ 25.000</strong></div>
-            </div>
-            <div class="raz-t">
-              <div class="raz-head">CMV</div>
-              <div class="raz-cols">
-                <div class="raz-d"><div class="rc-label">D (+)</div><div class="rc-row">⑪  9.000</div></div>
-                <div class="raz-c"><div class="rc-label">C (−)</div></div>
-              </div>
-              <div class="raz-saldo">Saldo devedor: <strong>R$ 9.000</strong></div>
-            </div>
-            <div class="raz-t">
-              <div class="raz-head">Desp. Administrativas</div>
-              <div class="raz-cols">
-                <div class="raz-d"><div class="rc-label">D (+)</div><div class="rc-row">⑭  4.000</div></div>
-                <div class="raz-c"><div class="rc-label">C (−)</div></div>
-              </div>
-              <div class="raz-saldo">Saldo devedor: <strong>R$ 4.000</strong></div>
-            </div>
-            <div class="raz-t">
-              <div class="raz-head">Salários a Pagar</div>
-              <div class="raz-cols">
-                <div class="raz-d"><div class="rc-label">D (−)</div></div>
-                <div class="raz-c"><div class="rc-label">C (+)</div><div class="rc-row">⑯  3.500</div></div>
-              </div>
-              <div class="raz-saldo">Saldo credor: <strong>R$ 3.500</strong></div>
-            </div>
-            <div class="raz-t">
-              <div class="raz-head">Desp. Salários</div>
-              <div class="raz-cols">
-                <div class="raz-d"><div class="rc-label">D (+)</div><div class="rc-row">⑯  3.500</div></div>
-                <div class="raz-c"><div class="rc-label">C (−)</div></div>
-              </div>
-              <div class="raz-saldo">Saldo devedor: <strong>R$ 3.500</strong></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="reveal-block">
-        <button class="btn-reveal" onclick="tog(this)">Revelar — DRE</button>
-        <div class="reveal-body">
-          <table class="demo-table">
-            <tr><td>Receita de Vendas</td><td class="val pos">25.000</td></tr>
-            <tr><td class="indent">(−) CMV</td><td class="val neg">(9.000)</td></tr>
-            <tr class="subtotal"><td>= Lucro Bruto</td><td class="val">16.000</td></tr>
-            <tr><td class="indent">(−) Despesas Administrativas</td><td class="val neg">(4.000)</td></tr>
-            <tr><td class="indent">(−) Despesas com Salários</td><td class="val neg">(3.500)</td></tr>
-            <tr class="total-row"><td>= <strong>Lucro Líquido</strong></td><td class="val result">8.500</td></tr>
-          </table>
-        </div>
-      </div>
-
-    </div>
-  </div><!-- /Q10 -->
-
-  <div class="final-wrap" id="final">
-    <div class="final-icon" id="fi">🎓</div>
-    <div class="final-big" id="fs">0/45</div>
-    <div class="final-sub" id="fp"></div>
-    <div class="final-grid" id="fg"></div>
-    <button class="btn-reset" onclick="location.reload()">Refazer simulado</button>
-  </div>
-
-  <div class="navrow" style="margin-top:24px">
-    <button class="btn-ghost" onclick="goTab(3)">← Anterior</button>
-    <button class="btn-solid" disabled>Fim ✓</button>
-  </div>
-</div>
-
-</main>
 
 <script>
-let C=0,E=0,T=0;
-const TOTAL=45; // 8+5+20+12
-const bSz=[8,5,20,12];
-const bC=[0,0,0,0],bE=[0,0,0,0],bT=[0,0,0,0];
-const bNames=['Simulado Prova','Princípios','Classif. Contas','Bens/Direitos'];
+const TOTAL = 15;
+const questions = [
+  {
+    id:1,
+    tag:"Cálculo · Break-Even Point",
+    text:"Qual o break-even point?",
+    data:[["Preço do Bem","R$ 65,00"],["Material direto","R$ 11,50/un"],["Mão de obra direta","R$ 8,50/un"],["Custo Fixo Total","R$ 12.060,00"]],
+    type:"multi",
+    options:[{id:"I",label:"2,68"},{id:"II",label:"268"},{id:"III",label:"278"},{id:"IV",label:"368"}],
+    correct:"II",
+    explanation:"CVu = 11,50 + 8,50 = R$ 20,00. Margem de contribuição = 65 − 20 = R$ 45,00. BEP = 12.060 ÷ 45 = <strong>268 unidades</strong>.",
+  },
+  {
+    id:2,
+    tag:"Cálculo · IEPDI",
+    text:"Considerando Preço de bem em 15/01/2013 de R$ 0,50 e em 20/01/2013 de R$ 0,68, provocando uma queda de quantidade de 2.000 para 1.980 peças. A IEPDI será:",
+    type:"multi",
+    options:[{id:"I",label:"0,0027"},{id:"II",label:"3,17"},{id:"III",label:"0,027"},{id:"IV",label:"0,227"}],
+    correct:"III",
+    explanation:"%ΔQ = −20 / 2.000 = −1%. %ΔP = 0,18 / 0,50 = 36%. IEPDI = 1% ÷ 36% ≈ <strong>0,027</strong>. Demanda inelástica (IEPDI &lt; 1).",
+  },
+  {
+    id:3,
+    tag:"Cálculo · RT e CT",
+    text:"Com os mesmos dados (BEP = 268 un.), qual a RT e CT no ponto de equilíbrio?",
+    data:[["Preço do Bem","R$ 65,00"],["Material direto","R$ 11,50/un"],["Mão de obra direta","R$ 8,50/un"],["Custo Fixo Total","R$ 12.060,00"],["Qtd. BEP","268 unidades"]],
+    type:"multi",
+    options:[{id:"I",label:"17.450"},{id:"II",label:"18.420"},{id:"III",label:"17.420"},{id:"IV",label:"680"}],
+    correct:"III",
+    explanation:"RT = 65 × 268 = R$ 17.420. CT = 12.060 + (20 × 268) = 12.060 + 5.360 = R$ 17.420. No BEP, <strong>RT = CT = R$ 17.420</strong>.",
+  },
+  {
+    id:4,
+    tag:"Cálculo · Elasticidade-Renda",
+    text:"Considerando que a renda dos consumidores se altere de R$ 1.650,00 para R$ 1.975,00 e a demanda de determinado bem tenha variação de 1.690 unidades para 1.890 unidades. A elasticidade-renda da demanda (Erd) será:",
+    type:"multi",
+    options:[{id:"I",label:"0,48"},{id:"II",label:"0,68"},{id:"III",label:"1,66"},{id:"IV",label:"3,15"}],
+    correct:"III",
+    explanation:"Conforme gabarito do professor: <strong>1,66</strong>. Nota: pela fórmula padrão Erd = (%ΔQ / %ΔRenda) = (200/1690) / (325/1650) ≈ 0,60. O professor utilizou a inversão %ΔRenda / %ΔQ = 19,70% / 11,83% ≈ 1,66. Verifique o método adotado em sala.",
+  },
+  {
+    id:5,
+    tag:"Pondere · Estruturas de Mercado",
+    text:"Pondere:",
+    items:[
+      {key:"a",text:"Barreira ao acesso de novas empresas está presente no Oligopólio, não na Concorrência Monopolística."},
+      {key:"b",text:"A concorrência Extra-preço é intensa no Oligopólio com produtos diferenciados, igualmente na Concorrência Perfeita."},
+      {key:"c",text:"Investimentos elevados e legislação protetiva são barreiras presentes para ingresso no Monopólio, não na Concorrência Monopolística."},
+      {key:"d",text:"Ações intensas de Marketing e Promoções são atividades extra-preço presentes na Concorrência Monopolística, não na Concorrência Perfeita."},
+    ],
+    type:"multi",
+    options:[{id:"I",label:"c e d  incorretas"},{id:"II",label:"a e b  corretas"},{id:"III",label:"b e c  incorretas"},{id:"IV",label:"a e d  corretas"}],
+    correct:"IV",
+    explanation:"<strong>a: VERDADEIRO</strong> — barreiras de acesso são do Oligopólio. <strong>d: VERDADEIRO</strong> — marketing intenso é da Conc. Monopolística. b: FALSO — Conc. Perfeita não tem concorrência extra-preço. c: FALSO — Conc. Monopolística tem ingresso relativamente livre.",
+  },
+  {
+    id:6,
+    tag:"Pondere · Fatores de Produção",
+    text:"Pondere:",
+    items:[
+      {key:"a",text:"Fatores de produção variáveis são aqueles que variam em função do custo de produção."},
+      {key:"b",text:"Fatores de produção fixos são aqueles que não variam em função do volume de produção."},
+      {key:"c",text:"Processo de produção múltiplo impõe necessidade de setup rápido."},
+      {key:"d",text:"Mercado de oferta atomizado refere-se a Monopólio."},
+    ],
+    type:"multi",
+    options:[{id:"I",label:"b e c  incorretas"},{id:"II",label:"c e d  corretas"},{id:"III",label:"a e d  incorretas"},{id:"IV",label:"a e b  corretas"}],
+    correct:"III",
+    explanation:"<strong>a: FALSO</strong> — fatores variáveis variam em função do <em>volume</em> de produção, não do custo. <strong>d: FALSO</strong> — mercado atomizado refere-se à Concorrência Perfeita (muitos pequenos ofertantes). b e c são verdadeiros.",
+  },
+  {
+    id:7,
+    tag:"Pondere · Maximização de Lucro",
+    text:"Pondere:",
+    items:[
+      {key:"a",text:"Temos maximização de lucro quando RMg = LMg e o Custo Marginal for decrescente."},
+      {key:"b",text:"LT = RT + CTMe."},
+      {key:"c",text:"O objetivo da empresa é maximizar lucro, e isso pode ser obtido reduzindo custos fixos e variáveis e/ou aumentando a quantidade vendida."},
+      {key:"d",text:"Receita Marginal é igual à variação da receita total dividida pela produção."},
+    ],
+    type:"multi",
+    options:[{id:"I",label:"a e d  corretas"},{id:"II",label:"b e c  incorretas"},{id:"III",label:"a e b  incorretas"},{id:"IV",label:"c e d  corretas"}],
+    correct:"III",
+    explanation:"<strong>a: FALSO</strong> — a maximização ocorre com CMg <em>crescente</em>, não decrescente. <strong>b: FALSO</strong> — LT = RT − CT (não RT + CTMe). c: VERDADEIRO. d: FALSO — RMg = ΔRT/ΔQ (deve ser a <em>variação</em> da quantidade).",
+  },
+  {
+    id:8,
+    tag:"Pondere · Custos e Leis",
+    text:"Pondere:",
+    items:[
+      {key:"a",text:"RT = CT − LT."},
+      {key:"b",text:"CFme = CF / LT."},
+      {key:"c",text:"CVT = CT − CFT."},
+      {key:"d",text:"LEI DOS RENDIMENTOS CRESCENTES: elevando-se a quantidade do fator variável, permanecendo fixa a quantidade dos fatores demais, a produção aumentará a taxas crescentes; a seguir, depois de certa quantidade utilizada do fator variável, continuará a crescer mas a taxas decrescentes; continuando o incremento, a produção total chegará a um máximo para depois decrescer."},
+    ],
+    type:"multi",
+    options:[{id:"I",label:"b e c  corretas"},{id:"II",label:"a e d  incorretas"},{id:"III",label:"c e d  incorretas"},{id:"IV",label:"a e b  corretas"}],
+    correct:"I",
+    explanation:"Conforme gabarito do professor: <strong>b e c corretas</strong>. c: VERDADEIRO — CVT = CT − CFT. Nota: a (RT = CT − LT) está invertida; d descreve a lei dos rendimentos decrescentes com outra nomenclatura.",
+  },
+  {
+    id:9,
+    tag:"Pondere · Estruturas de Mercado II",
+    text:"Pondere:",
+    items:[
+      {key:"a",text:"No Monopólio, temos apenas uma empresa, barreira a acesso de novas empresas, e intensa ação de marketing."},
+      {key:"b",text:"Concorrência Monopolística difere da Concorrência Perfeita nas condições de ingresso no mercado."},
+      {key:"c",text:"Oligopólio difere do Duopólio na concorrência extra-preço."},
+      {key:"d",text:"Na Concorrência Monopolística a concorrência extra-preço é intensa e o produto é diferenciado."},
+    ],
+    type:"multi",
+    options:[{id:"I",label:"a e b  corretas"},{id:"II",label:"b e c  incorretas"},{id:"III",label:"c e d  corretas"},{id:"IV",label:"a e d  incorretas"}],
+    correct:"II",
+    explanation:"<strong>b: FALSO</strong> — Conc. Monopolística e Conc. Perfeita têm ingresso livre; não diferem nesse ponto. <strong>c: FALSO</strong> — Duopólio é caso especial de Oligopólio (apenas 2 empresas); a diferença não é a concorrência extra-preço. a: FALSO (marketing no Monopólio, quando existe, é institucional). d: VERDADEIRO.",
+  },
+  {
+    id:10,
+    tag:"Dissertativa · Elasticidade-Preço",
+    text:"Quais os fatores que influenciam a elasticidade Preço-Demanda?",
+    type:"open",
+    bullets:["Importância do bem no orçamento do consumidor","Existência de bens substitutos","Essencialidade do bem"],
+  },
+  {
+    id:11,
+    tag:"Dissertativa · Produção",
+    text:"Defina Produção, utilizando-se minimamente das seguintes palavras-chave: <em>input, processo múltiplo, setup, qualidade</em>.",
+    type:"open",
+    bullets:[
+      "Produção é o PROCESSO de transformação de INPUT em output, atendendo a requisitos de QUALIDADE definidos pelo cliente.",
+      "Os processos de produção podem ser simples ou MÚLTIPLOS.",
+      "Nos processos de produção múltiplo, destaca-se a importância de SETUP rápidos.",
+    ],
+  },
+  {
+    id:12,
+    tag:"Dissertativa · Receita e Custo Marginal",
+    text:"Defina a diferença entre Receita Marginal e Custo Marginal.",
+    type:"open",
+    bullets:[
+      "Receita Marginal (RMg): variação da receita total ao produzir/vender uma unidade adicional. RMg = ΔRT / ΔQ.",
+      "Custo Marginal (CMg): variação do custo total ao produzir uma unidade adicional. CMg = ΔCT / ΔQ.",
+      "A maximização do lucro ocorre quando RMg = CMg, com o CMg sendo crescente.",
+    ],
+  },
+  {
+    id:13,
+    tag:"Dissertativa · Cartel",
+    text:"Descreva Cartel e indique em que estrutura de mercado essa ação ocorre.",
+    type:"open",
+    bullets:[
+      "Cartel é a formação de um conglomerado de empresas de um mesmo ramo que se associam para formar preço e evitar concorrência.",
+      "Ocorre na estrutura de Oligopólio, onde poucas empresas concentram poder de mercado e podem coordenar preços.",
+    ],
+  },
+  {
+    id:14,
+    tag:"Cálculo · ERd com Classificação",
+    text:"Determine a ERd e classifique:",
+    data:[["Q em 15/01/2026","9.500 pç"],["Renda em 15/01/2026","R$ 2.700,00"],["Q em 15/02/2026","10.800 pç"],["Renda em 15/02/2026","R$ 2.500,00"]],
+    type:"open",
+    bullets:[
+      "ΔQ = 10.800 − 9.500 = 1.300 pç → %ΔQ = 1.300 / 9.500 ≈ 13,68%",
+      "ΔRenda = 2.500 − 2.700 = −200 → %ΔRenda = −200 / 2.700 ≈ −7,41%",
+      "ERd = 13,68% ÷ (−7,41%) ≈ −1,85",
+      "Classificação: ERd < 0 → BEM INFERIOR. A quantidade demandada aumentou quando a renda caiu.",
+    ],
+  },
+  {
+    id:15,
+    tag:"Dissertativa · Ferramentas da Qualidade",
+    text:"Indique as características das ferramentas da qualidade: <em>Just in Time, Kanban, TPM e 5S</em>, utilizadas por processos de produção.",
+    type:"open",
+    bullets:[
+      "Just in Time (JIT): produzir apenas o necessário, no momento certo e na quantidade certa, eliminando desperdícios e estoques excessivos.",
+      "Kanban: sistema de controle visual do fluxo produtivo; cartões sinalizam a necessidade de reposição ou início de produção.",
+      "TPM (Total Productive Maintenance): manutenção produtiva total com participação de todos os colaboradores, visando zero falhas e zero defeitos.",
+      "5S: programa de organização baseado em cinco sensos — Utilização (Seiri), Organização (Seiton), Limpeza (Seiso), Padronização (Seiketsu) e Disciplina (Shitsuke).",
+    ],
+  },
+];
 
-function goTab(i){
-  document.querySelectorAll('.blk').forEach((b,j)=>b.classList.toggle('on',j===i));
-  document.querySelectorAll('.tab').forEach((b,j)=>b.classList.toggle('on',j===i));
+let score=0,answered=0;
+const state={};
+
+function updateProgress(){
+  const pct=Math.round((answered/TOTAL)*100);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-text').textContent=`${answered} / ${TOTAL} respondidas`;
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('score-display').textContent=`${score} / ${TOTAL}`;
+  if(answered===TOTAL) setTimeout(showResults,600);
+}
+
+function markCard(qid,correct){
+  document.getElementById(`card-${qid}`).classList.add(correct?'answered-correct':'answered-wrong');
+}
+
+function handleChoice(qid,chosen){
+  if(state[qid]) return;
+  state[qid]=true; answered++;
+  const q=questions.find(x=>x.id===qid);
+  const ok=chosen===q.correct;
+  if(ok) score++;
+  document.querySelectorAll(`[data-qid="${qid}"]`).forEach(btn=>{
+    btn.disabled=true;
+    const oid=btn.dataset.oid;
+    if(oid===q.correct) btn.classList.add('is-correct');
+    else if(oid===chosen&&!ok) btn.classList.add('is-wrong');
+    else btn.classList.add('dim');
+  });
+  const fb=document.getElementById(`fb-${qid}`);
+  fb.className='feedback '+(ok?'correct':'wrong');
+  fb.innerHTML=`<div class="fb-label">${ok?'✓ Correto':'✗ Incorreto'}</div>${q.explanation}`;
+  markCard(qid,ok); updateProgress();
+}
+
+function revealOpen(qid){
+  if(state[qid]) return;
+  state[qid]=true; answered++;
+  document.getElementById(`btn-${qid}`).disabled=true;
+  const q=questions.find(x=>x.id===qid);
+  const fb=document.getElementById(`fb-${qid}`);
+  fb.className='feedback info';
+  fb.innerHTML=`<div class="fb-label">Resposta sugerida</div><ul class="fb-list">${q.bullets.map(b=>`<li>${b}</li>`).join('')}</ul>`;
+  markCard(qid,true); updateProgress();
+}
+
+function showResults(){
+  const el=document.getElementById('results');
+  el.style.display='block';
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+  document.getElementById('res-score').textContent=score;
+  const tiers=[[0,6,"Continue revisando. Foque nas fórmulas de elasticidade e nas características de cada estrutura de mercado."],[7,10,"Bom desempenho! Revise as questões erradas para consolidar o conteúdo."],[11,13,"Muito bom! Você domina a maior parte dos conceitos."],[14,15,"Excelente! Domínio quase completo do simulado. 🎯"]];
+  const t=tiers.find(([lo,hi])=>score>=lo&&score<=hi);
+  document.getElementById('res-msg').textContent=t?t[2]:'';
+}
+
+function restart(){
+  Object.keys(state).forEach(k=>delete state[k]);
+  score=0; answered=0;
+  document.getElementById('results').style.display='none';
+  render(); updateProgress();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function upScore(){
-  document.getElementById('sc-c').textContent=C;
-  document.getElementById('sc-e').textContent=E;
-  document.getElementById('sc-t').textContent=T+'/'+TOTAL;
-  document.getElementById('pbar').style.width=(T/TOTAL*100)+'%';
-  for(let i=0;i<4;i++){
-    const el=document.getElementById('tb'+i);
-    if(el) el.textContent=bT[i]+'/'+bSz[i];
-  }
-  if(T===TOTAL) showFinal();
+function renderDataBox(rows){
+  return `<div class="data-box">${rows.map(([k,v])=>`${k}: <span>${v}</span>`).join('<br>')}</div>`;
+}
+function renderPonder(items){
+  return `<div class="ponder-list">${items.map(it=>`<div class="ponder-item"><strong>${it.key}.</strong>${it.text}</div>`).join('')}</div>`;
 }
 
-function blkOf(qid){
-  if(/^p\d/.test(qid)&&!/^pr/.test(qid)) return 0;
-  if(/^pr/.test(qid)) return 1;
-  if(/^q2/.test(qid)) return 2;
-  if(/^q3/.test(qid)) return 3;
-  return -1;
-}
+function render(){
+  document.getElementById('quiz').innerHTML=questions.map(q=>{
+    let body='';
+    if(q.tag) body+=`<div class="section-tag">${q.tag}</div>`;
+    if(q.items) body+=renderPonder(q.items);
+    if(q.data)  body+=renderDataBox(q.data);
 
-function mcq(qid,el,ok,txt){
-  const opts=el.closest('.opts');
-  if(opts.querySelector('.lk')) return;
-  opts.querySelectorAll('.opt').forEach(o=>{o.classList.add('lk');o.onclick=null});
-  const card=el.closest('.qcard');
-  const b=blkOf(qid);
-  if(ok){
-    el.classList.add('oc');card.classList.add('ok');
-    C++;if(b>=0)bC[b]++;
-  } else {
-    el.classList.add('ow');card.classList.add('fail');
-    opts.querySelectorAll('[data-ok="1"]').forEach(o=>o.classList.add('oc'));
-    E++;if(b>=0)bE[b]++;
-  }
-  T++;if(b>=0)bT[b]++;
-  const expEl=document.getElementById('e'+qid);
-  if(expEl){expEl.textContent=txt;expEl.classList.add('on')}
-  upScore();
-}
+    if(q.type==='multi'){
+      body+=`<div class="options">${q.options.map(opt=>`<button class="opt" data-qid="${q.id}" data-oid="${opt.id}" onclick="handleChoice(${q.id},'${opt.id}')"><span class="opt-bullet">${opt.id}</span>${opt.label}</button>`).join('')}</div>`;
+    } else {
+      body+=`<button class="btn-check" id="btn-${q.id}" onclick="revealOpen(${q.id})">Ver resposta sugerida</button>`;
+    }
+    body+=`<div class="feedback" id="fb-${q.id}"></div>`;
 
-/* toggle reveal */
-function tog(btn){
-  btn.classList.toggle('open');
-  btn.nextElementSibling.classList.toggle('on');
-}
-
-/* Q2 */
-const q2=[
-  ['q2-1','Prejuízo / Lucro Acumulado','PL','Lucros ou prejuízos retidos na empresa fazem parte do PL.'],
-  ['q2-2','Máquinas e Equipamentos','A','Bens físicos usados na operação = Ativo Imobilizado.'],
-  ['q2-3','Fornecedores a pagar','P','Valor devido a fornecedores = obrigação = Passivo Circulante.'],
-  ['q2-4','Contratação de Seguros','A','Seguro pago antecipadamente = direito futuro de cobertura = Ativo.'],
-  ['q2-5','Estoque de produtos','A','Mercadorias disponíveis para venda = Ativo Circulante.'],
-  ['q2-6','Adiantamento a fornecedores','A','Pagamos antes — temos direito de receber o produto/serviço = Ativo.'],
-  ['q2-7','Contas a receber','A','Direito de receber dos clientes = Ativo Circulante.'],
-  ['q2-8','Salários a pagar','P','Obrigação trabalhista ainda não paga = Passivo Circulante.'],
-  ['q2-9','Impostos a compensar','A','Crédito fiscal que a empresa tem direito de usar = Ativo.'],
-  ['q2-10','Adiantamento de clientes','P','O cliente pagou antes — a empresa deve entregar = Passivo.'],
-  ['q2-11','Financiamento de dívidas','P','Dívida de financiamento = obrigação = Passivo.'],
-  ['q2-12','Caixa e Equivalentes','A','Dinheiro disponível é o Ativo mais líquido.'],
-  ['q2-13','Aplicação Financeira curto prazo','A','Investimento de curto prazo = Ativo Circulante.'],
-  ['q2-14','Impostos a compensar em 36 meses','A','Crédito fiscal de longo prazo = Ativo Não Circulante.'],
-  ['q2-15','Empréstimos a pagar em 12 meses','P','Dívida de curto prazo = Passivo Circulante.'],
-  ['q2-16','Financiamento de veículos 24 meses','P','Financiamento de longo prazo = Passivo Não Circulante.'],
-  ['q2-17','Equipamentos de Informática','A','Bem físico de uso da empresa = Ativo Imobilizado.'],
-  ['q2-18','Edifícios','A','Imóvel próprio = Ativo Imobilizado.'],
-  ['q2-19','Benefícios a funcionários a pagar','P','Obrigação trabalhista = Passivo.'],
-  ['q2-20','Capital Social','PL','Valor investido pelos sócios = Patrimônio Líquido.'],
-];
-const q2map={A:'Ativo',P:'Passivo',PL:'Patrimônio Líquido'};
-const q2opts=[['A','Ativo'],['P','Passivo'],['PL','Patrimônio Líquido']];
-const LT=['A','B','C','D','E'];
-
-document.getElementById('q2r').innerHTML=q2.map(([id,stem,ans,exp],i)=>{
-  const os=q2opts.map(([k,lbl],j)=>`<button class="opt" data-ok="${k===ans?1:0}" onclick="mcq('${id}',this,${k===ans?1:0},'${exp}')"><span class="okey">${LT[j]}</span>${lbl}</button>`).join('');
-  return `<div class="qcard" id="qc-${id}"><div class="qmeta"><span class="qnum">${String(i+1).padStart(2,'0')}</span></div><div class="qstem">${stem}</div><div class="opts">${os}</div><div class="exp" id="e${id}"></div></div>`;
-}).join('');
-
-/* Q3 */
-const q3=[
-  ['q3-1','Integralização de capital em dinheiro','Bem','Dinheiro que entra = bem (Caixa) = Ativo. Lançamento: Débito Caixa / Crédito Capital Social.'],
-  ['q3-2','Compra de móveis à vista','Bem','Móvel = bem físico = Ativo Imobilizado. Pago à vista: sai caixa, entra bem.'],
-  ['q3-3','Compra de mercadorias a prazo','Bem','Mercadoria = Estoque = Bem. A prazo: nasce obrigação (Fornecedores) no Passivo.'],
-  ['q3-4','Venda de mercadorias (valor recebido)','Receita','O valor recebido pela venda = Receita de Vendas — conta de resultado na DRE.'],
-  ['q3-5','Custo das mercadorias vendidas','Despesa','CMV = custo do estoque que saiu para gerar a venda = Despesa na DRE.'],
-  ['q3-6','Pagamento de despesas administrativas','Despesa','Despesa operacional paga à vista = reduz Caixa e reduz PL.'],
-  ['q3-7','Contratação de seguros','Direito','Seguro pago antecipadamente = direito de cobertura futura = Ativo (Despesa Antecipada).'],
-  ['q3-8','Aquisição de empréstimo bancário','Obrigação','Empréstimo tomado = dívida = Obrigação (Passivo).'],
-  ['q3-9','Venda de serviços','Receita','Venda de serviços gera Receita de Serviços na DRE.'],
-  ['q3-10','Salários incorridos ainda não pagos','Obrigação','Salários devidos e não pagos = Obrigação (Passivo) — Salários a Pagar.'],
-  ['q3-11','Aquisição de veículo para a empresa','Bem','Veículo de uso próprio = Ativo Imobilizado = Bem.'],
-  ['q3-12','Recebimento de adiantamento de clientes','Obrigação','Recebemos antes de entregar = devemos o produto/serviço = Obrigação (Passivo).'],
-];
-const q3opts=['Receita','Despesa','Bem','Direito','Obrigação'];
-
-document.getElementById('q3r').innerHTML=q3.map(([id,stem,ans,exp],i)=>{
-  const os=q3opts.map((o,j)=>`<button class="opt" data-ok="${o===ans?1:0}" onclick="mcq('${id}',this,${o===ans?1:0},'${exp}')"><span class="okey">${LT[j]}</span>${o}</button>`).join('');
-  return `<div class="qcard" id="qc-${id}"><div class="qmeta"><span class="qnum">${String(i+1).padStart(2,'0')}</span></div><div class="qstem">${stem}</div><div class="opts">${os}</div><div class="exp" id="e${id}"></div></div>`;
-}).join('');
-
-/* FINAL */
-function showFinal(){
-  const el=document.getElementById('final');el.classList.add('on');
-  const pct=Math.round(C/TOTAL*100);
-  document.getElementById('fs').textContent=C+'/'+TOTAL;
-  document.getElementById('fi').textContent=pct>=80?'🏆':pct>=60?'📚':'💪';
-  document.getElementById('fp').textContent=pct+'% de aproveitamento — '+(pct>=80?'Excelente! Você está pronto.':pct>=60?'Bom resultado! Revise os erros.':'Continue estudando!');
-  document.getElementById('fg').innerHTML=bNames.map((nm,i)=>{
-    const p=bSz[i]?bC[i]/bSz[i]:0;
-    const col=p>=.8?'#2d7a4f':p>=.6?'#8a6200':'#c0392b';
-    return `<div class="fc"><div class="fc-lbl">${nm}</div><div class="fc-val" style="color:${col}">${bC[i]}/${bSz[i]}</div></div>`;
+    return `<div class="card" id="card-${q.id}">
+      <div class="q-header">
+        <div class="q-num">${String(q.id).padStart(2,'0')}</div>
+        <div class="q-text">${q.text}</div>
+      </div>${body}</div>`;
   }).join('');
-  el.scrollIntoView({behavior:'smooth'});
 }
 
-upScore();
+render(); updateProgress();
 </script>
 </body>
 </html>
