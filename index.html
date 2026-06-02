@@ -1,385 +1,793 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-color-mode="auto" data-light-theme="light" data-dark-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quiz · Microeconomia</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Pensamento Organizacional</title>
 <style>
   :root {
-    --bg:#0e0f11;--surface:#16181c;--border:#2a2d34;
-    --accent:#c8f03a;--accent-dim:rgba(200,240,58,.12);--accent-dim2:rgba(200,240,58,.06);
-    --red:#ff5b5b;--red-dim:rgba(255,91,91,.12);
-    --text:#e8eaf0;--muted:#6b7280;--card-r:12px;
+    --bg: #ffffff;
+    --bg-secondary: #f6f8fa;
+    --bg-tertiary: #eaeef2;
+    --border: #d0d7de;
+    --text: #1f2328;
+    --text-muted: #636e7b;
+    --text-light: #57606a;
+    --accent: #0969da;
+    --accent-bg: #ddf4ff;
+    --accent-border: #54aeff;
+    --sidebar-bg: #f6f8fa;
+    --sidebar-border: #d0d7de;
+    --sidebar-active: #0969da;
+    --sidebar-active-bg: #ddf4ff;
+    --tag-bg: #eaeef2;
+    --tag-text: #24292f;
+    --callout-bg: #ddf4ff;
+    --callout-border: #54aeff;
+    --callout-text: #0a3069;
+    --table-header: #f6f8fa;
+    --shadow: rgba(31,35,40,.04);
+    --code-bg: #f6f8fa;
+    --green: #1a7f37;
+    --green-bg: #dafbe1;
   }
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;padding:40px 20px 80px;position:relative;overflow-x:hidden}
-  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:48px 48px;opacity:.3;pointer-events:none}
-  .container{max-width:760px;margin:0 auto;position:relative}
-  header{margin-bottom:48px;animation:fadeUp .6s ease both}
-  .eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
-  h1{font-family:'DM Serif Display',serif;font-size:clamp(28px,5vw,44px);line-height:1.1}
-  h1 em{font-style:italic;color:var(--accent)}
-  .subtitle{margin-top:10px;color:var(--muted);font-size:14px}
-  .progress-wrap{margin-bottom:36px;animation:fadeUp .6s .1s ease both}
-  .progress-label{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:8px}
-  .progress-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
-  .progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1);width:0%}
-  .score-badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent-dim2);border:1px solid var(--border);border-radius:99px;padding:4px 14px;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:32px;animation:fadeUp .6s .15s ease both}
-  .score-badge .score-val{color:var(--accent);font-weight:500}
-  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--card-r);padding:28px 28px 24px;margin-bottom:16px;animation:fadeUp .5s ease both;position:relative;overflow:hidden}
-  .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:transparent;transition:background .3s}
-  .card.answered-correct::before{background:var(--accent)}
-  .card.answered-wrong::before{background:var(--red)}
-  .q-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
-  .q-num{flex-shrink:0;width:32px;height:32px;background:var(--accent-dim2);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);transition:all .3s}
-  .card.answered-correct .q-num{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
-  .card.answered-wrong .q-num{background:var(--red-dim);border-color:var(--red);color:var(--red)}
-  .q-text{font-size:15px;line-height:1.6;color:var(--text)}
-  .q-caption{font-size:15px;line-height:1.6;color:var(--text);margin-bottom:14px;font-weight:500}
-  .ponder-list{margin:12px 0 18px;display:flex;flex-direction:column;gap:6px}
-  .ponder-item{background:var(--accent-dim2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13.5px;line-height:1.55;color:#b0b6c2}
-  .ponder-item strong{color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;display:inline-block;margin-right:6px}
-  .data-box{background:var(--accent-dim2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin:12px 0 18px;font-family:'DM Mono',monospace;font-size:12.5px;line-height:1.8;color:#a0aab8}
-  .data-box span{color:var(--accent)}
-  .section-tag{display:inline-block;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-dim2);border:1px solid rgba(200,240,58,.2);border-radius:4px;padding:2px 8px;margin-bottom:14px}
-  .options{display:flex;flex-direction:column;gap:8px}
-  .opt{display:flex;align-items:center;gap:12px;padding:12px 16px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .18s;background:transparent;text-align:left;font-family:'DM Sans',sans-serif;font-size:13.5px;color:#9ba3b2;width:100%}
-  .opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-dim2);color:var(--text)}
-  .opt-bullet{flex-shrink:0;width:22px;height:22px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);transition:all .18s}
-  .opt:hover:not(:disabled) .opt-bullet{border-color:var(--accent);color:var(--accent)}
-  .opt.is-correct{border-color:var(--accent)!important;background:var(--accent-dim)!important;color:var(--accent)!important}
-  .opt.is-correct .opt-bullet{background:var(--accent);border-color:var(--accent);color:#0e0f11}
-  .opt.is-wrong{border-color:var(--red)!important;background:var(--red-dim)!important;color:var(--red)!important}
-  .opt.is-wrong .opt-bullet{background:var(--red);border-color:var(--red);color:#fff}
-  .opt.dim{opacity:.38}
-  .opt:disabled{cursor:default}
-  .btn-check{padding:10px 22px;background:var(--accent);color:#0e0f11;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:opacity .2s,transform .15s;margin-top:4px}
-  .btn-check:hover{opacity:.88;transform:translateY(-1px)}
-  .btn-check:active{transform:translateY(0)}
-  .btn-check:disabled{opacity:.4;cursor:not-allowed;transform:none}
-  .feedback{margin-top:12px;padding:12px 16px;border-radius:8px;font-size:13.5px;line-height:1.6;display:none;animation:pop .25s ease}
-  .feedback.correct{display:block;background:var(--accent-dim);border:1px solid rgba(200,240,58,.3);color:#d4f56e}
-  .feedback.wrong{display:block;background:var(--red-dim);border:1px solid rgba(255,91,91,.3);color:#ff8e8e}
-  .feedback.info{display:block;background:rgba(100,120,200,.1);border:1px solid rgba(100,120,200,.25);color:#a0b0e0}
-  .fb-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px;opacity:.7}
-  .fb-list{margin:6px 0 0 18px;line-height:2}
-  #results{display:none;margin-top:48px;animation:fadeUp .6s ease}
-  .result-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--card-r);padding:40px 32px;text-align:center;position:relative;overflow:hidden}
-  .result-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),#7fe87f)}
-  .result-score{font-family:'DM Serif Display',serif;font-size:72px;color:var(--accent);line-height:1;margin-bottom:8px}
-  .result-label{color:var(--muted);font-size:14px;margin-bottom:28px}
-  .result-msg{font-size:15px;color:var(--text);margin-bottom:28px;line-height:1.6}
-  .btn-restart{padding:12px 32px;background:var(--accent);color:#0e0f11;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:opacity .2s}
-  .btn-restart:hover{opacity:.85}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes pop{0%{transform:scale(.96);opacity:0}60%{transform:scale(1.015)}100%{transform:scale(1);opacity:1}}
-  .card:nth-child(1){animation-delay:.03s}.card:nth-child(2){animation-delay:.06s}.card:nth-child(3){animation-delay:.09s}
-  .card:nth-child(4){animation-delay:.12s}.card:nth-child(5){animation-delay:.15s}.card:nth-child(6){animation-delay:.18s}
-  .card:nth-child(7){animation-delay:.21s}.card:nth-child(8){animation-delay:.24s}.card:nth-child(9){animation-delay:.27s}
-  .card:nth-child(10){animation-delay:.30s}.card:nth-child(11){animation-delay:.33s}.card:nth-child(12){animation-delay:.36s}
-  .card:nth-child(13){animation-delay:.39s}.card:nth-child(14){animation-delay:.42s}.card:nth-child(15){animation-delay:.45s}
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --bg-secondary: #161b22;
+      --bg-tertiary: #21262d;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --text-light: #8b949e;
+      --accent: #58a6ff;
+      --accent-bg: #0d2339;
+      --accent-border: #1f6feb;
+      --sidebar-bg: #161b22;
+      --sidebar-border: #30363d;
+      --sidebar-active: #58a6ff;
+      --sidebar-active-bg: #0d2339;
+      --tag-bg: #21262d;
+      --tag-text: #c9d1d9;
+      --callout-bg: #0d2339;
+      --callout-border: #1f6feb;
+      --callout-text: #79c0ff;
+      --table-header: #161b22;
+      --shadow: rgba(0,0,0,.3);
+      --code-bg: #161b22;
+      --green: #3fb950;
+      --green-bg: #0f2e17;
+    }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--sidebar-border);
+    padding: 24px 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .sidebar-header {
+    padding: 0 16px 16px;
+    border-bottom: 1px solid var(--sidebar-border);
+    margin-bottom: 8px;
+  }
+  .sidebar-header .repo-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 4px;
+  }
+  .sidebar-header .repo-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .sidebar-section {
+    padding: 4px 0 8px;
+  }
+  .sidebar-section-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding: 6px 16px 4px;
+  }
+  .sidebar nav a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 16px;
+    font-size: 13px;
+    color: var(--text-light);
+    text-decoration: none;
+    border-radius: 0;
+    transition: background .1s, color .1s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sidebar nav a:hover { background: var(--bg-tertiary); color: var(--text); }
+  .sidebar nav a.active { color: var(--sidebar-active); background: var(--sidebar-active-bg); font-weight: 500; }
+  .sidebar nav a .num {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    width: 16px;
+    flex-shrink: 0;
+  }
+
+  /* MAIN */
+  .main {
+    flex: 1;
+    min-width: 0;
+    padding: 32px 48px 80px;
+    max-width: 860px;
+  }
+
+  /* PAGE HEADER */
+  .page-header {
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .breadcrumb {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .breadcrumb span { color: var(--text); }
+  .page-header h1 {
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+  .page-header .meta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    background: var(--bg-secondary);
+  }
+  .badge.green { background: var(--green-bg); color: var(--green); border-color: var(--green); }
+
+  /* SECTION */
+  section {
+    margin-bottom: 40px;
+    scroll-margin-top: 20px;
+  }
+
+  .sec-anchor {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sec-num {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1px 8px;
+    flex-shrink: 0;
+  }
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  p { color: var(--text-light); margin-bottom: 10px; font-size: 14px; }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--callout-bg);
+    border-left: 3px solid var(--callout-border);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: var(--callout-text);
+  }
+
+  /* TABLE */
+  .table-wrap { overflow-x: auto; margin: 12px 0; border: 1px solid var(--border); border-radius: 6px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { background: var(--table-header); }
+  th {
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text-light); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td:first-child { color: var(--text); font-weight: 500; }
+  tbody tr:hover { background: var(--bg-secondary); }
+
+  /* STEPS */
+  ol.steps { list-style: none; counter-reset: s; margin: 12px 0; }
+  ol.steps li {
+    counter-increment: s;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-light);
+  }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(s);
+    min-width: 20px;
+    height: 20px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  /* TAGS */
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
+  .tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+  }
+
+  /* 4P GRID */
+  .fourp {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 12px 0;
+  }
+  .p-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+  .p-letter {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .p-name { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+  .p-desc { font-size: 11px; color: var(--text-muted); }
+
+  /* COMPARE */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 12px 0;
+    font-size: 13px;
+  }
+  .compare-col { padding: 14px 16px; }
+  .compare-col:first-child { border-right: 1px solid var(--border); }
+  .compare-col .col-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 10px;
+  }
+  .compare-col ul { list-style: none; }
+  .compare-col ul li {
+    padding: 4px 0;
+    color: var(--text-light);
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-col ul li:last-child { border-bottom: none; }
+  .compare-col ul li::before { content: '· '; color: var(--accent); }
+
+  /* QA */
+  details {
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  details:first-of-type { border-top: 1px solid var(--border); }
+  summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 4px;
+    cursor: pointer;
+    list-style: none;
+    color: var(--text);
+    user-select: none;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { color: var(--accent); }
+  summary .n { font-size: 10px; color: var(--text-muted); width: 20px; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+  summary .arr { margin-left: auto; font-size: 10px; color: var(--border); transition: transform .2s; flex-shrink: 0; }
+  details[open] summary .arr { transform: rotate(90deg); }
+  details[open] summary { color: var(--accent); }
+  .answer {
+    padding: 4px 0 12px 32px;
+    color: var(--text-light);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* FOOTER */
+  footer {
+    margin-top: 48px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { padding: 24px 20px 60px; }
+    .fourp { grid-template-columns: 1fr 1fr; }
+    .compare { grid-template-columns: 1fr; }
+    .compare-col:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+  }
 </style>
 </head>
 <body>
-<div class="container">
-  <header>
-    <div class="eyebrow">Microeconomia · Simulado Completo</div>
-    <h1>Quiz de <em>Economia</em></h1>
-    <p class="subtitle">15 questões · Estruturas de mercado, elasticidade, custos e produção</p>
-  </header>
-  <div class="progress-wrap">
-    <div class="progress-label"><span id="prog-text">0 / 15 respondidas</span><span id="prog-pct">0%</span></div>
-    <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="repo-label">Uniso · Adm</div>
+    <div class="repo-name">pensamento-org</div>
   </div>
-  <div class="score-badge">Pontuação: <span class="score-val" id="score-display">0 / 15</span></div>
-  <div id="quiz"></div>
-  <div id="results">
-    <div class="result-card">
-      <div class="result-score" id="res-score">0</div>
-      <div class="result-label">de 15 pontos</div>
-      <div class="result-msg" id="res-msg"></div>
-      <button class="btn-restart" onclick="restart()">Tentar novamente</button>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Conteúdo</div>
+    <nav>
+      <a href="#s1"><span class="num">01</span>Organização</a>
+      <a href="#s2"><span class="num">02</span>Níveis organizacionais</a>
+      <a href="#s3"><span class="num">03</span>Processo decisório</a>
+      <a href="#s4"><span class="num">04</span>Dados e informação</a>
+      <a href="#s5"><span class="num">05</span>Sistemas de informação</a>
+      <a href="#s6"><span class="num">06</span>Teorias da adm.</a>
+      <a href="#s7"><span class="num">07</span>Recursos humanos</a>
+      <a href="#s8"><span class="num">08</span>Marketing</a>
+      <a href="#s9"><span class="num">09</span>Finanças</a>
+      <a href="#s10"><span class="num">10</span>Operações</a>
+      <a href="#s11"><span class="num">11</span>Tipos de manufatura</a>
+      <a href="#s12"><span class="num">12</span>Indústria 4.0 / 5.0</a>
+    </nav>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Revisão</div>
+    <nav>
+      <a href="#qa" class="active"><span class="num">Q&A</span>45 questões</a>
+    </nav>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <div class="page-header">
+    <div class="breadcrumb">Administração / <span>Pensamento Organizacional</span></div>
+    <h1>Resumo para Prova</h1>
+    <div class="meta">
+      <span class="badge">12 tópicos</span>
+      <span class="badge">45 questões</span>
+      <span class="badge green">Atualizado</span>
     </div>
   </div>
-</div>
 
-<script>
-const TOTAL = 15;
-const questions = [
-  {
-    id:1,
-    tag:"Cálculo · Break-Even Point",
-    text:"Qual o break-even point?",
-    data:[["Preço do Bem","R$ 65,00"],["Material direto","R$ 11,50/un"],["Mão de obra direta","R$ 8,50/un"],["Custo Fixo Total","R$ 12.060,00"]],
-    type:"multi",
-    options:[{id:"I",label:"2,68"},{id:"II",label:"268"},{id:"III",label:"278"},{id:"IV",label:"368"}],
-    correct:"II",
-    explanation:"CVu = 11,50 + 8,50 = R$ 20,00. Margem de contribuição = 65 − 20 = R$ 45,00. BEP = 12.060 ÷ 45 = <strong>268 unidades</strong>.",
-  },
-  {
-    id:2,
-    tag:"Cálculo · IEPDI",
-    text:"Considerando Preço de bem em 15/01/2013 de R$ 0,50 e em 20/01/2013 de R$ 0,68, provocando uma queda de quantidade de 2.000 para 1.980 peças. A IEPDI será:",
-    type:"multi",
-    options:[{id:"I",label:"0,0027"},{id:"II",label:"3,17"},{id:"III",label:"0,027"},{id:"IV",label:"0,227"}],
-    correct:"III",
-    explanation:"%ΔQ = −20 / 2.000 = −1%. %ΔP = 0,18 / 0,50 = 36%. IEPDI = 1% ÷ 36% ≈ <strong>0,027</strong>. Demanda inelástica (IEPDI &lt; 1).",
-  },
-  {
-    id:3,
-    tag:"Cálculo · RT e CT",
-    text:"Com os mesmos dados (BEP = 268 un.), qual a RT e CT no ponto de equilíbrio?",
-    data:[["Preço do Bem","R$ 65,00"],["Material direto","R$ 11,50/un"],["Mão de obra direta","R$ 8,50/un"],["Custo Fixo Total","R$ 12.060,00"],["Qtd. BEP","268 unidades"]],
-    type:"multi",
-    options:[{id:"I",label:"17.450"},{id:"II",label:"18.420"},{id:"III",label:"17.420"},{id:"IV",label:"680"}],
-    correct:"III",
-    explanation:"RT = 65 × 268 = R$ 17.420. CT = 12.060 + (20 × 268) = 12.060 + 5.360 = R$ 17.420. No BEP, <strong>RT = CT = R$ 17.420</strong>.",
-  },
-  {
-    id:4,
-    tag:"Cálculo · Elasticidade-Renda",
-    text:"Considerando que a renda dos consumidores se altere de R$ 1.650,00 para R$ 1.975,00 e a demanda de determinado bem tenha variação de 1.690 unidades para 1.890 unidades. A elasticidade-renda da demanda (Erd) será:",
-    type:"multi",
-    options:[{id:"I",label:"0,48"},{id:"II",label:"0,68"},{id:"III",label:"1,66"},{id:"IV",label:"3,15"}],
-    correct:"III",
-    explanation:"Conforme gabarito do professor: <strong>1,66</strong>. Nota: pela fórmula padrão Erd = (%ΔQ / %ΔRenda) = (200/1690) / (325/1650) ≈ 0,60. O professor utilizou a inversão %ΔRenda / %ΔQ = 19,70% / 11,83% ≈ 1,66. Verifique o método adotado em sala.",
-  },
-  {
-    id:5,
-    tag:"Pondere · Estruturas de Mercado",
-    text:"Pondere:",
-    items:[
-      {key:"a",text:"Barreira ao acesso de novas empresas está presente no Oligopólio, não na Concorrência Monopolística."},
-      {key:"b",text:"A concorrência Extra-preço é intensa no Oligopólio com produtos diferenciados, igualmente na Concorrência Perfeita."},
-      {key:"c",text:"Investimentos elevados e legislação protetiva são barreiras presentes para ingresso no Monopólio, não na Concorrência Monopolística."},
-      {key:"d",text:"Ações intensas de Marketing e Promoções são atividades extra-preço presentes na Concorrência Monopolística, não na Concorrência Perfeita."},
-    ],
-    type:"multi",
-    options:[{id:"I",label:"c e d  incorretas"},{id:"II",label:"a e b  corretas"},{id:"III",label:"b e c  incorretas"},{id:"IV",label:"a e d  corretas"}],
-    correct:"IV",
-    explanation:"<strong>a: VERDADEIRO</strong> — barreiras de acesso são do Oligopólio. <strong>d: VERDADEIRO</strong> — marketing intenso é da Conc. Monopolística. b: FALSO — Conc. Perfeita não tem concorrência extra-preço. c: FALSO — Conc. Monopolística tem ingresso relativamente livre.",
-  },
-  {
-    id:6,
-    tag:"Pondere · Fatores de Produção",
-    text:"Pondere:",
-    items:[
-      {key:"a",text:"Fatores de produção variáveis são aqueles que variam em função do custo de produção."},
-      {key:"b",text:"Fatores de produção fixos são aqueles que não variam em função do volume de produção."},
-      {key:"c",text:"Processo de produção múltiplo impõe necessidade de setup rápido."},
-      {key:"d",text:"Mercado de oferta atomizado refere-se a Monopólio."},
-    ],
-    type:"multi",
-    options:[{id:"I",label:"b e c  incorretas"},{id:"II",label:"c e d  corretas"},{id:"III",label:"a e d  incorretas"},{id:"IV",label:"a e b  corretas"}],
-    correct:"III",
-    explanation:"<strong>a: FALSO</strong> — fatores variáveis variam em função do <em>volume</em> de produção, não do custo. <strong>d: FALSO</strong> — mercado atomizado refere-se à Concorrência Perfeita (muitos pequenos ofertantes). b e c são verdadeiros.",
-  },
-  {
-    id:7,
-    tag:"Pondere · Maximização de Lucro",
-    text:"Pondere:",
-    items:[
-      {key:"a",text:"Temos maximização de lucro quando RMg = LMg e o Custo Marginal for decrescente."},
-      {key:"b",text:"LT = RT + CTMe."},
-      {key:"c",text:"O objetivo da empresa é maximizar lucro, e isso pode ser obtido reduzindo custos fixos e variáveis e/ou aumentando a quantidade vendida."},
-      {key:"d",text:"Receita Marginal é igual à variação da receita total dividida pela produção."},
-    ],
-    type:"multi",
-    options:[{id:"I",label:"a e d  corretas"},{id:"II",label:"b e c  incorretas"},{id:"III",label:"a e b  incorretas"},{id:"IV",label:"c e d  corretas"}],
-    correct:"III",
-    explanation:"<strong>a: FALSO</strong> — a maximização ocorre com CMg <em>crescente</em>, não decrescente. <strong>b: FALSO</strong> — LT = RT − CT (não RT + CTMe). c: VERDADEIRO. d: FALSO — RMg = ΔRT/ΔQ (deve ser a <em>variação</em> da quantidade).",
-  },
-  {
-    id:8,
-    tag:"Pondere · Custos e Leis",
-    text:"Pondere:",
-    items:[
-      {key:"a",text:"RT = CT − LT."},
-      {key:"b",text:"CFme = CF / LT."},
-      {key:"c",text:"CVT = CT − CFT."},
-      {key:"d",text:"LEI DOS RENDIMENTOS CRESCENTES: elevando-se a quantidade do fator variável, permanecendo fixa a quantidade dos fatores demais, a produção aumentará a taxas crescentes; a seguir, depois de certa quantidade utilizada do fator variável, continuará a crescer mas a taxas decrescentes; continuando o incremento, a produção total chegará a um máximo para depois decrescer."},
-    ],
-    type:"multi",
-    options:[{id:"I",label:"b e c  corretas"},{id:"II",label:"a e d  incorretas"},{id:"III",label:"c e d  incorretas"},{id:"IV",label:"a e b  corretas"}],
-    correct:"I",
-    explanation:"Conforme gabarito do professor: <strong>b e c corretas</strong>. c: VERDADEIRO — CVT = CT − CFT. Nota: a (RT = CT − LT) está invertida; d descreve a lei dos rendimentos decrescentes com outra nomenclatura.",
-  },
-  {
-    id:9,
-    tag:"Pondere · Estruturas de Mercado II",
-    text:"Pondere:",
-    items:[
-      {key:"a",text:"No Monopólio, temos apenas uma empresa, barreira a acesso de novas empresas, e intensa ação de marketing."},
-      {key:"b",text:"Concorrência Monopolística difere da Concorrência Perfeita nas condições de ingresso no mercado."},
-      {key:"c",text:"Oligopólio difere do Duopólio na concorrência extra-preço."},
-      {key:"d",text:"Na Concorrência Monopolística a concorrência extra-preço é intensa e o produto é diferenciado."},
-    ],
-    type:"multi",
-    options:[{id:"I",label:"a e b  corretas"},{id:"II",label:"b e c  incorretas"},{id:"III",label:"c e d  corretas"},{id:"IV",label:"a e d  incorretas"}],
-    correct:"II",
-    explanation:"<strong>b: FALSO</strong> — Conc. Monopolística e Conc. Perfeita têm ingresso livre; não diferem nesse ponto. <strong>c: FALSO</strong> — Duopólio é caso especial de Oligopólio (apenas 2 empresas); a diferença não é a concorrência extra-preço. a: FALSO (marketing no Monopólio, quando existe, é institucional). d: VERDADEIRO.",
-  },
-  {
-    id:10,
-    tag:"Dissertativa · Elasticidade-Preço",
-    text:"Quais os fatores que influenciam a elasticidade Preço-Demanda?",
-    type:"open",
-    bullets:["Importância do bem no orçamento do consumidor","Existência de bens substitutos","Essencialidade do bem"],
-  },
-  {
-    id:11,
-    tag:"Dissertativa · Produção",
-    text:"Defina Produção, utilizando-se minimamente das seguintes palavras-chave: <em>input, processo múltiplo, setup, qualidade</em>.",
-    type:"open",
-    bullets:[
-      "Produção é o PROCESSO de transformação de INPUT em output, atendendo a requisitos de QUALIDADE definidos pelo cliente.",
-      "Os processos de produção podem ser simples ou MÚLTIPLOS.",
-      "Nos processos de produção múltiplo, destaca-se a importância de SETUP rápidos.",
-    ],
-  },
-  {
-    id:12,
-    tag:"Dissertativa · Receita e Custo Marginal",
-    text:"Defina a diferença entre Receita Marginal e Custo Marginal.",
-    type:"open",
-    bullets:[
-      "Receita Marginal (RMg): variação da receita total ao produzir/vender uma unidade adicional. RMg = ΔRT / ΔQ.",
-      "Custo Marginal (CMg): variação do custo total ao produzir uma unidade adicional. CMg = ΔCT / ΔQ.",
-      "A maximização do lucro ocorre quando RMg = CMg, com o CMg sendo crescente.",
-    ],
-  },
-  {
-    id:13,
-    tag:"Dissertativa · Cartel",
-    text:"Descreva Cartel e indique em que estrutura de mercado essa ação ocorre.",
-    type:"open",
-    bullets:[
-      "Cartel é a formação de um conglomerado de empresas de um mesmo ramo que se associam para formar preço e evitar concorrência.",
-      "Ocorre na estrutura de Oligopólio, onde poucas empresas concentram poder de mercado e podem coordenar preços.",
-    ],
-  },
-  {
-    id:14,
-    tag:"Cálculo · ERd com Classificação",
-    text:"Determine a ERd e classifique:",
-    data:[["Q em 15/01/2026","9.500 pç"],["Renda em 15/01/2026","R$ 2.700,00"],["Q em 15/02/2026","10.800 pç"],["Renda em 15/02/2026","R$ 2.500,00"]],
-    type:"open",
-    bullets:[
-      "ΔQ = 10.800 − 9.500 = 1.300 pç → %ΔQ = 1.300 / 9.500 ≈ 13,68%",
-      "ΔRenda = 2.500 − 2.700 = −200 → %ΔRenda = −200 / 2.700 ≈ −7,41%",
-      "ERd = 13,68% ÷ (−7,41%) ≈ −1,85",
-      "Classificação: ERd < 0 → BEM INFERIOR. A quantidade demandada aumentou quando a renda caiu.",
-    ],
-  },
-  {
-    id:15,
-    tag:"Dissertativa · Ferramentas da Qualidade",
-    text:"Indique as características das ferramentas da qualidade: <em>Just in Time, Kanban, TPM e 5S</em>, utilizadas por processos de produção.",
-    type:"open",
-    bullets:[
-      "Just in Time (JIT): produzir apenas o necessário, no momento certo e na quantidade certa, eliminando desperdícios e estoques excessivos.",
-      "Kanban: sistema de controle visual do fluxo produtivo; cartões sinalizam a necessidade de reposição ou início de produção.",
-      "TPM (Total Productive Maintenance): manutenção produtiva total com participação de todos os colaboradores, visando zero falhas e zero defeitos.",
-      "5S: programa de organização baseado em cinco sensos — Utilização (Seiri), Organização (Seiton), Limpeza (Seiso), Padronização (Seiketsu) e Disciplina (Shitsuke).",
-    ],
-  },
-];
+  <!-- 01 -->
+  <section id="s1">
+    <div class="sec-anchor">
+      <span class="sec-num">01</span>
+      <h2>Organização</h2>
+    </div>
+    <p>Conjunto de <strong>pessoas, recursos, objetivos e processos</strong> trabalhando para alcançar resultados.</p>
+    <p style="font-size:13px">Exemplos: escola, hospital, banco, indústria, loja.</p>
+  </section>
 
-let score=0,answered=0;
-const state={};
+  <!-- 02 -->
+  <section id="s2">
+    <div class="sec-anchor">
+      <span class="sec-num">02</span>
+      <h2>Níveis organizacionais</h2>
+    </div>
+    <div class="callout">Estratégico <strong>decide</strong> → tático <strong>organiza</strong> → operacional <strong>executa</strong>.</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Nível</th><th>Quem atua</th><th>Função</th><th>Exemplo</th></tr></thead>
+        <tbody>
+          <tr><td>Estratégico</td><td>Diretores / presidência</td><td>Decide o longo prazo</td><td>Abrir filial</td></tr>
+          <tr><td>Tático</td><td>Gerentes / coordenadores</td><td>Transforma plano em ação</td><td>Plano de treinamento</td></tr>
+          <tr><td>Operacional</td><td>Funcionários / supervisores</td><td>Executa tarefas</td><td>Atendimento, produção</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
-function updateProgress(){
-  const pct=Math.round((answered/TOTAL)*100);
-  document.getElementById('prog-fill').style.width=pct+'%';
-  document.getElementById('prog-text').textContent=`${answered} / ${TOTAL} respondidas`;
-  document.getElementById('prog-pct').textContent=pct+'%';
-  document.getElementById('score-display').textContent=`${score} / ${TOTAL}`;
-  if(answered===TOTAL) setTimeout(showResults,600);
-}
+  <!-- 03 -->
+  <section id="s3">
+    <div class="sec-anchor">
+      <span class="sec-num">03</span>
+      <h2>Processo decisório</h2>
+    </div>
+    <p>Escolher entre alternativas para resolver um problema.</p>
+    <ol class="steps">
+      <li>Identificar o problema</li>
+      <li>Buscar informações</li>
+      <li>Criar alternativas</li>
+      <li>Escolher a melhor opção</li>
+      <li>Executar</li>
+      <li>Avaliar resultados</li>
+    </ol>
+    <div class="table-wrap" style="margin-top:14px">
+      <table>
+        <thead><tr><th>Tipo</th><th>Significado</th><th>Exemplo</th></tr></thead>
+        <tbody>
+          <tr><td>Programada</td><td>Repetitiva, rotineira</td><td>Reposição de estoque</td></tr>
+          <tr><td>Não programada</td><td>Nova, inesperada</td><td>Crise financeira</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
-function markCard(qid,correct){
-  document.getElementById(`card-${qid}`).classList.add(correct?'answered-correct':'answered-wrong');
-}
+  <!-- 04 -->
+  <section id="s4">
+    <div class="sec-anchor">
+      <span class="sec-num">04</span>
+      <h2>Dados, informação e conhecimento</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Conceito</th><th>Significado</th><th>Exemplo</th></tr></thead>
+        <tbody>
+          <tr><td>Dado</td><td>Número solto</td><td><code style="background:var(--code-bg);padding:1px 6px;border-radius:4px;font-size:12px">120</code></td></tr>
+          <tr><td>Informação</td><td>Dado com sentido</td><td><code style="background:var(--code-bg);padding:1px 6px;border-radius:4px;font-size:12px">120 clientes cancelaram</code></td></tr>
+          <tr><td>Conhecimento</td><td>Saber o que fazer</td><td>Investigar o motivo dos cancelamentos</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">Menos informação = maior risco de decisão errada.</div>
+  </section>
 
-function handleChoice(qid,chosen){
-  if(state[qid]) return;
-  state[qid]=true; answered++;
-  const q=questions.find(x=>x.id===qid);
-  const ok=chosen===q.correct;
-  if(ok) score++;
-  document.querySelectorAll(`[data-qid="${qid}"]`).forEach(btn=>{
-    btn.disabled=true;
-    const oid=btn.dataset.oid;
-    if(oid===q.correct) btn.classList.add('is-correct');
-    else if(oid===chosen&&!ok) btn.classList.add('is-wrong');
-    else btn.classList.add('dim');
-  });
-  const fb=document.getElementById(`fb-${qid}`);
-  fb.className='feedback '+(ok?'correct':'wrong');
-  fb.innerHTML=`<div class="fb-label">${ok?'✓ Correto':'✗ Incorreto'}</div>${q.explanation}`;
-  markCard(qid,ok); updateProgress();
-}
+  <!-- 05 -->
+  <section id="s5">
+    <div class="sec-anchor">
+      <span class="sec-num">05</span>
+      <h2>Sistemas de informação</h2>
+    </div>
+    <p>Pessoas + tecnologia + dados + processos para gerar informações úteis.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Sistema</th><th>Função</th></tr></thead>
+        <tbody>
+          <tr><td>ERP</td><td>Integra dados de toda a empresa</td></tr>
+          <tr><td>CRM</td><td>Gerencia relacionamento com clientes</td></tr>
+          <tr><td>SCM</td><td>Gerencia cadeia de suprimentos</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tags">
+      <span class="tag">Decisão mais rápida</span>
+      <span class="tag">Menos erros</span>
+      <span class="tag">Automação</span>
+      <span class="tag">Visão integrada</span>
+    </div>
+  </section>
 
-function revealOpen(qid){
-  if(state[qid]) return;
-  state[qid]=true; answered++;
-  document.getElementById(`btn-${qid}`).disabled=true;
-  const q=questions.find(x=>x.id===qid);
-  const fb=document.getElementById(`fb-${qid}`);
-  fb.className='feedback info';
-  fb.innerHTML=`<div class="fb-label">Resposta sugerida</div><ul class="fb-list">${q.bullets.map(b=>`<li>${b}</li>`).join('')}</ul>`;
-  markCard(qid,true); updateProgress();
-}
+  <!-- 06 -->
+  <section id="s6">
+    <div class="sec-anchor">
+      <span class="sec-num">06</span>
+      <h2>Teorias da administração</h2>
+    </div>
+    <div class="callout">Administrar bem é combinar teorias conforme o contexto.</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Teoria</th><th>Autor</th><th>Foco</th></tr></thead>
+        <tbody>
+          <tr><td>Adm. Científica</td><td>Taylor</td><td>Produtividade e eficiência</td></tr>
+          <tr><td>Teoria Clássica</td><td>Fayol</td><td>Hierarquia e funções</td></tr>
+          <tr><td>Burocracia</td><td>Weber</td><td>Regras e formalidade</td></tr>
+          <tr><td>Relações Humanas</td><td>Elton Mayo</td><td>Pessoas e motivação</td></tr>
+          <tr><td>Comportamental</td><td>Maslow / McGregor</td><td>Comportamento e motivação</td></tr>
+          <tr><td>Estruturalista</td><td>Etzioni</td><td>Estrutura + pessoas + conflitos</td></tr>
+          <tr><td>Sistêmica</td><td>Bertalanffy</td><td>Organização como sistema</td></tr>
+          <tr><td>Contingencial</td><td>Lawrence e Lorsch</td><td>Depende da situação</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
-function showResults(){
-  const el=document.getElementById('results');
-  el.style.display='block';
-  el.scrollIntoView({behavior:'smooth',block:'start'});
-  document.getElementById('res-score').textContent=score;
-  const tiers=[[0,6,"Continue revisando. Foque nas fórmulas de elasticidade e nas características de cada estrutura de mercado."],[7,10,"Bom desempenho! Revise as questões erradas para consolidar o conteúdo."],[11,13,"Muito bom! Você domina a maior parte dos conceitos."],[14,15,"Excelente! Domínio quase completo do simulado. 🎯"]];
-  const t=tiers.find(([lo,hi])=>score>=lo&&score<=hi);
-  document.getElementById('res-msg').textContent=t?t[2]:'';
-}
+  <!-- 07 -->
+  <section id="s7">
+    <div class="sec-anchor">
+      <span class="sec-num">07</span>
+      <h2>Recursos humanos</h2>
+    </div>
+    <div class="tags">
+      <span class="tag">Recrutamento e seleção</span>
+      <span class="tag">Treinamento</span>
+      <span class="tag">Avaliação de desempenho</span>
+      <span class="tag">Benefícios</span>
+      <span class="tag">Gestão de conflitos</span>
+      <span class="tag">Motivação</span>
+    </div>
+    <div class="compare">
+      <div class="compare-col">
+        <div class="col-label">Antes</div>
+        <ul>
+          <li>Controle de funcionários</li>
+          <li>Funcionário como máquina</li>
+          <li>Foco em horário e repetição</li>
+        </ul>
+      </div>
+      <div class="compare-col">
+        <div class="col-label">Hoje</div>
+        <ul>
+          <li>Gestão estratégica de pessoas</li>
+          <li>Pessoa como talento</li>
+          <li>Foco em cultura e liderança</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-function restart(){
-  Object.keys(state).forEach(k=>delete state[k]);
-  score=0; answered=0;
-  document.getElementById('results').style.display='none';
-  render(); updateProgress();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+  <!-- 08 -->
+  <section id="s8">
+    <div class="sec-anchor">
+      <span class="sec-num">08</span>
+      <h2>Marketing</h2>
+    </div>
+    <p>Entender o cliente, criar valor e oferecer soluções — não só propaganda.</p>
+    <div class="fourp">
+      <div class="p-card">
+        <div class="p-letter">P</div>
+        <div class="p-name">Produto</div>
+        <div class="p-desc">O que oferecer</div>
+      </div>
+      <div class="p-card">
+        <div class="p-letter">P</div>
+        <div class="p-name">Preço</div>
+        <div class="p-desc">Quanto cobrar</div>
+      </div>
+      <div class="p-card">
+        <div class="p-letter">P</div>
+        <div class="p-name">Praça</div>
+        <div class="p-desc">Onde vender</div>
+      </div>
+      <div class="p-card">
+        <div class="p-letter">P</div>
+        <div class="p-name">Promoção</div>
+        <div class="p-desc">Como divulgar</div>
+      </div>
+    </div>
+    <div class="tags">
+      <span class="tag">Segmentação</span>
+      <span class="tag">Posicionamento</span>
+      <span class="tag">Branding</span>
+      <span class="tag">Pesquisa de mercado</span>
+    </div>
+  </section>
 
-function renderDataBox(rows){
-  return `<div class="data-box">${rows.map(([k,v])=>`${k}: <span>${v}</span>`).join('<br>')}</div>`;
-}
-function renderPonder(items){
-  return `<div class="ponder-list">${items.map(it=>`<div class="ponder-item"><strong>${it.key}.</strong>${it.text}</div>`).join('')}</div>`;
-}
+  <!-- 09 -->
+  <section id="s9">
+    <div class="sec-anchor">
+      <span class="sec-num">09</span>
+      <h2>Finanças</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Relatório</th><th>O que mostra</th></tr></thead>
+        <tbody>
+          <tr><td>BP — Balanço Patrimonial</td><td>Bens, direitos e obrigações</td></tr>
+          <tr><td>DRE</td><td>Lucro ou prejuízo</td></tr>
+          <tr><td>DFC</td><td>Entradas e saídas de caixa</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-wrap" style="margin-top:10px">
+      <table>
+        <thead><tr><th>Decisão</th><th>Pergunta que responde</th></tr></thead>
+        <tbody>
+          <tr><td>Investimento</td><td>Onde, quando e quanto investir?</td></tr>
+          <tr><td>Financiamento</td><td>Como captar recursos?</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
-function render(){
-  document.getElementById('quiz').innerHTML=questions.map(q=>{
-    let body='';
-    if(q.tag) body+=`<div class="section-tag">${q.tag}</div>`;
-    if(q.items) body+=renderPonder(q.items);
-    if(q.data)  body+=renderDataBox(q.data);
+  <!-- 10 -->
+  <section id="s10">
+    <div class="sec-anchor">
+      <span class="sec-num">10</span>
+      <h2>Operações</h2>
+    </div>
+    <p>Transforma insumos em produtos ou serviços: matéria-prima + mão de obra + energia → produto final.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Objetivo</th><th>Significado</th></tr></thead>
+        <tbody>
+          <tr><td>Eficiência</td><td>Produzir mais com menos</td></tr>
+          <tr><td>Qualidade</td><td>Atender expectativas do cliente</td></tr>
+          <tr><td>Rapidez</td><td>Reduzir tempo de entrega</td></tr>
+          <tr><td>Flexibilidade</td><td>Adaptar a produção</td></tr>
+          <tr><td>Confiabilidade</td><td>Cumprir prazos</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
-    if(q.type==='multi'){
-      body+=`<div class="options">${q.options.map(opt=>`<button class="opt" data-qid="${q.id}" data-oid="${opt.id}" onclick="handleChoice(${q.id},'${opt.id}')"><span class="opt-bullet">${opt.id}</span>${opt.label}</button>`).join('')}</div>`;
-    } else {
-      body+=`<button class="btn-check" id="btn-${q.id}" onclick="revealOpen(${q.id})">Ver resposta sugerida</button>`;
-    }
-    body+=`<div class="feedback" id="fb-${q.id}"></div>`;
+  <!-- 11 -->
+  <section id="s11">
+    <div class="sec-anchor">
+      <span class="sec-num">11</span>
+      <h2>Tipos de manufatura</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tipo</th><th>Característica</th><th>Exemplo</th></tr></thead>
+        <tbody>
+          <tr><td>Repetitiva / massa</td><td>Alto volume, baixa variedade</td><td>Fast-food, eletrodomésticos</td></tr>
+          <tr><td>Discreta / projeto</td><td>Baixo volume, alta customização</td><td>Navios</td></tr>
+          <tr><td>Oficinas</td><td>Produtos personalizados</td><td>Gráficas, usinagem</td></tr>
+          <tr><td>Contínua</td><td>Produção 24h, padronizada</td><td>Bebidas, cimento, petróleo</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
-    return `<div class="card" id="card-${q.id}">
-      <div class="q-header">
-        <div class="q-num">${String(q.id).padStart(2,'0')}</div>
-        <div class="q-text">${q.text}</div>
-      </div>${body}</div>`;
-  }).join('');
-}
+  <!-- 12 -->
+  <section id="s12">
+    <div class="sec-anchor">
+      <span class="sec-num">12</span>
+      <h2>Indústria 4.0 e 5.0</h2>
+    </div>
+    <div class="compare">
+      <div class="compare-col">
+        <div class="col-label">Indústria 4.0</div>
+        <ul>
+          <li>Automação e robótica</li>
+          <li>Sensores e IoT</li>
+          <li>Dados em tempo real</li>
+          <li>Foco em eficiência</li>
+        </ul>
+      </div>
+      <div class="compare-col">
+        <div class="col-label">Indústria 5.0</div>
+        <ul>
+          <li>Tecnologia + humano no centro</li>
+          <li>Sustentabilidade</li>
+          <li>Personalização</li>
+          <li>Valorização das pessoas</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">A 4.0 foca em automação. A 5.0 humaniza a tecnologia.</div>
+  </section>
 
-render(); updateProgress();
-</script>
+  <!-- QA -->
+  <section id="qa">
+    <div class="sec-anchor">
+      <span class="sec-num">Q&A</span>
+      <h2>45 questões prováveis</h2>
+    </div>
+
+    <details><summary><span class="n">01</span>O que é uma organização?<span class="arr">▶</span></summary><div class="answer">Conjunto de pessoas, recursos, objetivos e processos trabalhando para alcançar resultados.</div></details>
+    <details><summary><span class="n">02</span>Quais são os três níveis organizacionais?<span class="arr">▶</span></summary><div class="answer">Estratégico, tático e operacional.</div></details>
+    <details><summary><span class="n">03</span>Função do nível estratégico?<span class="arr">▶</span></summary><div class="answer">Tomar decisões de longo prazo e definir os objetivos gerais da empresa.</div></details>
+    <details><summary><span class="n">04</span>Função do nível tático?<span class="arr">▶</span></summary><div class="answer">Transformar os planos estratégicos em ações e coordenar setores.</div></details>
+    <details><summary><span class="n">05</span>Função do nível operacional?<span class="arr">▶</span></summary><div class="answer">Executar as tarefas do dia a dia.</div></details>
+    <details><summary><span class="n">06</span>Abrir filial é decisão de qual nível?<span class="arr">▶</span></summary><div class="answer">Estratégico.</div></details>
+    <details><summary><span class="n">07</span>Contratar para cumprir um plano — qual nível?<span class="arr">▶</span></summary><div class="answer">Tático.</div></details>
+    <details><summary><span class="n">08</span>Atender clientes — qual nível?<span class="arr">▶</span></summary><div class="answer">Operacional.</div></details>
+    <details><summary><span class="n">09</span>O que é processo decisório?<span class="arr">▶</span></summary><div class="answer">O processo de escolher entre alternativas para resolver um problema.</div></details>
+    <details><summary><span class="n">10</span>Etapas do processo decisório?<span class="arr">▶</span></summary><div class="answer">Identificar → buscar informações → criar alternativas → escolher → executar → avaliar.</div></details>
+    <details><summary><span class="n">11</span>O que é decisão programada?<span class="arr">▶</span></summary><div class="answer">Decisão repetitiva, comum na rotina. Ex: reposição de estoque.</div></details>
+    <details><summary><span class="n">12</span>O que é decisão não programada?<span class="arr">▶</span></summary><div class="answer">Decisão nova, usada em situações inesperadas. Ex: crise financeira.</div></details>
+    <details><summary><span class="n">13</span>Diferença entre dado e informação?<span class="arr">▶</span></summary><div class="answer">Dado é algo solto (ex: 120). Informação é o dado com significado (ex: 120 clientes cancelaram).</div></details>
+    <details><summary><span class="n">14</span>O que é um Sistema de Informação?<span class="arr">▶</span></summary><div class="answer">Conjunto de pessoas, tecnologia, dados e processos para gerar informações úteis.</div></details>
+    <details><summary><span class="n">15</span>Para que serve um ERP?<span class="arr">▶</span></summary><div class="answer">Integrar dados e processos da empresa em um único sistema.</div></details>
+    <details><summary><span class="n">16</span>Para que serve um CRM?<span class="arr">▶</span></summary><div class="answer">Gerenciar relacionamento com clientes.</div></details>
+    <details><summary><span class="n">17</span>Para que serve um SCM?<span class="arr">▶</span></summary><div class="answer">Gerenciar a cadeia de suprimentos.</div></details>
+    <details><summary><span class="n">18</span>Qual teoria foca em eficiência e produtividade?<span class="arr">▶</span></summary><div class="answer">Administração Científica (Taylor).</div></details>
+    <details><summary><span class="n">19</span>Quem foi Taylor?<span class="arr">▶</span></summary><div class="answer">Autor da Administração Científica, foco em produtividade, controle e repetição.</div></details>
+    <details><summary><span class="n">20</span>Quem foi Fayol?<span class="arr">▶</span></summary><div class="answer">Autor da Teoria Clássica, foco em hierarquia, divisão de funções e organização formal.</div></details>
+    <details><summary><span class="n">21</span>Quem foi Max Weber?<span class="arr">▶</span></summary><div class="answer">Autor da Teoria da Burocracia, foco em regras, normas e hierarquia.</div></details>
+    <details><summary><span class="n">22</span>Quem foi Elton Mayo?<span class="arr">▶</span></summary><div class="answer">Autor das Relações Humanas, foco na valorização das pessoas.</div></details>
+    <details><summary><span class="n">23</span>O que defendia a Escola das Relações Humanas?<span class="arr">▶</span></summary><div class="answer">Que motivação, emoções, reconhecimento e clima organizacional influenciam a produtividade.</div></details>
+    <details><summary><span class="n">24</span>Qual teoria diz que tudo depende da situação?<span class="arr">▶</span></summary><div class="answer">Teoria da Contingência (Lawrence e Lorsch).</div></details>
+    <details><summary><span class="n">25</span>Qual teoria vê a empresa como sistema aberto?<span class="arr">▶</span></summary><div class="answer">Teoria dos Sistemas (Bertalanffy).</div></details>
+    <details><summary><span class="n">26</span>O que é RH?<span class="arr">▶</span></summary><div class="answer">A área que administra pessoas dentro da organização.</div></details>
+    <details><summary><span class="n">27</span>Como o RH evoluiu?<span class="arr">▶</span></summary><div class="answer">Saiu do controle de funcionários e passou a atuar de forma estratégica, com foco em cultura e desenvolvimento.</div></details>
+    <details><summary><span class="n">28</span>Marketing é só propaganda?<span class="arr">▶</span></summary><div class="answer">Não. É entender o cliente, criar valor e oferecer soluções.</div></details>
+    <details><summary><span class="n">29</span>Quais são os 4 Ps do marketing?<span class="arr">▶</span></summary><div class="answer">Produto, Preço, Praça e Promoção.</div></details>
+    <details><summary><span class="n">30</span>O que é segmentação de mercado?<span class="arr">▶</span></summary><div class="answer">Dividir o mercado em grupos com características e necessidades parecidas.</div></details>
+    <details><summary><span class="n">31</span>O que é posicionamento?<span class="arr">▶</span></summary><div class="answer">Como o cliente percebe a marca ou produto em relação aos concorrentes.</div></details>
+    <details><summary><span class="n">32</span>O que é administração financeira?<span class="arr">▶</span></summary><div class="answer">A gestão dos recursos financeiros da empresa.</div></details>
+    <details><summary><span class="n">33</span>O que mostra a DRE?<span class="arr">▶</span></summary><div class="answer">O resultado da empresa: lucro ou prejuízo.</div></details>
+    <details><summary><span class="n">34</span>O que mostra o Balanço Patrimonial?<span class="arr">▶</span></summary><div class="answer">Bens, direitos e obrigações da empresa.</div></details>
+    <details><summary><span class="n">35</span>O que mostra a DFC?<span class="arr">▶</span></summary><div class="answer">Entradas e saídas de caixa.</div></details>
+    <details><summary><span class="n">36</span>O que é decisão de investimento?<span class="arr">▶</span></summary><div class="answer">Decidir onde, quando e quanto investir para gerar valor.</div></details>
+    <details><summary><span class="n">37</span>O que é decisão de financiamento?<span class="arr">▶</span></summary><div class="answer">Decidir como a empresa vai captar recursos.</div></details>
+    <details><summary><span class="n">38</span>O que é administração de operações?<span class="arr">▶</span></summary><div class="answer">A área que transforma insumos em produtos ou serviços.</div></details>
+    <details><summary><span class="n">39</span>Objetivos de operações?<span class="arr">▶</span></summary><div class="answer">Eficiência, qualidade, rapidez, flexibilidade e confiabilidade.</div></details>
+    <details><summary><span class="n">40</span>O que é PCP?<span class="arr">▶</span></summary><div class="answer">Planejamento e Controle da Produção: define o que, quanto, quando e onde produzir.</div></details>
+    <details><summary><span class="n">41</span>O que é manufatura repetitiva?<span class="arr">▶</span></summary><div class="answer">Produção em alto volume e baixa variedade. Ex: fast-food, eletrodomésticos.</div></details>
+    <details><summary><span class="n">42</span>O que é manufatura contínua?<span class="arr">▶</span></summary><div class="answer">Produção ininterrupta, padronizada e em grande volume. Ex: bebidas, cimento.</div></details>
+    <details><summary><span class="n">43</span>O que é Indústria 4.0?<span class="arr">▶</span></summary><div class="answer">Uso de automação, sensores, sistemas integrados e análise de dados na produção.</div></details>
+    <details><summary><span class="n">44</span>O que é Indústria 5.0?<span class="arr">▶</span></summary><div class="answer">Integra tecnologia com valorização humana, sustentabilidade e personalização.</div></details>
+    <details><summary><span class="n">45</span>Diferença entre Indústria 4.0 e 5.0?<span class="arr">▶</span></summary><div class="answer">A 4.0 foca em automação e dados. A 5.0 foca em tecnologia com pessoas no centro.</div></details>
+
+  </section>
+
+  <footer>
+    <span>Pensamento Organizacional · Administração · Uniso</span>
+    <span>12 seções · 45 questões</span>
+  </footer>
+
+</main>
+
 </body>
 </html>
