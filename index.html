@@ -1,63 +1,61 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-color-mode="auto" data-light-theme="light" data-dark-theme="dark">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pensamento Organizacional</title>
+<title>Ambiente de Negócios Internacionais</title>
 <style>
   :root {
-    --bg: #ffffff;
-    --bg-secondary: #f6f8fa;
-    --bg-tertiary: #eaeef2;
-    --border: #d0d7de;
-    --text: #1f2328;
-    --text-muted: #636e7b;
-    --text-light: #57606a;
-    --accent: #0969da;
-    --accent-bg: #ddf4ff;
+    --bg:            #ffffff;
+    --bg-secondary:  #f6f8fa;
+    --bg-tertiary:   #eaeef2;
+    --border:        #d0d7de;
+    --text:          #1f2328;
+    --text-muted:    #636e7b;
+    --text-light:    #57606a;
+    --accent:        #0969da;
+    --accent-bg:     #ddf4ff;
     --accent-border: #54aeff;
-    --sidebar-bg: #f6f8fa;
-    --sidebar-border: #d0d7de;
-    --sidebar-active: #0969da;
-    --sidebar-active-bg: #ddf4ff;
-    --tag-bg: #eaeef2;
-    --tag-text: #24292f;
-    --callout-bg: #ddf4ff;
-    --callout-border: #54aeff;
-    --callout-text: #0a3069;
-    --table-header: #f6f8fa;
-    --shadow: rgba(31,35,40,.04);
-    --code-bg: #f6f8fa;
-    --green: #1a7f37;
-    --green-bg: #dafbe1;
+    --green:         #1a7f37;
+    --green-bg:      #dafbe1;
+    --green-border:  #2da44e;
+    --orange:        #bc4c00;
+    --orange-bg:     #fff1e5;
+    --orange-border: #d4a72c;
+    --red:           #cf222e;
+    --red-bg:        #ffebe9;
+    --red-border:    #ff8182;
+    --gray:          #57606a;
+    --gray-bg:       #f6f8fa;
+    --code-bg:       #f6f8fa;
+    --table-header:  #f6f8fa;
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #0d1117;
-      --bg-secondary: #161b22;
-      --bg-tertiary: #21262d;
-      --border: #30363d;
-      --text: #e6edf3;
-      --text-muted: #8b949e;
-      --text-light: #8b949e;
-      --accent: #58a6ff;
-      --accent-bg: #0d2339;
+      --bg:            #0d1117;
+      --bg-secondary:  #161b22;
+      --bg-tertiary:   #21262d;
+      --border:        #30363d;
+      --text:          #e6edf3;
+      --text-muted:    #8b949e;
+      --text-light:    #8b949e;
+      --accent:        #58a6ff;
+      --accent-bg:     #0d2339;
       --accent-border: #1f6feb;
-      --sidebar-bg: #161b22;
-      --sidebar-border: #30363d;
-      --sidebar-active: #58a6ff;
-      --sidebar-active-bg: #0d2339;
-      --tag-bg: #21262d;
-      --tag-text: #c9d1d9;
-      --callout-bg: #0d2339;
-      --callout-border: #1f6feb;
-      --callout-text: #79c0ff;
-      --table-header: #161b22;
-      --shadow: rgba(0,0,0,.3);
-      --code-bg: #161b22;
-      --green: #3fb950;
-      --green-bg: #0f2e17;
+      --green:         #3fb950;
+      --green-bg:      #0f2e17;
+      --green-border:  #238636;
+      --orange:        #e3b341;
+      --orange-bg:     #272115;
+      --orange-border: #9e6a03;
+      --red:           #f85149;
+      --red-bg:        #2d0f10;
+      --red-border:    #da3633;
+      --gray:          #8b949e;
+      --gray-bg:       #161b22;
+      --code-bg:       #161b22;
+      --table-header:  #161b22;
     }
   }
 
@@ -69,725 +67,736 @@
     line-height: 1.6;
     color: var(--text);
     background: var(--bg);
-    display: flex;
-    min-height: 100vh;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 32px 40px 80px;
   }
 
-  /* SIDEBAR */
-  .sidebar {
-    width: 240px;
-    flex-shrink: 0;
-    background: var(--sidebar-bg);
-    border-right: 1px solid var(--sidebar-border);
-    padding: 24px 0;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
+  /* ── PAGE HEADER ── */
+  .page-header {
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 28px;
   }
+  .breadcrumb {
+    font-size: 12px; color: var(--text-muted);
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .breadcrumb a { color: var(--accent); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb .sep { color: var(--border); }
+  .page-header h1 {
+    font-size: 28px; font-weight: 600;
+    line-height: 1.2; margin-bottom: 12px; letter-spacing: -.3px;
+  }
+  .meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; padding: 2px 8px; border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--text-muted); background: var(--bg-secondary); font-weight: 500;
+  }
+  .badge.green  { background: var(--green-bg);  color: var(--green);  border-color: var(--green-border); }
+  .badge.blue   { background: var(--accent-bg); color: var(--accent); border-color: var(--accent-border); }
+  .badge.orange { background: var(--orange-bg); color: var(--orange); border-color: var(--orange-border); }
 
-  .sidebar-header {
-    padding: 0 16px 16px;
-    border-bottom: 1px solid var(--sidebar-border);
-    margin-bottom: 8px;
+  /* ── TOC ── */
+  .toc {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
   }
-  .sidebar-header .repo-label {
-    font-size: 11px;
+  .toc-title {
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .08em;
     color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    margin-bottom: 4px;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
   }
-  .sidebar-header .repo-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--accent);
+  .toc-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
   }
-
-  .sidebar-section {
-    padding: 4px 0 8px;
+  .toc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px 24px;
   }
-  .sidebar-section-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    padding: 6px 16px 4px;
-  }
-  .sidebar nav a {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 5px 16px;
+  .toc-grid a {
+    display: flex; align-items: baseline; gap: 8px;
+    padding: 5px 6px;
     font-size: 13px;
-    color: var(--text-light);
+    color: var(--accent);
     text-decoration: none;
-    border-radius: 0;
-    transition: background .1s, color .1s;
+    border-radius: 4px;
+    transition: background .12s, color .12s;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .sidebar nav a:hover { background: var(--bg-tertiary); color: var(--text); }
-  .sidebar nav a.active { color: var(--sidebar-active); background: var(--sidebar-active-bg); font-weight: 500; }
-  .sidebar nav a .num {
+  .toc-grid a:hover { background: var(--bg-tertiary); color: var(--text); }
+  .toc-grid a .n {
     font-size: 10px;
     color: var(--text-muted);
     font-variant-numeric: tabular-nums;
-    width: 16px;
+    width: 20px;
     flex-shrink: 0;
+    font-family: ui-monospace, monospace;
   }
+  .toc-divider {
+    grid-column: 1 / -1;
+    height: 1px;
+    background: var(--border);
+    margin: 6px 0;
+  }
+  .toc-qa {
+    grid-column: 1 / -1;
+  }
+  .toc-qa a {
+    color: var(--green);
+    font-weight: 500;
+  }
+  .toc-qa a:hover { background: var(--green-bg); }
 
-  /* MAIN */
-  .main {
-    flex: 1;
-    min-width: 0;
-    padding: 32px 48px 80px;
-    max-width: 860px;
-  }
+  /* ── SECTIONS ── */
+  section { margin-bottom: 44px; scroll-margin-top: 20px; }
 
-  /* PAGE HEADER */
-  .page-header {
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 32px;
-  }
-  .breadcrumb {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-  }
-  .breadcrumb span { color: var(--text); }
-  .page-header h1 {
-    font-size: 26px;
-    font-weight: 600;
-    line-height: 1.25;
-    margin-bottom: 8px;
-  }
-  .page-header .meta {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    background: var(--bg-secondary);
-  }
-  .badge.green { background: var(--green-bg); color: var(--green); border-color: var(--green); }
-
-  /* SECTION */
-  section {
-    margin-bottom: 40px;
-    scroll-margin-top: 20px;
-  }
-
-  .sec-anchor {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
+  .sec-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 14px; padding-bottom: 10px;
     border-bottom: 1px solid var(--border);
   }
   .sec-num {
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 11px; font-weight: 600;
     color: var(--text-muted);
     background: var(--bg-secondary);
     border: 1px solid var(--border);
     border-radius: 20px;
-    padding: 1px 8px;
+    padding: 2px 9px;
     flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
   }
-  h2 {
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--text);
-  }
+  h2 { font-size: 17px; font-weight: 600; color: var(--text); }
 
   p { color: var(--text-light); margin-bottom: 10px; font-size: 14px; }
 
-  /* CALLOUT */
+  /* ── CALLOUT ── */
   .callout {
-    background: var(--callout-bg);
-    border-left: 3px solid var(--callout-border);
-    border-radius: 0 6px 6px 0;
-    padding: 10px 14px;
-    margin: 12px 0;
-    font-size: 13px;
-    color: var(--callout-text);
+    display: flex; gap: 10px;
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-border);
+    border-radius: 6px;
+    padding: 10px 14px; margin: 12px 0;
+    font-size: 13px; color: var(--text);
   }
+  .callout .icon { flex-shrink: 0; margin-top: 1px; font-size: 14px; }
+  .callout.orange { background: var(--orange-bg); border-color: var(--orange-border); }
+  .callout.green  { background: var(--green-bg);  border-color: var(--green-border); }
 
-  /* TABLE */
-  .table-wrap { overflow-x: auto; margin: 12px 0; border: 1px solid var(--border); border-radius: 6px; }
+  /* ── CODE BLOCK ── */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 16px; margin: 12px 0;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, monospace;
+    font-size: 12px; line-height: 1.7;
+    color: var(--text); white-space: pre; overflow-x: auto;
+  }
+  .c-arrow  { color: var(--accent); }
+  .c-green  { color: var(--green); }
+  .c-orange { color: var(--orange); }
+  .c-red    { color: var(--red); }
+
+  /* ── TABLE ── */
+  .table-wrap {
+    overflow-x: auto; margin: 12px 0;
+    border: 1px solid var(--border); border-radius: 6px;
+  }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   thead tr { background: var(--table-header); }
   th {
-    padding: 8px 12px;
-    text-align: left;
-    font-size: 12px;
-    font-weight: 600;
+    padding: 8px 12px; text-align: left;
+    font-size: 11.5px; font-weight: 600;
     color: var(--text-muted);
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
+    border-bottom: 1px solid var(--border); white-space: nowrap;
   }
-  td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text-light); vertical-align: top; }
+  td {
+    padding: 8px 12px; border-bottom: 1px solid var(--border);
+    color: var(--text-light); vertical-align: top; line-height: 1.5;
+  }
   tr:last-child td { border-bottom: none; }
   td:first-child { color: var(--text); font-weight: 500; }
   tbody tr:hover { background: var(--bg-secondary); }
 
-  /* STEPS */
-  ol.steps { list-style: none; counter-reset: s; margin: 12px 0; }
-  ol.steps li {
-    counter-increment: s;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-    color: var(--text-light);
-  }
-  ol.steps li:last-child { border-bottom: none; }
-  ol.steps li::before {
-    content: counter(s);
-    min-width: 20px;
-    height: 20px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--text-muted);
-    flex-shrink: 0;
-  }
+  /* ── CANAL BADGES ── */
+  .canal-verde    { display:inline-block; padding:1px 8px; border-radius:20px; font-size:11px; font-weight:600; background:var(--green-bg);  color:var(--green);  border:1px solid var(--green-border); }
+  .canal-laranja  { display:inline-block; padding:1px 8px; border-radius:20px; font-size:11px; font-weight:600; background:var(--orange-bg); color:var(--orange); border:1px solid var(--orange-border); }
+  .canal-amarelo  { display:inline-block; padding:1px 8px; border-radius:20px; font-size:11px; font-weight:600; background:var(--orange-bg); color:var(--orange); border:1px solid var(--orange-border); }
+  .canal-vermelho { display:inline-block; padding:1px 8px; border-radius:20px; font-size:11px; font-weight:600; background:var(--red-bg);    color:var(--red);    border:1px solid var(--red-border); }
+  .canal-cinza    { display:inline-block; padding:1px 8px; border-radius:20px; font-size:11px; font-weight:600; background:var(--gray-bg);   color:var(--gray);   border:1px solid var(--border); }
 
-  /* TAGS */
+  /* ── TAGS ── */
   .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
   .tag {
-    font-size: 11px;
-    padding: 3px 10px;
-    background: var(--tag-bg);
-    color: var(--tag-text);
-    border-radius: 20px;
-    border: 1px solid var(--border);
+    font-size: 11px; padding: 3px 10px;
+    background: var(--bg-secondary); color: var(--text-light);
+    border-radius: 20px; border: 1px solid var(--border);
   }
 
-  /* 4P GRID */
-  .fourp {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    margin: 12px 0;
+  /* ── DOC LIST ── */
+  ul.doc-list {
+    list-style: none; margin: 12px 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px;
   }
-  .p-card {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 14px 12px;
-    text-align: center;
+  ul.doc-list li {
+    font-size: 13px; color: var(--text-light);
+    padding: 5px 0; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 8px;
   }
-  .p-letter {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--accent);
-    line-height: 1;
-    margin-bottom: 4px;
+  ul.doc-list li::before {
+    content: ''; width: 6px; height: 6px;
+    border-radius: 50%; background: var(--accent); flex-shrink: 0;
   }
-  .p-name { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
-  .p-desc { font-size: 11px; color: var(--text-muted); }
 
-  /* COMPARE */
-  .compare {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-    margin: 12px 0;
-    font-size: 13px;
-  }
-  .compare-col { padding: 14px 16px; }
-  .compare-col:first-child { border-right: 1px solid var(--border); }
-  .compare-col .col-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    margin-bottom: 10px;
-  }
-  .compare-col ul { list-style: none; }
-  .compare-col ul li {
-    padding: 4px 0;
-    color: var(--text-light);
-    border-bottom: 1px solid var(--border);
-  }
-  .compare-col ul li:last-child { border-bottom: none; }
-  .compare-col ul li::before { content: '· '; color: var(--accent); }
-
-  /* QA */
-  details {
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-  }
+  /* ── QA ── */
+  details { border-bottom: 1px solid var(--border); }
   details:first-of-type { border-top: 1px solid var(--border); }
   summary {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 4px;
-    cursor: pointer;
-    list-style: none;
-    color: var(--text);
-    user-select: none;
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 6px; cursor: pointer; list-style: none;
+    color: var(--text); user-select: none; transition: color .15s;
   }
   summary::-webkit-details-marker { display: none; }
   summary:hover { color: var(--accent); }
-  summary .n { font-size: 10px; color: var(--text-muted); width: 20px; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+  summary .n {
+    font-size: 10px; color: var(--text-muted);
+    width: 22px; flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+    font-family: ui-monospace, monospace;
+  }
   summary .arr { margin-left: auto; font-size: 10px; color: var(--border); transition: transform .2s; flex-shrink: 0; }
   details[open] summary .arr { transform: rotate(90deg); }
   details[open] summary { color: var(--accent); }
   .answer {
-    padding: 4px 0 12px 32px;
-    color: var(--text-light);
-    font-size: 13px;
-    line-height: 1.6;
-  }
-
-  /* FOOTER */
-  footer {
-    margin-top: 48px;
-    padding-top: 16px;
+    padding: 10px 12px 12px 34px;
+    color: var(--text-light); font-size: 13px; line-height: 1.6;
+    background: var(--bg-secondary);
     border-top: 1px solid var(--border);
-    font-size: 12px;
-    color: var(--text-muted);
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
   }
 
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .main { padding: 24px 20px 60px; }
-    .fourp { grid-template-columns: 1fr 1fr; }
-    .compare { grid-template-columns: 1fr; }
-    .compare-col:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+  /* ── FOOTER ── */
+  footer {
+    margin-top: 52px; padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 12px; color: var(--text-muted);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 20px 18px 60px; }
+    .toc-grid { grid-template-columns: 1fr; }
+    ul.doc-list { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
-<!-- SIDEBAR -->
-<aside class="sidebar">
-  <div class="sidebar-header">
-    <div class="repo-label">Uniso · Adm</div>
-    <div class="repo-name">pensamento-org</div>
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="breadcrumb">
+    <a href="#">Administração</a>
+    <span class="sep">/</span>
+    <span>Ambiente de Negócios Internacionais</span>
+  </div>
+  <h1>Resumo para Prova</h1>
+  <div class="meta">
+    <span class="badge">20 tópicos</span>
+    <span class="badge blue">47 questões</span>
+    <span class="badge green">✓ Atualizado</span>
+    <span class="badge orange">Prova</span>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <div class="toc-title">Sumário</div>
+  <div class="toc-grid">
+    <a href="#s1"><span class="n">01</span>Dumping</a>
+    <a href="#s2"><span class="n">02</span>Pagamentos Internacionais</a>
+    <a href="#s3"><span class="n">03</span>Câmbio</a>
+    <a href="#s4"><span class="n">04</span>Incoterms</a>
+    <a href="#s5"><span class="n">05</span>Balança Comercial</a>
+    <a href="#s6"><span class="n">06</span>Fatores da Balança</a>
+    <a href="#s7"><span class="n">07</span>Cultura nos Negócios</a>
+    <a href="#s8"><span class="n">08</span>Alto x Baixo Contexto</a>
+    <a href="#s9"><span class="n">09</span>Hofstede</a>
+    <a href="#s10"><span class="n">10</span>Tempo Mono x Policrônico</a>
+    <a href="#s11"><span class="n">11</span>Exportação</a>
+    <a href="#s12"><span class="n">12</span>Exportação Direta x Indireta</a>
+    <a href="#s13"><span class="n">13</span>Documentos de Exportação</a>
+    <a href="#s14"><span class="n">14</span>Parametrização — Exportação</a>
+    <a href="#s15"><span class="n">15</span>Importação</a>
+    <a href="#s16"><span class="n">16</span>RADAR / Siscomex</a>
+    <a href="#s17"><span class="n">17</span>Despacho Aduaneiro</a>
+    <a href="#s18"><span class="n">18</span>Parametrização — Importação</a>
+    <a href="#s19"><span class="n">19</span>Desembaraço Aduaneiro</a>
+    <a href="#s20"><span class="n">20</span>Tributos na Importação</a>
+    <div class="toc-divider"></div>
+    <div class="toc-qa"><a href="#qa"><span class="n">Q&A</span>47 questões prováveis</a></div>
+  </div>
+</div>
+
+<!-- 01 DUMPING -->
+<section id="s1">
+  <div class="sec-header"><span class="sec-num">01</span><h2>Dumping</h2></div>
+  <div class="callout"><span class="icon">💡</span><span>Dumping = vender muito barato no exterior para ganhar mercado e prejudicar concorrentes.</span></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tipo</th><th>Resumo</th></tr></thead>
+      <tbody>
+        <tr><td>Dumping comum</td><td>Preço internacional abaixo do valor normal</td></tr>
+        <tr><td>Dumping social</td><td>Baixo custo por salários ruins e pouca proteção ao trabalhador</td></tr>
+        <tr><td>Dumping ambiental</td><td>Baixo custo por produzir onde a lei ambiental é mais fraca</td></tr>
+        <tr><td>Prática desleal</td><td>Prejudica a concorrência justa</td></tr>
+        <tr><td>Medida antidumping</td><td>Aplicação de direito antidumping / imposto extra</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 02 PAGAMENTOS -->
+<section id="s2">
+  <div class="sec-header"><span class="sec-num">02</span><h2>Pagamentos Internacionais</h2></div>
+  <div class="callout"><span class="icon">💡</span><span>A forma de pagamento depende da confiança entre exportador e importador.</span></div>
+  <div class="code-block"><span class="c-arrow">→</span> Pagamento antecipado   <span class="c-green">protege o exportador</span>
+<span class="c-arrow">→</span> Remessa sem saque     <span class="c-green">protege o importador</span>
+<span class="c-arrow">→</span> Cobrança documentária  banco cobra, mas não garante
+<span class="c-arrow">→</span> Carta de crédito      banco garante se documentos corretos</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Modalidade</th><th>Quem corre mais risco?</th><th>Resumo</th></tr></thead>
+      <tbody>
+        <tr><td>Pagamento antecipado</td><td>Importador</td><td>Paga antes de receber</td></tr>
+        <tr><td>Remessa sem saque</td><td>Exportador</td><td>Envia documentos e recebe depois</td></tr>
+        <tr><td>Cobrança documentária</td><td>Exportador</td><td>Banco intermedia, mas não garante</td></tr>
+        <tr><td>Carta de crédito</td><td>Menor risco para ambos</td><td>Mais segura, depende de documentos corretos</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 03 CÂMBIO -->
+<section id="s3">
+  <div class="sec-header"><span class="sec-num">03</span><h2>Câmbio</h2></div>
+  <div class="callout"><span class="icon">💡</span><span>Câmbio = troca de moeda nacional por moeda estrangeira.</span></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Situação</th><th>O que acontece</th></tr></thead>
+      <tbody>
+        <tr><td>Exportador recebe em dólar</td><td>Vende dólar e recebe reais</td></tr>
+        <tr><td>Importador paga fornecedor estrangeiro</td><td>Compra dólar usando reais</td></tr>
+        <tr><td>Fechamento de câmbio</td><td>Contrato formal da operação de moeda</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 04 INCOTERMS -->
+<section id="s4">
+  <div class="sec-header"><span class="sec-num">04</span><h2>Incoterms</h2></div>
+  <div class="callout"><span class="icon">💡</span><span>Incoterms dividem custos, riscos e obrigações entre comprador e vendedor.</span></div>
+  <div class="code-block"><span class="c-green">EXW</span>                  → vendedor faz quase nada
+<span class="c-green">FCA / FAS / FOB</span>      → vendedor entrega na origem
+<span class="c-green">CPT / CFR / CIP / CIF</span> → vendedor paga o transporte
+<span class="c-green">DAP / DPU / DDP</span>      → vendedor entrega no destino
+<span class="c-red">DDP</span>                  → vendedor faz quase tudo</div>
+
+  <div class="table-wrap" style="margin-top:14px">
+    <table>
+      <thead><tr><th>Letra</th><th>Resumo</th></tr></thead>
+      <tbody>
+        <tr><td>E</td><td>Entreguei na minha empresa, comprador se vira</td></tr>
+        <tr><td>F</td><td>Frete principal fica com o comprador</td></tr>
+        <tr><td>C</td><td>Custo do transporte é do vendedor</td></tr>
+        <tr><td>D</td><td>Destino: vendedor leva até lá</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="sidebar-section">
-    <div class="sidebar-section-label">Conteúdo</div>
-    <nav>
-      <a href="#s1"><span class="num">01</span>Organização</a>
-      <a href="#s2"><span class="num">02</span>Níveis organizacionais</a>
-      <a href="#s3"><span class="num">03</span>Processo decisório</a>
-      <a href="#s4"><span class="num">04</span>Dados e informação</a>
-      <a href="#s5"><span class="num">05</span>Sistemas de informação</a>
-      <a href="#s6"><span class="num">06</span>Teorias da adm.</a>
-      <a href="#s7"><span class="num">07</span>Recursos humanos</a>
-      <a href="#s8"><span class="num">08</span>Marketing</a>
-      <a href="#s9"><span class="num">09</span>Finanças</a>
-      <a href="#s10"><span class="num">10</span>Operações</a>
-      <a href="#s11"><span class="num">11</span>Tipos de manufatura</a>
-      <a href="#s12"><span class="num">12</span>Indústria 4.0 / 5.0</a>
-    </nav>
+  <div class="callout orange"><span class="icon">🚢</span><span><strong>Marítimos:</strong> FAS, FOB, CFR e CIF — apenas transporte marítimo.</span></div>
+  <div class="callout green"><span class="icon">🛡️</span><span><strong>Seguro:</strong> CIF e CIP têm seguro pago pelo vendedor — lembre pelo <strong>I</strong> de <em>Insurance</em>.</span></div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Incoterm</th><th>Resumo</th></tr></thead>
+      <tbody>
+        <tr><td>EXW</td><td>Menor responsabilidade do vendedor</td></tr>
+        <tr><td>FCA</td><td>Entrega ao transportador</td></tr>
+        <tr><td>FAS</td><td>Entrega ao lado do navio</td></tr>
+        <tr><td>FOB</td><td>Entrega a bordo do navio</td></tr>
+        <tr><td>CFR</td><td>Vendedor paga frete, comprador assume risco no embarque</td></tr>
+        <tr><td>CIF</td><td>Vendedor paga frete + seguro</td></tr>
+        <tr><td>CPT</td><td>Vendedor paga transporte até destino combinado</td></tr>
+        <tr><td>CIP</td><td>Vendedor paga transporte + seguro</td></tr>
+        <tr><td>DAP</td><td>Entrega no destino, sem descarregar</td></tr>
+        <tr><td>DPU</td><td>Entrega no destino e descarrega</td></tr>
+        <tr><td>DDP</td><td>Maior responsabilidade — entrega com impostos pagos</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="sidebar-section">
-    <div class="sidebar-section-label">Revisão</div>
-    <nav>
-      <a href="#qa" class="active"><span class="num">Q&A</span>45 questões</a>
-    </nav>
+  <p style="margin-top:14px;font-size:13px;font-weight:600;color:var(--text)">Diferença rápida: FOB, CFR e CIF</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Incoterm</th><th>Frete</th><th>Seguro</th></tr></thead>
+      <tbody>
+        <tr><td>FOB</td><td>Comprador</td><td>Comprador</td></tr>
+        <tr><td>CFR</td><td>Vendedor</td><td>Comprador</td></tr>
+        <tr><td>CIF</td><td>Vendedor</td><td>Vendedor</td></tr>
+      </tbody>
+    </table>
   </div>
-</aside>
+</section>
 
-<!-- MAIN -->
-<main class="main">
+<!-- 05 BALANÇA -->
+<section id="s5">
+  <div class="sec-header"><span class="sec-num">05</span><h2>Balança Comercial</h2></div>
+  <div class="callout"><span class="icon">💡</span><span>Balança comercial = exportações − importações.</span></div>
+  <div class="code-block">Saldo = Exportações − Importações
 
-  <div class="page-header">
-    <div class="breadcrumb">Administração / <span>Pensamento Organizacional</span></div>
-    <h1>Resumo para Prova</h1>
-    <div class="meta">
-      <span class="badge">12 tópicos</span>
-      <span class="badge">45 questões</span>
-      <span class="badge green">Atualizado</span>
-    </div>
+<span class="c-green">Vendeu mais para fora</span> = superávit
+<span class="c-red">Comprou mais de fora</span>  = déficit</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Resultado</th><th>Quando acontece</th></tr></thead>
+      <tbody>
+        <tr><td>Superávit</td><td>Exporta mais do que importa</td></tr>
+        <tr><td>Déficit</td><td>Importa mais do que exporta</td></tr>
+        <tr><td>Equilíbrio</td><td>Exporta e importa o mesmo valor</td></tr>
+      </tbody>
+    </table>
   </div>
+</section>
 
-  <!-- 01 -->
-  <section id="s1">
-    <div class="sec-anchor">
-      <span class="sec-num">01</span>
-      <h2>Organização</h2>
-    </div>
-    <p>Conjunto de <strong>pessoas, recursos, objetivos e processos</strong> trabalhando para alcançar resultados.</p>
-    <p style="font-size:13px">Exemplos: escola, hospital, banco, indústria, loja.</p>
-  </section>
+<!-- 06 FATORES -->
+<section id="s6">
+  <div class="sec-header"><span class="sec-num">06</span><h2>Fatores que Afetam a Balança Comercial</h2></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Fator</th><th>Resumo</th></tr></thead>
+      <tbody>
+        <tr><td>Renda interna</td><td>Se o país consome mais, pode importar mais</td></tr>
+        <tr><td>Renda externa</td><td>Se outros países crescem, podem comprar mais do Brasil</td></tr>
+        <tr><td>Câmbio valorizado</td><td>Importar fica mais barato</td></tr>
+        <tr><td>Câmbio desvalorizado</td><td>Exportar pode ficar mais competitivo</td></tr>
+        <tr><td>Tributos</td><td>Podem encarecer produtos e reduzir comércio</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-  <!-- 02 -->
-  <section id="s2">
-    <div class="sec-anchor">
-      <span class="sec-num">02</span>
-      <h2>Níveis organizacionais</h2>
-    </div>
-    <div class="callout">Estratégico <strong>decide</strong> → tático <strong>organiza</strong> → operacional <strong>executa</strong>.</div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Nível</th><th>Quem atua</th><th>Função</th><th>Exemplo</th></tr></thead>
-        <tbody>
-          <tr><td>Estratégico</td><td>Diretores / presidência</td><td>Decide o longo prazo</td><td>Abrir filial</td></tr>
-          <tr><td>Tático</td><td>Gerentes / coordenadores</td><td>Transforma plano em ação</td><td>Plano de treinamento</td></tr>
-          <tr><td>Operacional</td><td>Funcionários / supervisores</td><td>Executa tarefas</td><td>Atendimento, produção</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+<!-- 07 CULTURA -->
+<section id="s7">
+  <div class="sec-header"><span class="sec-num">07</span><h2>Cultura nos Negócios Internacionais</h2></div>
+  <div class="callout"><span class="icon">💡</span><span>Cultura afeta negociação, comunicação, liderança, consumo e ética.</span></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tema</th><th>Resumo</th></tr></thead>
+      <tbody>
+        <tr><td>Risco intercultural</td><td>Erro causado por má interpretação cultural</td></tr>
+        <tr><td>Idioma</td><td>Pode gerar ruídos na negociação</td></tr>
+        <tr><td>Religião</td><td>Afeta consumo e comportamento</td></tr>
+        <tr><td>Cumprimentos</td><td>Variam entre países</td></tr>
+        <tr><td>Tempo</td><td>Alguns países são rígidos, outros flexíveis</td></tr>
+        <tr><td>Autoridade</td><td>Alguns valorizam hierarquia, outros igualdade</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-  <!-- 03 -->
-  <section id="s3">
-    <div class="sec-anchor">
-      <span class="sec-num">03</span>
-      <h2>Processo decisório</h2>
-    </div>
-    <p>Escolher entre alternativas para resolver um problema.</p>
-    <ol class="steps">
-      <li>Identificar o problema</li>
-      <li>Buscar informações</li>
-      <li>Criar alternativas</li>
-      <li>Escolher a melhor opção</li>
-      <li>Executar</li>
-      <li>Avaliar resultados</li>
-    </ol>
-    <div class="table-wrap" style="margin-top:14px">
-      <table>
-        <thead><tr><th>Tipo</th><th>Significado</th><th>Exemplo</th></tr></thead>
-        <tbody>
-          <tr><td>Programada</td><td>Repetitiva, rotineira</td><td>Reposição de estoque</td></tr>
-          <tr><td>Não programada</td><td>Nova, inesperada</td><td>Crise financeira</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+<!-- 08 CONTEXTO -->
+<section id="s8">
+  <div class="sec-header"><span class="sec-num">08</span><h2>Alto Contexto × Baixo Contexto</h2></div>
+  <div class="code-block"><span class="c-green">Baixo contexto</span> → fala direta
+<span class="c-orange">Alto contexto</span>  → fala indireta</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tipo</th><th>Característica</th></tr></thead>
+      <tbody>
+        <tr><td>Baixo contexto</td><td>Comunicação clara, direta e verbal</td></tr>
+        <tr><td>Alto contexto</td><td>Comunicação indireta, depende de sinais e contexto</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Frase</th><th>Possível sentido</th></tr></thead>
+      <tbody>
+        <tr><td>"Não concordo"</td><td>Baixo contexto — direto</td></tr>
+        <tr><td>"Isso será difícil"</td><td>Alto contexto — pode significar "não"</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-  <!-- 04 -->
-  <section id="s4">
-    <div class="sec-anchor">
-      <span class="sec-num">04</span>
-      <h2>Dados, informação e conhecimento</h2>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Conceito</th><th>Significado</th><th>Exemplo</th></tr></thead>
-        <tbody>
-          <tr><td>Dado</td><td>Número solto</td><td><code style="background:var(--code-bg);padding:1px 6px;border-radius:4px;font-size:12px">120</code></td></tr>
-          <tr><td>Informação</td><td>Dado com sentido</td><td><code style="background:var(--code-bg);padding:1px 6px;border-radius:4px;font-size:12px">120 clientes cancelaram</code></td></tr>
-          <tr><td>Conhecimento</td><td>Saber o que fazer</td><td>Investigar o motivo dos cancelamentos</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="callout">Menos informação = maior risco de decisão errada.</div>
-  </section>
+<!-- 09 HOFSTEDE -->
+<section id="s9">
+  <div class="sec-header"><span class="sec-num">09</span><h2>Hofstede — Dimensões Culturais</h2></div>
+  <p>Modelo para comparar culturas nacionais segundo dimensões de valores.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Dimensão</th><th>Resumo</th></tr></thead>
+      <tbody>
+        <tr><td>Individualismo</td><td>Pessoa pensa mais nela mesma</td></tr>
+        <tr><td>Coletivismo</td><td>Grupo / família pesa mais nas decisões</td></tr>
+        <tr><td>Distância do poder</td><td>Aceitação da hierarquia</td></tr>
+        <tr><td>Aversão à incerteza</td><td>Necessidade de regras e segurança</td></tr>
+        <tr><td>Masculinidade</td><td>Foco em competição e desempenho</td></tr>
+        <tr><td>Feminilidade</td><td>Foco em qualidade de vida e cuidado</td></tr>
+        <tr><td>Longo prazo</td><td>Planejamento futuro</td></tr>
+        <tr><td>Curto prazo</td><td>Resultado mais imediato</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-  <!-- 05 -->
-  <section id="s5">
-    <div class="sec-anchor">
-      <span class="sec-num">05</span>
-      <h2>Sistemas de informação</h2>
-    </div>
-    <p>Pessoas + tecnologia + dados + processos para gerar informações úteis.</p>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Sistema</th><th>Função</th></tr></thead>
-        <tbody>
-          <tr><td>ERP</td><td>Integra dados de toda a empresa</td></tr>
-          <tr><td>CRM</td><td>Gerencia relacionamento com clientes</td></tr>
-          <tr><td>SCM</td><td>Gerencia cadeia de suprimentos</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="tags">
-      <span class="tag">Decisão mais rápida</span>
-      <span class="tag">Menos erros</span>
-      <span class="tag">Automação</span>
-      <span class="tag">Visão integrada</span>
-    </div>
-  </section>
+<!-- 10 TEMPO -->
+<section id="s10">
+  <div class="sec-header"><span class="sec-num">10</span><h2>Tempo Monocrônico × Policrônico</h2></div>
+  <div class="code-block"><span class="c-green">Monocrônico</span> → relógio manda
+<span class="c-orange">Policrônico</span>  → relação manda</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tipo</th><th>Resumo</th></tr></thead>
+      <tbody>
+        <tr><td>Monocrônico</td><td>Pontualidade, agenda rígida, uma tarefa por vez</td></tr>
+        <tr><td>Policrônico</td><td>Tempo flexível, várias tarefas, foco em relacionamento</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-  <!-- 06 -->
-  <section id="s6">
-    <div class="sec-anchor">
-      <span class="sec-num">06</span>
-      <h2>Teorias da administração</h2>
-    </div>
-    <div class="callout">Administrar bem é combinar teorias conforme o contexto.</div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Teoria</th><th>Autor</th><th>Foco</th></tr></thead>
-        <tbody>
-          <tr><td>Adm. Científica</td><td>Taylor</td><td>Produtividade e eficiência</td></tr>
-          <tr><td>Teoria Clássica</td><td>Fayol</td><td>Hierarquia e funções</td></tr>
-          <tr><td>Burocracia</td><td>Weber</td><td>Regras e formalidade</td></tr>
-          <tr><td>Relações Humanas</td><td>Elton Mayo</td><td>Pessoas e motivação</td></tr>
-          <tr><td>Comportamental</td><td>Maslow / McGregor</td><td>Comportamento e motivação</td></tr>
-          <tr><td>Estruturalista</td><td>Etzioni</td><td>Estrutura + pessoas + conflitos</td></tr>
-          <tr><td>Sistêmica</td><td>Bertalanffy</td><td>Organização como sistema</td></tr>
-          <tr><td>Contingencial</td><td>Lawrence e Lorsch</td><td>Depende da situação</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+<!-- 11 EXPORTAÇÃO -->
+<section id="s11">
+  <div class="sec-header"><span class="sec-num">11</span><h2>Exportação</h2></div>
+  <div class="callout"><span class="icon">💡</span><span>Exportação = vender produto ou serviço nacional para outro país.</span></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Motivo</th><th>Resumo</th></tr></thead>
+      <tbody>
+        <tr><td>Novo mercado</td><td>Vender para outros países</td></tr>
+        <tr><td>Aumentar vendas</td><td>Crescer além do mercado interno</td></tr>
+        <tr><td>Excedente de produção</td><td>Vender o que sobra</td></tr>
+        <tr><td>Competitividade</td><td>Melhorar qualidade e padrão</td></tr>
+        <tr><td>Internacionalização</td><td>Expandir a empresa globalmente</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-  <!-- 07 -->
-  <section id="s7">
-    <div class="sec-anchor">
-      <span class="sec-num">07</span>
-      <h2>Recursos humanos</h2>
-    </div>
-    <div class="tags">
-      <span class="tag">Recrutamento e seleção</span>
-      <span class="tag">Treinamento</span>
-      <span class="tag">Avaliação de desempenho</span>
-      <span class="tag">Benefícios</span>
-      <span class="tag">Gestão de conflitos</span>
-      <span class="tag">Motivação</span>
-    </div>
-    <div class="compare">
-      <div class="compare-col">
-        <div class="col-label">Antes</div>
-        <ul>
-          <li>Controle de funcionários</li>
-          <li>Funcionário como máquina</li>
-          <li>Foco em horário e repetição</li>
-        </ul>
-      </div>
-      <div class="compare-col">
-        <div class="col-label">Hoje</div>
-        <ul>
-          <li>Gestão estratégica de pessoas</li>
-          <li>Pessoa como talento</li>
-          <li>Foco em cultura e liderança</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+<!-- 12 EXPORTAÇÃO DIRETA/INDIRETA -->
+<section id="s12">
+  <div class="sec-header"><span class="sec-num">12</span><h2>Exportação Direta × Indireta</h2></div>
+  <div class="code-block"><span class="c-green">Direta</span>   → mais controle e mais trabalho
+<span class="c-orange">Indireta</span> → menos controle e mais facilidade</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Ponto</th><th>Direta</th><th>Indireta</th></tr></thead>
+      <tbody>
+        <tr><td>Controle</td><td>Maior</td><td>Menor</td></tr>
+        <tr><td>Lucro potencial</td><td>Pode ser maior</td><td>Pode ser menor</td></tr>
+        <tr><td>Burocracia</td><td>Maior</td><td>Menor</td></tr>
+        <tr><td>Indicada para</td><td>Empresas experientes</td><td>Empresas iniciantes</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-  <!-- 08 -->
-  <section id="s8">
-    <div class="sec-anchor">
-      <span class="sec-num">08</span>
-      <h2>Marketing</h2>
-    </div>
-    <p>Entender o cliente, criar valor e oferecer soluções — não só propaganda.</p>
-    <div class="fourp">
-      <div class="p-card">
-        <div class="p-letter">P</div>
-        <div class="p-name">Produto</div>
-        <div class="p-desc">O que oferecer</div>
-      </div>
-      <div class="p-card">
-        <div class="p-letter">P</div>
-        <div class="p-name">Preço</div>
-        <div class="p-desc">Quanto cobrar</div>
-      </div>
-      <div class="p-card">
-        <div class="p-letter">P</div>
-        <div class="p-name">Praça</div>
-        <div class="p-desc">Onde vender</div>
-      </div>
-      <div class="p-card">
-        <div class="p-letter">P</div>
-        <div class="p-name">Promoção</div>
-        <div class="p-desc">Como divulgar</div>
-      </div>
-    </div>
-    <div class="tags">
-      <span class="tag">Segmentação</span>
-      <span class="tag">Posicionamento</span>
-      <span class="tag">Branding</span>
-      <span class="tag">Pesquisa de mercado</span>
-    </div>
-  </section>
+<!-- 13 DOCUMENTOS -->
+<section id="s13">
+  <div class="sec-header"><span class="sec-num">13</span><h2>Documentos de Exportação</h2></div>
+  <p>Provam a venda, o embarque, a origem, o transporte e o câmbio.</p>
+  <ul class="doc-list">
+    <li>Fatura Proforma</li>
+    <li>Fatura Comercial</li>
+    <li>Packing List</li>
+    <li>Conhecimento de Embarque</li>
+    <li>Certificado de Origem</li>
+    <li>Seguro de Transporte</li>
+    <li>Nota Fiscal de Exportação</li>
+    <li>DU-E</li>
+    <li>Comprovante de Exportação</li>
+    <li>Contrato de Câmbio</li>
+  </ul>
+</section>
 
-  <!-- 09 -->
-  <section id="s9">
-    <div class="sec-anchor">
-      <span class="sec-num">09</span>
-      <h2>Finanças</h2>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Relatório</th><th>O que mostra</th></tr></thead>
-        <tbody>
-          <tr><td>BP — Balanço Patrimonial</td><td>Bens, direitos e obrigações</td></tr>
-          <tr><td>DRE</td><td>Lucro ou prejuízo</td></tr>
-          <tr><td>DFC</td><td>Entradas e saídas de caixa</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="table-wrap" style="margin-top:10px">
-      <table>
-        <thead><tr><th>Decisão</th><th>Pergunta que responde</th></tr></thead>
-        <tbody>
-          <tr><td>Investimento</td><td>Onde, quando e quanto investir?</td></tr>
-          <tr><td>Financiamento</td><td>Como captar recursos?</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+<!-- 14 PARAMETRIZAÇÃO EXPORTAÇÃO -->
+<section id="s14">
+  <div class="sec-header"><span class="sec-num">14</span><h2>Parametrização na Exportação</h2></div>
+  <div class="code-block"><span class="c-green">Verde</span>    → liberado automático
+<span class="c-orange">Laranja</span>  → olha documentos
+<span class="c-red">Vermelho</span> → olha documentos + mercadoria</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Canal</th><th>Resumo</th></tr></thead>
+      <tbody>
+        <tr><td><span class="canal-verde">Verde</span></td><td>Desembaraço automático</td></tr>
+        <tr><td><span class="canal-laranja">Laranja</span></td><td>Exame documental</td></tr>
+        <tr><td><span class="canal-vermelho">Vermelho</span></td><td>Exame documental + verificação física</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-  <!-- 10 -->
-  <section id="s10">
-    <div class="sec-anchor">
-      <span class="sec-num">10</span>
-      <h2>Operações</h2>
-    </div>
-    <p>Transforma insumos em produtos ou serviços: matéria-prima + mão de obra + energia → produto final.</p>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Objetivo</th><th>Significado</th></tr></thead>
-        <tbody>
-          <tr><td>Eficiência</td><td>Produzir mais com menos</td></tr>
-          <tr><td>Qualidade</td><td>Atender expectativas do cliente</td></tr>
-          <tr><td>Rapidez</td><td>Reduzir tempo de entrega</td></tr>
-          <tr><td>Flexibilidade</td><td>Adaptar a produção</td></tr>
-          <tr><td>Confiabilidade</td><td>Cumprir prazos</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+<!-- 15 IMPORTAÇÃO -->
+<section id="s15">
+  <div class="sec-header"><span class="sec-num">15</span><h2>Importação</h2></div>
+  <div class="callout"><span class="icon">💡</span><span>Importação = comprar produto, bem ou serviço de outro país.</span></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tipo</th><th>Resumo</th></tr></thead>
+      <tbody>
+        <tr><td>Temporária</td><td>Entra por tempo limitado</td></tr>
+        <tr><td>Definitiva</td><td>Entra para ficar no mercado interno</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-  <!-- 11 -->
-  <section id="s11">
-    <div class="sec-anchor">
-      <span class="sec-num">11</span>
-      <h2>Tipos de manufatura</h2>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Tipo</th><th>Característica</th><th>Exemplo</th></tr></thead>
-        <tbody>
-          <tr><td>Repetitiva / massa</td><td>Alto volume, baixa variedade</td><td>Fast-food, eletrodomésticos</td></tr>
-          <tr><td>Discreta / projeto</td><td>Baixo volume, alta customização</td><td>Navios</td></tr>
-          <tr><td>Oficinas</td><td>Produtos personalizados</td><td>Gráficas, usinagem</td></tr>
-          <tr><td>Contínua</td><td>Produção 24h, padronizada</td><td>Bebidas, cimento, petróleo</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+<!-- 16 RADAR -->
+<section id="s16">
+  <div class="sec-header"><span class="sec-num">16</span><h2>RADAR / Siscomex</h2></div>
+  <div class="callout"><span class="icon">💡</span><span>RADAR é a habilitação para operar no comércio exterior. Sem RADAR, a empresa não opera legalmente no Siscomex.</span></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Modalidade</th><th>Limite</th></tr></thead>
+      <tbody>
+        <tr><td>Expressa</td><td>Até US$ 50 mil a cada 6 meses</td></tr>
+        <tr><td>Limitada</td><td>Até US$ 150 mil a cada 6 meses</td></tr>
+        <tr><td>Ilimitada</td><td>Acima de US$ 150 mil a cada 6 meses</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-  <!-- 12 -->
-  <section id="s12">
-    <div class="sec-anchor">
-      <span class="sec-num">12</span>
-      <h2>Indústria 4.0 e 5.0</h2>
-    </div>
-    <div class="compare">
-      <div class="compare-col">
-        <div class="col-label">Indústria 4.0</div>
-        <ul>
-          <li>Automação e robótica</li>
-          <li>Sensores e IoT</li>
-          <li>Dados em tempo real</li>
-          <li>Foco em eficiência</li>
-        </ul>
-      </div>
-      <div class="compare-col">
-        <div class="col-label">Indústria 5.0</div>
-        <ul>
-          <li>Tecnologia + humano no centro</li>
-          <li>Sustentabilidade</li>
-          <li>Personalização</li>
-          <li>Valorização das pessoas</li>
-        </ul>
-      </div>
-    </div>
-    <div class="callout">A 4.0 foca em automação. A 5.0 humaniza a tecnologia.</div>
-  </section>
+<!-- 17 DESPACHO -->
+<section id="s17">
+  <div class="sec-header"><span class="sec-num">17</span><h2>Despacho Aduaneiro de Importação</h2></div>
+  <div class="callout"><span class="icon">💡</span><span>Despacho aduaneiro = conferência da Receita Federal.</span></div>
+  <div class="tags">
+    <span class="tag">Dados declarados</span>
+    <span class="tag">Documentos</span>
+    <span class="tag">Mercadoria</span>
+    <span class="tag">Legislação</span>
+    <span class="tag">Tributos</span>
+  </div>
+</section>
 
-  <!-- QA -->
-  <section id="qa">
-    <div class="sec-anchor">
-      <span class="sec-num">Q&A</span>
-      <h2>45 questões prováveis</h2>
-    </div>
+<!-- 18 PARAMETRIZAÇÃO IMPORTAÇÃO -->
+<section id="s18">
+  <div class="sec-header"><span class="sec-num">18</span><h2>Parametrização na Importação</h2></div>
+  <div class="code-block"><span class="c-green">Verde</span>    → liberado automático
+<span class="c-orange">Amarelo</span>  → documentos
+<span class="c-red">Vermelho</span> → documentos + mercadoria
+<span class="c-arrow">Cinza</span>    → documentos + mercadoria + suspeita de fraude</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Canal</th><th>Resumo</th></tr></thead>
+      <tbody>
+        <tr><td><span class="canal-verde">Verde</span></td><td>Desembaraço automático</td></tr>
+        <tr><td><span class="canal-amarelo">Amarelo</span></td><td>Exame documental</td></tr>
+        <tr><td><span class="canal-vermelho">Vermelho</span></td><td>Exame documental + verificação física</td></tr>
+        <tr><td><span class="canal-cinza">Cinza</span></td><td>Exame documental + físico + investigação de fraude</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-    <details><summary><span class="n">01</span>O que é uma organização?<span class="arr">▶</span></summary><div class="answer">Conjunto de pessoas, recursos, objetivos e processos trabalhando para alcançar resultados.</div></details>
-    <details><summary><span class="n">02</span>Quais são os três níveis organizacionais?<span class="arr">▶</span></summary><div class="answer">Estratégico, tático e operacional.</div></details>
-    <details><summary><span class="n">03</span>Função do nível estratégico?<span class="arr">▶</span></summary><div class="answer">Tomar decisões de longo prazo e definir os objetivos gerais da empresa.</div></details>
-    <details><summary><span class="n">04</span>Função do nível tático?<span class="arr">▶</span></summary><div class="answer">Transformar os planos estratégicos em ações e coordenar setores.</div></details>
-    <details><summary><span class="n">05</span>Função do nível operacional?<span class="arr">▶</span></summary><div class="answer">Executar as tarefas do dia a dia.</div></details>
-    <details><summary><span class="n">06</span>Abrir filial é decisão de qual nível?<span class="arr">▶</span></summary><div class="answer">Estratégico.</div></details>
-    <details><summary><span class="n">07</span>Contratar para cumprir um plano — qual nível?<span class="arr">▶</span></summary><div class="answer">Tático.</div></details>
-    <details><summary><span class="n">08</span>Atender clientes — qual nível?<span class="arr">▶</span></summary><div class="answer">Operacional.</div></details>
-    <details><summary><span class="n">09</span>O que é processo decisório?<span class="arr">▶</span></summary><div class="answer">O processo de escolher entre alternativas para resolver um problema.</div></details>
-    <details><summary><span class="n">10</span>Etapas do processo decisório?<span class="arr">▶</span></summary><div class="answer">Identificar → buscar informações → criar alternativas → escolher → executar → avaliar.</div></details>
-    <details><summary><span class="n">11</span>O que é decisão programada?<span class="arr">▶</span></summary><div class="answer">Decisão repetitiva, comum na rotina. Ex: reposição de estoque.</div></details>
-    <details><summary><span class="n">12</span>O que é decisão não programada?<span class="arr">▶</span></summary><div class="answer">Decisão nova, usada em situações inesperadas. Ex: crise financeira.</div></details>
-    <details><summary><span class="n">13</span>Diferença entre dado e informação?<span class="arr">▶</span></summary><div class="answer">Dado é algo solto (ex: 120). Informação é o dado com significado (ex: 120 clientes cancelaram).</div></details>
-    <details><summary><span class="n">14</span>O que é um Sistema de Informação?<span class="arr">▶</span></summary><div class="answer">Conjunto de pessoas, tecnologia, dados e processos para gerar informações úteis.</div></details>
-    <details><summary><span class="n">15</span>Para que serve um ERP?<span class="arr">▶</span></summary><div class="answer">Integrar dados e processos da empresa em um único sistema.</div></details>
-    <details><summary><span class="n">16</span>Para que serve um CRM?<span class="arr">▶</span></summary><div class="answer">Gerenciar relacionamento com clientes.</div></details>
-    <details><summary><span class="n">17</span>Para que serve um SCM?<span class="arr">▶</span></summary><div class="answer">Gerenciar a cadeia de suprimentos.</div></details>
-    <details><summary><span class="n">18</span>Qual teoria foca em eficiência e produtividade?<span class="arr">▶</span></summary><div class="answer">Administração Científica (Taylor).</div></details>
-    <details><summary><span class="n">19</span>Quem foi Taylor?<span class="arr">▶</span></summary><div class="answer">Autor da Administração Científica, foco em produtividade, controle e repetição.</div></details>
-    <details><summary><span class="n">20</span>Quem foi Fayol?<span class="arr">▶</span></summary><div class="answer">Autor da Teoria Clássica, foco em hierarquia, divisão de funções e organização formal.</div></details>
-    <details><summary><span class="n">21</span>Quem foi Max Weber?<span class="arr">▶</span></summary><div class="answer">Autor da Teoria da Burocracia, foco em regras, normas e hierarquia.</div></details>
-    <details><summary><span class="n">22</span>Quem foi Elton Mayo?<span class="arr">▶</span></summary><div class="answer">Autor das Relações Humanas, foco na valorização das pessoas.</div></details>
-    <details><summary><span class="n">23</span>O que defendia a Escola das Relações Humanas?<span class="arr">▶</span></summary><div class="answer">Que motivação, emoções, reconhecimento e clima organizacional influenciam a produtividade.</div></details>
-    <details><summary><span class="n">24</span>Qual teoria diz que tudo depende da situação?<span class="arr">▶</span></summary><div class="answer">Teoria da Contingência (Lawrence e Lorsch).</div></details>
-    <details><summary><span class="n">25</span>Qual teoria vê a empresa como sistema aberto?<span class="arr">▶</span></summary><div class="answer">Teoria dos Sistemas (Bertalanffy).</div></details>
-    <details><summary><span class="n">26</span>O que é RH?<span class="arr">▶</span></summary><div class="answer">A área que administra pessoas dentro da organização.</div></details>
-    <details><summary><span class="n">27</span>Como o RH evoluiu?<span class="arr">▶</span></summary><div class="answer">Saiu do controle de funcionários e passou a atuar de forma estratégica, com foco em cultura e desenvolvimento.</div></details>
-    <details><summary><span class="n">28</span>Marketing é só propaganda?<span class="arr">▶</span></summary><div class="answer">Não. É entender o cliente, criar valor e oferecer soluções.</div></details>
-    <details><summary><span class="n">29</span>Quais são os 4 Ps do marketing?<span class="arr">▶</span></summary><div class="answer">Produto, Preço, Praça e Promoção.</div></details>
-    <details><summary><span class="n">30</span>O que é segmentação de mercado?<span class="arr">▶</span></summary><div class="answer">Dividir o mercado em grupos com características e necessidades parecidas.</div></details>
-    <details><summary><span class="n">31</span>O que é posicionamento?<span class="arr">▶</span></summary><div class="answer">Como o cliente percebe a marca ou produto em relação aos concorrentes.</div></details>
-    <details><summary><span class="n">32</span>O que é administração financeira?<span class="arr">▶</span></summary><div class="answer">A gestão dos recursos financeiros da empresa.</div></details>
-    <details><summary><span class="n">33</span>O que mostra a DRE?<span class="arr">▶</span></summary><div class="answer">O resultado da empresa: lucro ou prejuízo.</div></details>
-    <details><summary><span class="n">34</span>O que mostra o Balanço Patrimonial?<span class="arr">▶</span></summary><div class="answer">Bens, direitos e obrigações da empresa.</div></details>
-    <details><summary><span class="n">35</span>O que mostra a DFC?<span class="arr">▶</span></summary><div class="answer">Entradas e saídas de caixa.</div></details>
-    <details><summary><span class="n">36</span>O que é decisão de investimento?<span class="arr">▶</span></summary><div class="answer">Decidir onde, quando e quanto investir para gerar valor.</div></details>
-    <details><summary><span class="n">37</span>O que é decisão de financiamento?<span class="arr">▶</span></summary><div class="answer">Decidir como a empresa vai captar recursos.</div></details>
-    <details><summary><span class="n">38</span>O que é administração de operações?<span class="arr">▶</span></summary><div class="answer">A área que transforma insumos em produtos ou serviços.</div></details>
-    <details><summary><span class="n">39</span>Objetivos de operações?<span class="arr">▶</span></summary><div class="answer">Eficiência, qualidade, rapidez, flexibilidade e confiabilidade.</div></details>
-    <details><summary><span class="n">40</span>O que é PCP?<span class="arr">▶</span></summary><div class="answer">Planejamento e Controle da Produção: define o que, quanto, quando e onde produzir.</div></details>
-    <details><summary><span class="n">41</span>O que é manufatura repetitiva?<span class="arr">▶</span></summary><div class="answer">Produção em alto volume e baixa variedade. Ex: fast-food, eletrodomésticos.</div></details>
-    <details><summary><span class="n">42</span>O que é manufatura contínua?<span class="arr">▶</span></summary><div class="answer">Produção ininterrupta, padronizada e em grande volume. Ex: bebidas, cimento.</div></details>
-    <details><summary><span class="n">43</span>O que é Indústria 4.0?<span class="arr">▶</span></summary><div class="answer">Uso de automação, sensores, sistemas integrados e análise de dados na produção.</div></details>
-    <details><summary><span class="n">44</span>O que é Indústria 5.0?<span class="arr">▶</span></summary><div class="answer">Integra tecnologia com valorização humana, sustentabilidade e personalização.</div></details>
-    <details><summary><span class="n">45</span>Diferença entre Indústria 4.0 e 5.0?<span class="arr">▶</span></summary><div class="answer">A 4.0 foca em automação e dados. A 5.0 foca em tecnologia com pessoas no centro.</div></details>
+<!-- 19 DESEMBARAÇO -->
+<section id="s19">
+  <div class="sec-header"><span class="sec-num">19</span><h2>Desembaraço Aduaneiro</h2></div>
+  <div class="callout green"><span class="icon">✅</span><span>Desembaraço = liberação da mercadoria. Após o desembaraço, a mercadoria pode ser entregue ao importador.</span></div>
+</section>
 
-  </section>
+<!-- 20 TRIBUTOS -->
+<section id="s20">
+  <div class="sec-header"><span class="sec-num">20</span><h2>Tributos na Importação</h2></div>
+  <div class="code-block">Importação paga tributos <span class="c-red">federais</span> + <span class="c-orange">ICMS estadual</span></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tipo</th><th>Tributos</th></tr></thead>
+      <tbody>
+        <tr><td>Federais</td><td>II, IPI, PIS, COFINS</td></tr>
+        <tr><td>Estadual</td><td>ICMS</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-  <footer>
-    <span>Pensamento Organizacional · Administração · Uniso</span>
-    <span>12 seções · 45 questões</span>
-  </footer>
+<!-- QA -->
+<section id="qa">
+  <div class="sec-header"><span class="sec-num">Q&A</span><h2>47 questões prováveis</h2></div>
 
-</main>
+  <details><summary><span class="n">01</span>O que é dumping?<span class="arr">▶</span></summary><div class="answer">É vender no mercado internacional por preço abaixo do valor normal.</div></details>
+  <details><summary><span class="n">02</span>Por que o dumping é prática desleal?<span class="arr">▶</span></summary><div class="answer">Porque prejudica concorrentes com preço artificialmente baixo.</div></details>
+  <details><summary><span class="n">03</span>O que é dumping social?<span class="arr">▶</span></summary><div class="answer">É reduzir custos usando salários baixos e pouca proteção ao trabalhador.</div></details>
+  <details><summary><span class="n">04</span>O que é dumping ambiental?<span class="arr">▶</span></summary><div class="answer">É reduzir custos produzindo onde a legislação ambiental é mais fraca.</div></details>
+  <details><summary><span class="n">05</span>Qual pagamento protege mais o exportador?<span class="arr">▶</span></summary><div class="answer">Pagamento antecipado.</div></details>
+  <details><summary><span class="n">06</span>Qual pagamento protege mais o importador?<span class="arr">▶</span></summary><div class="answer">Remessa sem saque.</div></details>
+  <details><summary><span class="n">07</span>Qual modalidade é mais segura para ambos?<span class="arr">▶</span></summary><div class="answer">Carta de crédito.</div></details>
+  <details><summary><span class="n">08</span>Na cobrança documentária, o banco garante pagamento?<span class="arr">▶</span></summary><div class="answer">Não. Ele apenas intermedia documentos e cobrança.</div></details>
+  <details><summary><span class="n">09</span>O que é câmbio?<span class="arr">▶</span></summary><div class="answer">É a troca de moeda nacional por moeda estrangeira.</div></details>
+  <details><summary><span class="n">10</span>O que são Incoterms?<span class="arr">▶</span></summary><div class="answer">São regras que dividem custos, riscos e obrigações entre comprador e vendedor.</div></details>
+  <details><summary><span class="n">11</span>Qual Incoterm tem menor responsabilidade do vendedor?<span class="arr">▶</span></summary><div class="answer">EXW.</div></details>
+  <details><summary><span class="n">12</span>Qual Incoterm tem maior responsabilidade do vendedor?<span class="arr">▶</span></summary><div class="answer">DDP.</div></details>
+  <details><summary><span class="n">13</span>Quais Incoterms têm seguro pago pelo vendedor?<span class="arr">▶</span></summary><div class="answer">CIF e CIP.</div></details>
+  <details><summary><span class="n">14</span>Quais Incoterms são marítimos?<span class="arr">▶</span></summary><div class="answer">FAS, FOB, CFR e CIF.</div></details>
+  <details><summary><span class="n">15</span>O que é FOB?<span class="arr">▶</span></summary><div class="answer">O vendedor entrega a mercadoria a bordo do navio.</div></details>
+  <details><summary><span class="n">16</span>O que é CIF?<span class="arr">▶</span></summary><div class="answer">O vendedor paga custo, seguro e frete.</div></details>
+  <details><summary><span class="n">17</span>Qual a diferença entre CFR e CIF?<span class="arr">▶</span></summary><div class="answer">CFR tem frete pago pelo vendedor. CIF tem frete e seguro pagos pelo vendedor.</div></details>
+  <details><summary><span class="n">18</span>O que é balança comercial?<span class="arr">▶</span></summary><div class="answer">É a diferença entre exportações e importações.</div></details>
+  <details><summary><span class="n">19</span>O que é superávit?<span class="arr">▶</span></summary><div class="answer">Exportar mais do que importar.</div></details>
+  <details><summary><span class="n">20</span>O que é déficit?<span class="arr">▶</span></summary><div class="answer">Importar mais do que exportar.</div></details>
+  <details><summary><span class="n">21</span>O que é risco intercultural?<span class="arr">▶</span></summary><div class="answer">É o risco causado por má interpretação cultural.</div></details>
+  <details><summary><span class="n">22</span>Cultura influencia o quê nos negócios internacionais?<span class="arr">▶</span></summary><div class="answer">Comunicação, negociação, liderança, consumo e ética.</div></details>
+  <details><summary><span class="n">23</span>O que é cultura de baixo contexto?<span class="arr">▶</span></summary><div class="answer">Comunicação direta e clara.</div></details>
+  <details><summary><span class="n">24</span>O que é cultura de alto contexto?<span class="arr">▶</span></summary><div class="answer">Comunicação indireta, dependente de contexto e sinais.</div></details>
+  <details><summary><span class="n">25</span>O que é individualismo?<span class="arr">▶</span></summary><div class="answer">Quando a pessoa age mais pensando em si.</div></details>
+  <details><summary><span class="n">26</span>O que é coletivismo?<span class="arr">▶</span></summary><div class="answer">Quando o grupo tem maior importância nas decisões.</div></details>
+  <details><summary><span class="n">27</span>O que é distância do poder?<span class="arr">▶</span></summary><div class="answer">Aceitação da hierarquia e desigualdade de autoridade.</div></details>
+  <details><summary><span class="n">28</span>O que é alta aversão à incerteza?<span class="arr">▶</span></summary><div class="answer">Busca por segurança, regras e menor risco.</div></details>
+  <details><summary><span class="n">29</span>O que é tempo monocrônico?<span class="arr">▶</span></summary><div class="answer">Tempo rígido, pontual e organizado.</div></details>
+  <details><summary><span class="n">30</span>O que é tempo policrônico?<span class="arr">▶</span></summary><div class="answer">Tempo flexível e voltado aos relacionamentos.</div></details>
+  <details><summary><span class="n">31</span>O que é exportação?<span class="arr">▶</span></summary><div class="answer">Venda ou envio de bens e serviços para outro país.</div></details>
+  <details><summary><span class="n">32</span>O que é exportação direta?<span class="arr">▶</span></summary><div class="answer">A empresa vende diretamente ao comprador estrangeiro.</div></details>
+  <details><summary><span class="n">33</span>O que é exportação indireta?<span class="arr">▶</span></summary><div class="answer">A empresa usa um intermediário, como uma trading.</div></details>
+  <details><summary><span class="n">34</span>Qual exportação é melhor para iniciantes?<span class="arr">▶</span></summary><div class="answer">Exportação indireta.</div></details>
+  <details><summary><span class="n">35</span>Qual exportação dá mais controle?<span class="arr">▶</span></summary><div class="answer">Exportação direta.</div></details>
+  <details><summary><span class="n">36</span>Cite três documentos de exportação.<span class="arr">▶</span></summary><div class="answer">Fatura Proforma, Fatura Comercial e Packing List.</div></details>
+  <details><summary><span class="n">37</span>O que é DU-E?<span class="arr">▶</span></summary><div class="answer">Declaração Única de Exportação.</div></details>
+  <details><summary><span class="n">38</span>Quais canais existem na exportação?<span class="arr">▶</span></summary><div class="answer">Verde, laranja e vermelho.</div></details>
+  <details><summary><span class="n">39</span>O que é importação?<span class="arr">▶</span></summary><div class="answer">Compra de bens, produtos ou serviços de outro país.</div></details>
+  <details><summary><span class="n">40</span>O que é RADAR?<span class="arr">▶</span></summary><div class="answer">Habilitação para operar no comércio exterior pelo Siscomex.</div></details>
+  <details><summary><span class="n">41</span>Quais são as modalidades do RADAR?<span class="arr">▶</span></summary><div class="answer">Expressa, limitada e ilimitada.</div></details>
+  <details><summary><span class="n">42</span>O que é despacho aduaneiro?<span class="arr">▶</span></summary><div class="answer">Conferência feita pela Receita Federal sobre documentos, dados e mercadoria.</div></details>
+  <details><summary><span class="n">43</span>Quais canais existem na importação?<span class="arr">▶</span></summary><div class="answer">Verde, amarelo, vermelho e cinza.</div></details>
+  <details><summary><span class="n">44</span>Qual canal indica suspeita de fraude?<span class="arr">▶</span></summary><div class="answer">Canal cinza.</div></details>
+  <details><summary><span class="n">45</span>O que é desembaraço aduaneiro?<span class="arr">▶</span></summary><div class="answer">Liberação da mercadoria após conferência aduaneira.</div></details>
+  <details><summary><span class="n">46</span>Quais tributos federais incidem na importação?<span class="arr">▶</span></summary><div class="answer">II, IPI, PIS e COFINS.</div></details>
+  <details><summary><span class="n">47</span>Qual imposto estadual incide na importação?<span class="arr">▶</span></summary><div class="answer">ICMS.</div></details>
+
+</section>
+
+<footer>
+  <span>Ambiente de Negócios Internacionais · Administração · Uniso</span>
+  <span>20 seções · 47 questões</span>
+</footer>
 
 </body>
 </html>
