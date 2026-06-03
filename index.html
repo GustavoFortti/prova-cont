@@ -298,6 +298,71 @@
     display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
   }
 
+  /* ── ENADE QUESTIONS ── */
+  details.enade-q { border-bottom: 1px solid var(--border); }
+  details.enade-q:first-of-type { border-top: 1px solid var(--border); }
+
+  details.enade-q summary {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 14px 6px;
+    cursor: pointer; list-style: none;
+    color: var(--text); user-select: none;
+  }
+  details.enade-q summary::-webkit-details-marker { display: none; }
+  details.enade-q summary:hover { background: var(--bg-secondary); border-radius: 4px; }
+  details.enade-q[open] summary { color: var(--orange); }
+  details.enade-q[open] summary .arr { transform: rotate(90deg); }
+
+  details.enade-q summary .n {
+    font-size: 10px; color: var(--orange);
+    font-variant-numeric: tabular-nums;
+    font-family: ui-monospace, monospace;
+    flex-shrink: 0; padding-top: 2px; width: 22px;
+  }
+  details.enade-q summary .arr {
+    margin-left: auto; font-size: 10px;
+    color: var(--border); transition: transform .2s; flex-shrink: 0; padding-top: 2px;
+  }
+
+  .enade-body {
+    display: flex; flex-direction: column; gap: 8px;
+    font-size: 13px; line-height: 1.6; flex: 1;
+  }
+  .enade-tema {
+    font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .07em;
+    color: var(--orange);
+    padding: 1px 8px;
+    background: var(--orange-bg);
+    border: 1px solid var(--orange-border);
+    border-radius: 20px;
+    align-self: flex-start;
+  }
+  .enade-opts {
+    display: flex; flex-direction: column; gap: 4px;
+    margin-top: 6px;
+    padding: 10px 12px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 12.5px;
+  }
+  .enade-opts span { padding: 3px 0; color: var(--text-light); }
+  .enade-opts .opt-correct {
+    color: var(--green); font-weight: 600;
+  }
+  /* hide correct answer until open */
+  details.enade-q:not([open]) .opt-correct {
+    color: var(--text-light); font-weight: normal;
+  }
+
+  details.enade-q .answer {
+    padding: 10px 14px 14px 34px;
+    background: var(--green-bg);
+    border-top: 1px solid var(--green-border);
+    color: var(--text-light); font-size: 13px; line-height: 1.6;
+  }
+
   @media (max-width: 600px) {
     body { padding: 20px 18px 60px; }
     .toc-grid { grid-template-columns: 1fr; }
@@ -349,6 +414,7 @@
     <a href="#s20"><span class="n">20</span>Tributos na Importação</a>
     <div class="toc-divider"></div>
     <div class="toc-qa"><a href="#qa"><span class="n">Q&A</span>47 questões prováveis</a></div>
+    <div class="toc-qa"><a href="#enade" style="color:var(--orange)"><span class="n" style="color:var(--orange);width:auto;margin-right:8px">ENADE</span>15 questões do ENADE</a></div>
   </div>
 </div>
 
@@ -793,9 +859,370 @@
 
 </section>
 
+<!-- QA ENADE -->
+<section id="enade">
+  <div class="sec-header">
+    <span class="sec-num" style="background:var(--orange-bg);color:var(--orange);border-color:var(--orange-border)">ENADE</span>
+    <h2>Questões ENADE</h2>
+  </div>
+  <div class="callout orange"><span class="icon">📋</span><span>Questões objetivas do ENADE. Clique para revelar a resposta e o raciocínio.</span></div>
+
+  <details class="enade-q">
+    <summary>
+      <span class="n">01</span>
+      <span class="enade-body">
+        <span class="enade-tema">Incoterms 2020 — Seguro Internacional</span>
+        Representados por três siglas, os termos internacionais de comércio tratam efetivamente de condições da negociação, pois definem os direitos e as obrigações mínimas do vendedor e do comprador quanto a fretes, seguros, movimentação em terminais, liberações em alfândegas e obtenção de documentos de um contrato internacional de venda de mercadorias.<br><br>
+        Em 2020 houve uma nova revisão dos Incoterms pela Câmara de Comércio Internacional — CCI. Sobre o tema, assinale a opção correta.
+        <span class="enade-opts">
+          <span>A) O seguro internacional é por conta do exportador nos Incoterms EXW, FCA, FAS, FOB, CPT e CIF.</span>
+          <span>B) A versão mais atualizada dos Incoterms, a de 2020, possui 13 condições divididas em quatro grupos.</span>
+          <span class="opt-correct">C) A contratação do seguro, utilizando-se os Incoterms, não é obrigatória e depende da condição de venda negociada entre importador e exportador.</span>
+          <span>D) A utilização dos Incoterms no comércio internacional varia conforme o modal, devendo a empresa utilizar, na modalidade terrestre, FOB, FCA, CPT ou CIF.</span>
+          <span>E) As alterações nos termos contratados são proibidas segundo regras dos Incoterms, pois tal atitude pode trazer surpresas desagradáveis às partes intervenientes.</span>
+        </span>
+      </span>
+      <span class="arr">▶</span>
+    </summary>
+    <div class="answer"><strong>Resposta: C</strong> — Seguro não é sempre obrigatório. Depende do Incoterm negociado. CIF e CIP são os principais com seguro do vendedor.</div>
+  </details>
+
+  <details class="enade-q">
+    <summary>
+      <span class="n">02</span>
+      <span class="enade-body">
+        <span class="enade-tema">Incoterms 2020 — Custos, Riscos e Obrigações</span>
+        As regras dos Incoterms são "termos comerciais" usados em contratos de venda internacionais para alocar certos custos e riscos entre o vendedor/exportador e o comprador/importador.<br><br>
+        Em essência, as regras dos Incoterms são uma maneira de permitir que o comprador saiba o que está "incluído" no preço de venda.<br><br>
+        Considerando que, em um contrato de venda de exportação, as regras dos Incoterms 2020 se prestam a diferentes finalidades, avalie as afirmações a seguir.<br><br>
+        I. A escolha da modalidade de transporte implica a definição prévia de quem deverá pagá-lo.<br>
+        II. A parte do contrato que deverá suportar os riscos de perda ou de danos às mercadorias durante o transporte está definida nos Incoterms.<br>
+        III. A escolha de uma das 11 regras dos Incoterms define quem será o responsável pelos direitos aduaneiros na exportação e importação.<br><br>
+        É correto o que se afirma em:
+        <span class="enade-opts">
+          <span>A) I, apenas.</span>
+          <span>B) III, apenas.</span>
+          <span>C) I e II, apenas.</span>
+          <span>D) I e III, apenas.</span>
+          <span class="opt-correct">E) I, II e III.</span>
+        </span>
+      </span>
+      <span class="arr">▶</span>
+    </summary>
+    <div class="answer"><strong>Resposta: E</strong> — Incoterms definem custos, riscos, transporte e responsabilidades aduaneiras entre comprador e vendedor.</div>
+  </details>
+
+  <details class="enade-q">
+    <summary>
+      <span class="n">03</span>
+      <span class="enade-body">
+        <span class="enade-tema">Incoterms — Seguro Contratado pelo Vendedor</span>
+        A competitividade no comércio internacional está cada vez mais acirrada e o custo de transporte e seguros na logística internacional é determinante no fechamento de transações comerciais.<br><br>
+        Os Incoterms auxiliam nas negociações internacionais, pois uniformizam a linguagem internacional sobre responsabilidades e custos de entrega da mercadoria.<br><br>
+        Em uma negociação entre exportador e importador, o Incoterm deve envolver contratação prévia de seguro por parte do vendedor, tendo como principal beneficiário o comprador. Os dois Incoterms que exigem contratação de seguro são:
+        <span class="enade-opts">
+          <span class="opt-correct">A) o CIF e o CIP.</span>
+          <span>B) o CFR e o FOB.</span>
+          <span>C) o EXW e o FCA.</span>
+          <span>D) o CIF e o EXW.</span>
+          <span>E) o DDP e o DAT.</span>
+        </span>
+      </span>
+      <span class="arr">▶</span>
+    </summary>
+    <div class="answer"><strong>Resposta: A</strong> — Tem "I" de Insurance: CIF e CIP têm seguro pago pelo vendedor.</div>
+  </details>
+
+  <details class="enade-q">
+    <summary>
+      <span class="n">04</span>
+      <span class="enade-body">
+        <span class="enade-tema">Incoterm EXW</span>
+        Os chamados Incoterms — International Commercial Terms, ou Termos Internacionais de Comércio — servem para definir, dentro da estrutura de um contrato de compra e venda internacional, os direitos e as obrigações recíprocas do exportador e do importador.<br><br>
+        Considerando uma exportação no Incoterm EXW, assinale a opção que apresenta corretamente as responsabilidades do vendedor.
+        <span class="enade-opts">
+          <span>A) O vendedor paga os custos e o frete necessários para levar a mercadoria até o porto de destino, desembaraça a mercadoria para exportação e paga o seguro.</span>
+          <span class="opt-correct">B) O vendedor encerra suas responsabilidades quando a mercadoria é colocada à disposição do comprador no estabelecimento do vendedor ou em outro local nomeado, não desembaraçada para exportação e não carregada em veículo coletor.</span>
+          <span>C) O vendedor entrega a mercadoria no ponto combinado na fronteira, antes da divisa aduaneira do país limítrofe, arcando com custos e riscos até esse ponto.</span>
+          <span>D) O vendedor desembaraça a mercadoria para exportação e encerra suas obrigações quando ela transpõe a amurada do navio no porto de embarque indicado.</span>
+          <span>E) O vendedor contrata e paga o frete até o local de destino designado e desembaraça a mercadoria para exportação.</span>
+        </span>
+      </span>
+      <span class="arr">▶</span>
+    </summary>
+    <div class="answer"><strong>Resposta: B</strong> — EXW é o mínimo para o vendedor. Ele só deixa a mercadoria disponível.</div>
+  </details>
+
+  <details class="enade-q">
+    <summary>
+      <span class="n">05</span>
+      <span class="enade-body">
+        <span class="enade-tema">Carta de Crédito</span>
+        A escolha da modalidade de pagamento é feita em comum acordo entre exportador e importador e depende do grau de confiança comercial, das exigências do país importador e das linhas de financiamento.<br><br>
+        Acerca da carta de crédito, avalie as asserções a seguir.<br><br>
+        I. A carta de crédito é a modalidade de pagamento mais difundida no comércio internacional.<br><br>
+        PORQUE<br><br>
+        II. Tanto para o exportador como para o importador, a carta de crédito é a modalidade que oferece maiores garantias.<br><br>
+        A respeito dessas asserções, assinale a opção correta.
+        <span class="enade-opts">
+          <span class="opt-correct">A) As asserções I e II são verdadeiras, e a II justifica a I.</span>
+          <span>B) As asserções I e II são verdadeiras, mas a II não justifica a I.</span>
+          <span>C) A asserção I é verdadeira, e a II é falsa.</span>
+          <span>D) A asserção I é falsa, e a II é verdadeira.</span>
+          <span>E) As asserções I e II são falsas.</span>
+        </span>
+      </span>
+      <span class="arr">▶</span>
+    </summary>
+    <div class="answer"><strong>Resposta: A</strong> — Carta de crédito é muito usada porque dá mais segurança para os dois lados.</div>
+  </details>
+
+  <details class="enade-q">
+    <summary>
+      <span class="n">06</span>
+      <span class="enade-body">
+        <span class="enade-tema">Crédito Documentário</span>
+        A modalidade de pagamento deve estar expressa em contrato internacional e deve considerar os riscos tanto para o importador quanto para o exportador.<br><br>
+        Sobre crédito documentário, avalie as afirmações a seguir.<br><br>
+        I. O crédito documentário, também chamado carta de crédito, é uma ordem de pagamento em que o exportador terá direito ao recebimento se o importador autorizar, mesmo sem cumprir as exigências convencionadas.<br>
+        II. Por termos e condições do crédito documentário entende-se a concretização da operação conforme combinado, considerando valor do crédito, beneficiário, prazos, portos, mercadoria, quantidades, embalagens, embarques parciais, transbordo, conhecimento de embarque, faturas etc.<br>
+        III. O crédito documentário é a transferência antecipada de valor por intermédio de um banco antes do embarque da mercadoria.<br><br>
+        É correto o que se afirma em:
+        <span class="enade-opts">
+          <span>A) I, apenas.</span>
+          <span class="opt-correct">B) II, apenas.</span>
+          <span>C) I e III, apenas.</span>
+          <span>D) II e III, apenas.</span>
+          <span>E) I, II e III.</span>
+        </span>
+      </span>
+      <span class="arr">▶</span>
+    </summary>
+    <div class="answer"><strong>Resposta: B</strong> — Carta de crédito paga se os documentos e condições forem cumpridos. Não é pagamento antecipado.</div>
+  </details>
+
+  <details class="enade-q">
+    <summary>
+      <span class="n">07</span>
+      <span class="enade-body">
+        <span class="enade-tema">Cultura e Negociação Internacional</span>
+        Em entrevista, William Ury afirma que, para se obter êxito em uma negociação, é preciso ouvir o outro lado e entender seus interesses. Segundo ele, a globalização facilitou a comunicação, mas trouxe dificuldades pelo desafio de negociar em culturas diferentes. Nas culturas asiáticas, por exemplo, a negociação é mais que acordo comercial: é relacionamento construído por etapas.<br><br>
+        A partir do texto, avalie as asserções a seguir.<br><br>
+        I. É comum que, em determinadas culturas, os processos de negociação sejam executados pelos cargos mais altos na hierarquia da organização.<br><br>
+        PORQUE<br><br>
+        II. Costuma-se dar pouca importância aos contratos jurídicos, pois, para os negociadores, é mais importante fortalecer a relação pessoal com a outra parte do que assinar um contrato.<br><br>
+        A respeito dessas asserções, assinale a opção correta.
+        <span class="enade-opts">
+          <span>A) As asserções I e II são verdadeiras, e a II justifica a I.</span>
+          <span class="opt-correct">B) As asserções I e II são verdadeiras, mas a II não justifica a I.</span>
+          <span>C) A asserção I é verdadeira, e a II é falsa.</span>
+          <span>D) A asserção I é falsa, e a II é verdadeira.</span>
+          <span>E) As asserções I e II são falsas.</span>
+        </span>
+      </span>
+      <span class="arr">▶</span>
+    </summary>
+    <div class="answer"><strong>Resposta: B</strong> — Cultura pode valorizar hierarquia e relacionamento, mas uma ideia não justifica diretamente a outra.</div>
+  </details>
+
+  <details class="enade-q">
+    <summary>
+      <span class="n">08</span>
+      <span class="enade-body">
+        <span class="enade-tema">Expatriação e Cultura</span>
+        Um dos principais fatores a serem considerados quando uma empresa amplia sua inserção internacional é a gestão internacional de pessoas, especialmente os processos ligados à expatriação.<br><br>
+        Considerando a forma como funcionários são expatriados, avalie as afirmações a seguir.<br><br>
+        I. A estratégia de expatriação é mais recomendada se a empresa valoriza o controle dos processos no exterior.<br>
+        II. Quando as diferenças culturais entre país exportador e país importador são consideráveis, deve-se dar preferência à contratação de pessoas nativas do país de destino.<br>
+        III. Uma empresa com produtos de diversas especificidades deve considerar, preferencialmente, contratar pessoas nativas no país importador para a função de vendas.<br><br>
+        É correto o que se afirma em:
+        <span class="enade-opts">
+          <span>A) I, apenas.</span>
+          <span>B) III, apenas.</span>
+          <span class="opt-correct">C) I e II, apenas.</span>
+          <span>D) II e III, apenas.</span>
+          <span>E) I, II e III.</span>
+        </span>
+      </span>
+      <span class="arr">▶</span>
+    </summary>
+    <div class="answer"><strong>Resposta: C</strong> — Expatriado ajuda no controle. Nativo ajuda quando há grande diferença cultural. Produto muito específico pode exigir pessoal da própria empresa.</div>
+  </details>
+
+  <details class="enade-q">
+    <summary>
+      <span class="n">09</span>
+      <span class="enade-body">
+        <span class="enade-tema">Imposto de Importação e Antidumping</span>
+        O Comitê Executivo da Câmara de Comércio Exterior zerou temporariamente e excepcionalmente o imposto de importação de seringas descartáveis de uso geral, de plástico, com capacidade de 1 ml, 3 ml, 5 ml, 10 ml ou 20 ml, com ou sem agulhas. A medida teve por objetivo facilitar o combate à pandemia de Covid-19. Também foi suspensa, por interesse público, a cobrança de direitos antidumping aplicados às importações de seringas descartáveis originárias da China.<br><br>
+        Considerando o texto apresentado, avalie as afirmações a seguir.<br><br>
+        I. A alíquota do imposto de importação da NCM 9018.31.11 é cobrada sobre o valor aduaneiro da mercadoria.<br>
+        II. O produto é típico da cadeia de suprimentos de serviços hospitalares e possui características de essencialidade no contexto de saúde pública.<br>
+        III. A suspensão da exigibilidade da medida antidumping é aplicada sobre importações originárias dos países do Mercosul e da China.<br><br>
+        É correto o que se afirma em:
+        <span class="enade-opts">
+          <span>A) II, apenas.</span>
+          <span>B) III, apenas.</span>
+          <span class="opt-correct">C) I e II, apenas.</span>
+          <span>D) I e III, apenas.</span>
+          <span>E) I, II e III.</span>
+        </span>
+      </span>
+      <span class="arr">▶</span>
+    </summary>
+    <div class="answer"><strong>Resposta: C</strong> — Imposto de importação incide sobre valor aduaneiro. Antidumping citado era para China, não Mercosul.</div>
+  </details>
+
+  <details class="enade-q">
+    <summary>
+      <span class="n">10</span>
+      <span class="enade-body">
+        <span class="enade-tema">Despacho de Importação e DU-Imp</span>
+        Despacho de importação é o procedimento em que se verifica a exatidão dos dados declarados pelo importador em relação à mercadoria, aos documentos e à legislação específica, visando ao desembaraço alfandegário. Surge a Declaração Única de Importação, novo documento eletrônico do processo de importação.<br><br>
+        A respeito da DU-Imp e do novo processo de importação, avalie as afirmações a seguir.<br><br>
+        I. O módulo LPCO pode ser acionado a partir do catálogo de produtos do Portal Siscomex.<br>
+        II. O novo processo de importação cria ferramenta de controle de cotas para licenças de importação no módulo de licenciamento.<br>
+        III. O novo processo de importação possibilita a inspeção física de órgãos anuentes via DU-Imp durante o curso do despacho aduaneiro.<br>
+        IV. A DU-Imp é totalmente integrada aos sistemas de drawback existentes, possibilitando maior controle desse regime aduaneiro.<br><br>
+        É correto apenas o que se afirma em:
+        <span class="enade-opts">
+          <span>A) I e II.</span>
+          <span>B) I e IV.</span>
+          <span>C) III e IV.</span>
+          <span class="opt-correct">D) I, II e III.</span>
+          <span>E) II, III e IV.</span>
+        </span>
+      </span>
+      <span class="arr">▶</span>
+    </summary>
+    <div class="answer"><strong>Resposta: D</strong> — DU-Imp moderniza o processo. Cuidado com "totalmente integrada": afirmação absoluta costuma estar errada.</div>
+  </details>
+
+  <details class="enade-q">
+    <summary>
+      <span class="n">11</span>
+      <span class="enade-body">
+        <span class="enade-tema">Parametrização na Importação</span>
+        A análise e o gerenciamento de riscos realizados na importação são feitos durante a parametrização para a seleção do canal de conferência aduaneira. A parametrização é procedimento criado pela Receita Federal para análise das mercadorias durante o despacho aduaneiro.<br><br>
+        Considerando as informações apresentadas, avalie as afirmações a seguir.<br><br>
+        I. No canal cinza, realiza-se exame documental, verificação da mercadoria e procedimento especial de controle para verificar indícios de fraude.<br>
+        II. A declaração selecionada para canal verde poderá ser redirecionada para outro canal quando houver indícios de irregularidade.<br>
+        III. A seleção do canal considera, entre outros elementos, a capacidade organizacional, operacional e econômico-financeira do importador.<br>
+        IV. No canal verde, é realizado exame documental e, não havendo irregularidades, ocorre o desembaraço, dispensada a verificação da mercadoria.<br><br>
+        É correto apenas o que se afirma em:
+        <span class="enade-opts">
+          <span>A) I e IV.</span>
+          <span>B) I e III.</span>
+          <span>C) II e IV.</span>
+          <span class="opt-correct">D) I, II e III.</span>
+          <span>E) II, III e IV.</span>
+        </span>
+      </span>
+      <span class="arr">▶</span>
+    </summary>
+    <div class="answer"><strong>Resposta: D</strong> — Canal verde é automático. Exame documental é canal amarelo. Canal cinza investiga fraude.</div>
+  </details>
+
+  <details class="enade-q">
+    <summary>
+      <span class="n">12</span>
+      <span class="enade-body">
+        <span class="enade-tema">Internacionalização</span>
+        A Banicas LTDA., pequena empresa produtora de farelo de banana participante do PEIEX da ApexBrasil, busca parceiros para seu processo de internacionalização.<br><br>
+        O design do produto e os processos produtivos já estão desenvolvidos e prontos para exportação, mas falta à empresa parte significativa do aporte financeiro, o registro de marca e o conhecimento sobre distribuição no mercado externo.<br><br>
+        Diante desse cenário, a forma de internacionalização mais adequada à empresa é:
+        <span class="enade-opts">
+          <span>A) licenciamento.</span>
+          <span class="opt-correct">B) joint venture.</span>
+          <span>C) exportação indireta.</span>
+          <span>D) investimento direto.</span>
+          <span>E) exportação via consórcio.</span>
+        </span>
+      </span>
+      <span class="arr">▶</span>
+    </summary>
+    <div class="answer"><strong>Resposta: B</strong> — Falta capital e conhecimento externo. A melhor saída é parceria forte: joint venture.</div>
+  </details>
+
+  <details class="enade-q">
+    <summary>
+      <span class="n">13</span>
+      <span class="enade-body">
+        <span class="enade-tema">Exportação, Documentos e FOB</span>
+        O gerente de exportação de uma empresa brasileira produtora e exportadora de suco de laranja fechou pedido de exportação com base em uma proforma invoice, com pagamento antecipado. Considerando que a condição de venda é FOB, a empresa deverá providenciar o despacho aduaneiro de exportação, os documentos da exportação e a análise do tratamento administrativo.<br><br>
+        Avalie as afirmações a seguir.<br><br>
+        I. Produto sujeito à manifestação prévia dos órgãos do governo está indicado no tratamento administrativo do Siscomex.<br>
+        II. A exportadora deverá realizar o despacho aduaneiro de exportação.<br>
+        III. A exportadora deverá elaborar a DU-E e emitir documentos básicos, como commercial invoice, packing list, BL, NF-E, certificado de origem etc.<br>
+        IV. A Declaração de Exportação poderá conter um ou mais Registros de Exportação, desde que respeitadas as condições indicadas.<br><br>
+        É correto o que se afirma em:
+        <span class="enade-opts">
+          <span>A) I e II, apenas.</span>
+          <span>B) I e III, apenas.</span>
+          <span>C) II e IV, apenas.</span>
+          <span>D) III e IV, apenas.</span>
+          <span class="opt-correct">E) I, II, III e IV.</span>
+        </span>
+      </span>
+      <span class="arr">▶</span>
+    </summary>
+    <div class="answer"><strong>Resposta: E</strong> — Exportação exige tratamento administrativo, despacho, DU-E e documentos.</div>
+  </details>
+
+  <details class="enade-q">
+    <summary>
+      <span class="n">14</span>
+      <span class="enade-body">
+        <span class="enade-tema">Despachante Aduaneiro</span>
+        O despachante aduaneiro e seus ajudantes podem praticar, em nome dos representados, atos relacionados ao despacho aduaneiro de bens ou mercadorias na importação ou exportação.<br><br>
+        A principal função do despachante é formular a declaração aduaneira de importação ou exportação, indicando o regime aduaneiro e comunicando os elementos exigidos pela aduana.<br><br>
+        Avalie as afirmações a seguir.<br><br>
+        I. O despachante aduaneiro representa pessoa física ou jurídica cadastrada junto à autoridade aduaneira nacional e atua como interveniente no comércio exterior.<br>
+        II. O despacho aduaneiro é solicitado à Polícia Federal, autoridade aduaneira que verifica os dados declarados sobre mercadoria exportada ou importada.<br>
+        III. O processamento do despacho aduaneiro é feito, em regra, por sistema computadorizado administrado pela Receita Federal do Brasil.<br><br>
+        É correto o que se afirma em:
+        <span class="enade-opts">
+          <span>A) I, apenas.</span>
+          <span>B) II, apenas.</span>
+          <span class="opt-correct">C) I e III, apenas.</span>
+          <span>D) II e III, apenas.</span>
+          <span>E) I, II e III.</span>
+        </span>
+      </span>
+      <span class="arr">▶</span>
+    </summary>
+    <div class="answer"><strong>Resposta: C</strong> — Autoridade aduaneira é a Receita Federal, não a Polícia Federal.</div>
+  </details>
+
+  <details class="enade-q">
+    <summary>
+      <span class="n">15</span>
+      <span class="enade-body">
+        <span class="enade-tema">Tributos na Importação</span>
+        O aumento da tributação sobre importados buscou evitar desvantagem da produção brasileira frente aos produtos estrangeiros.<br><br>
+        Com base no texto e considerando tributos incidentes na importação, avalie as afirmações a seguir.<br><br>
+        I. Além do PIS e COFINS incidentes na importação, há Imposto de Importação, IPI e ICMS dos produtos importados.<br>
+        II. Na importação marítima, ocorre tributação da contribuição Adicional de Frete para Renovação da Marinha Mercante e taxa pela utilização do sistema da Marinha Mercante.<br>
+        III. O aumento dos tributos na importação favorece a competitividade da indústria nacional e, consequentemente, o aumento do emprego no Brasil.<br><br>
+        É correto o que se afirma em:
+        <span class="enade-opts">
+          <span>A) I, apenas.</span>
+          <span>B) II, apenas.</span>
+          <span>C) I e III, apenas.</span>
+          <span>D) II e III, apenas.</span>
+          <span class="opt-correct">E) I, II e III.</span>
+        </span>
+      </span>
+      <span class="arr">▶</span>
+    </summary>
+    <div class="answer"><strong>Resposta: E</strong> — Importação pode ter II, IPI, PIS, COFINS, ICMS e encargos no transporte marítimo.</div>
+  </details>
+
+</section>
+
 <footer>
   <span>Ambiente de Negócios Internacionais · Administração · Uniso</span>
-  <span>20 seções · 47 questões</span>
+  <span>20 seções · 47 questões · 15 ENADE</span>
 </footer>
 
 </body>
